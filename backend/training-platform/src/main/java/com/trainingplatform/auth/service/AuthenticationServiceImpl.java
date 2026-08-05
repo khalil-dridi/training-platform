@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userRepository.save(user);
 
-        return userMapper.toUserResponse(user); 
+        return userMapper.toUserResponse(user);
     }
 
     @Override
