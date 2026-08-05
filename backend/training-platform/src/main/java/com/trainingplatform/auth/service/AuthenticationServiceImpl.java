@@ -5,6 +5,7 @@ import com.trainingplatform.auth.dto.request.RegisterRequest;
 import com.trainingplatform.auth.dto.response.AuthenticationResponse;
 import com.trainingplatform.auth.dto.response.UserResponse;
 import com.trainingplatform.auth.service.AuthenticationService;
+import com.trainingplatform.auth.token.VerificationToken;
 import com.trainingplatform.common.exception.EmailAlreadyExistsException;
 import com.trainingplatform.common.exception.InvalidCredentialsException;
 import com.trainingplatform.security.JwtService;
@@ -32,6 +33,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserMapper userMapper;
 
+    private final VerificationTokenService verificationTokenService;
+
+    private final EmailService emailService;
+
     @Override
     public UserResponse register(RegisterRequest request) {
 
@@ -46,10 +51,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone(request.getPhone())
                 .role(Role.LEARNER)
-                .enabled(true)
+                .enabled(false)
                 .build();
 
         userRepository.save(user);
+        VerificationToken verificationToken =
+                verificationTokenService.createVerificationToken(user);
+
+        String verificationLink =
+                "http://localhost:8080/api/auth/verify?token="
+                        + verificationToken.getToken();
+
+        emailService.sendEmail(
+                user.getEmail(),
+                "Verify your account",
+                """
+                Welcome to Training Platform!
+        
+                Please verify your email by clicking the link below:
+        
+                %s
+        
+                This link expires in 24 hours.
+                """.formatted(verificationLink)
+        );
 
         return userMapper.toUserResponse(user);
     }
