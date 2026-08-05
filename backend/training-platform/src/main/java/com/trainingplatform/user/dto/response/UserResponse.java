@@ -1,4 +1,4 @@
-package com.trainingplatform.auth.dto.response;
+package com.trainingplatform.user.dto.response;
 
 import com.trainingplatform.user.enums.Role;
 import lombok.Builder;

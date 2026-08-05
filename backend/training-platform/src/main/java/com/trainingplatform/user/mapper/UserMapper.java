@@ -1,6 +1,6 @@
 package com.trainingplatform.user.mapper;
 
-import com.trainingplatform.auth.dto.response.UserResponse;
+import com.trainingplatform.user.dto.response.UserResponse;
 import com.trainingplatform.user.entity.User;
 import org.mapstruct.Mapper;
 

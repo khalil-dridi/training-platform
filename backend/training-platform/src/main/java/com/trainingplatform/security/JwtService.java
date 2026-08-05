@@ -22,16 +22,10 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    /**
-     * Generate JWT token
-     */
     public String generateToken(UserDetails userDetails) {
         return generateToken(Map.of(), userDetails);
     }
 
-    /**
-     * Generate JWT token with extra claims
-     */
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails
@@ -46,23 +40,18 @@ public class JwtService {
                 .compact();
     }
 
-    /**
-     * Return JWT expiration time (milliseconds)
-     */
     public long getExpiration() {
         return jwtExpiration;
     }
 
-    /**
-     * Extract username
-     */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    /**
-     * Validate token
-     */
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
     public boolean isTokenValid(
             String token,
             UserDetails userDetails
@@ -74,37 +63,15 @@ public class JwtService {
                 && !isTokenExpired(token);
     }
 
-    /**
-     * Extract any claim
-     */
     public <T> T extractClaim(
             String token,
             Function<Claims, T> claimsResolver
     ) {
 
-        Claims claims = extractAllClaims(token);
-
-        return claimsResolver.apply(claims);
+        return claimsResolver.apply(extractAllClaims(token));
     }
 
-    /**
-     * Extract expiration date
-     */
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    /**
-     * Check expiration
-     */
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    /**
-     * Parse claims
-     */
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
 
         return Jwts.parser()
                 .verifyWith(getSigningKey())
@@ -113,9 +80,10 @@ public class JwtService {
                 .getPayload();
     }
 
-    /**
-     * Signing key
-     */
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     private SecretKey getSigningKey() {
 
         return Keys.hmacShaKeyFor(
