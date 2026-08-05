@@ -1,4 +1,4 @@
-package com.trainingplatform.auth.service.impl;
+package com.trainingplatform.auth.service;
 
 import com.trainingplatform.auth.dto.request.LoginRequest;
 import com.trainingplatform.auth.dto.request.RegisterRequest;
@@ -10,6 +10,7 @@ import com.trainingplatform.common.exception.InvalidCredentialsException;
 import com.trainingplatform.security.JwtService;
 import com.trainingplatform.user.entity.User;
 import com.trainingplatform.user.enums.Role;
+import com.trainingplatform.user.mapper.UserMapper;
 import com.trainingplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +29,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
+
+    private final UserMapper userMapper;
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -48,15 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         userRepository.save(user);
 
-        return UserResponse.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .role(user.getRole())
-                .enabled(user.getEnabled())
-                .build();
+        return userMapper.toUserResponse(user); 
     }
 
     @Override
