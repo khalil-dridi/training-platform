@@ -6,6 +6,7 @@ import com.trainingplatform.auth.dto.response.AuthenticationResponse;
 import com.trainingplatform.auth.dto.response.UserResponse;
 import com.trainingplatform.auth.service.AuthenticationService;
 import com.trainingplatform.auth.token.VerificationToken;
+import com.trainingplatform.common.exception.AccountNotVerifiedException;
 import com.trainingplatform.common.exception.EmailAlreadyExistsException;
 import com.trainingplatform.common.exception.InvalidCredentialsException;
 import com.trainingplatform.security.JwtService;
@@ -18,7 +19,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -82,22 +84,41 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse login(LoginRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+
+        } catch (DisabledException ex) {
+
+            throw new AccountNotVerifiedException(
+                    "Please verify your email before logging in."
+            );
+
+        } catch (BadCredentialsException ex) {
+
+            throw new InvalidCredentialsException(
+                    "Invalid email or password."
+            );
+        }
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password."));
+                .orElseThrow(() ->
+                        new InvalidCredentialsException(
+                                "Invalid email or password."
+                        )
+                );
 
         String token = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
                 .accessToken(token)
                 .tokenType("Bearer")
-                .expiresIn(86400000L)
+                .expiresIn(jwtService.getExpiration())
                 .build();
     }
 }

@@ -47,7 +47,14 @@ public class JwtService {
     }
 
     /**
-     * Extract username (email)
+     * Return JWT expiration time (milliseconds)
+     */
+    public long getExpiration() {
+        return jwtExpiration;
+    }
+
+    /**
+     * Extract username
      */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -95,7 +102,7 @@ public class JwtService {
     }
 
     /**
-     * Parse all claims
+     * Parse claims
      */
     private Claims extractAllClaims(String token) {
 
@@ -107,7 +114,7 @@ public class JwtService {
     }
 
     /**
-     * Secret key
+     * Signing key
      */
     private SecretKey getSigningKey() {
 
