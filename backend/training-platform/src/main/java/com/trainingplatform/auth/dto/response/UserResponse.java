@@ -1,4 +1,24 @@
 package com.trainingplatform.auth.dto.response;
+    
+import com.trainingplatform.user.enums.Role;
+import lombok.Builder;
+import lombok.Data;
 
-public record UserResponse() {
+@Data
+@Builder
+public class UserResponse {
+
+    private Long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String phone;
+
+    private Role role;
+
+    private Boolean enabled;
 }
