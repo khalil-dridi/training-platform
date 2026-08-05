@@ -66,6 +66,15 @@ public class User extends BaseEntity  implements UserDetails{
     @Column(nullable = false)
     private Boolean enabled = true;
 
+    @Builder.Default
+    @Column(nullable = false, length = 500)
+    private String avatarUrl =
+            "https://res.cloudinary.com/dqrtwfpbq/image/upload/v1785902252/avatar_jbenlj.png";
+
+    @Column(length = 255)
+    private String avatarPublicId;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

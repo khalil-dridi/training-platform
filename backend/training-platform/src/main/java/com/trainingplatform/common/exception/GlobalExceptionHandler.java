@@ -67,10 +67,12 @@ public class GlobalExceptionHandler {
             Exception ex
     ) {
 
+        ex.printStackTrace();
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.<Void>builder()
                         .success(false)
-                        .message("An unexpected error occurred.")
+                        .message(ex.getMessage())
                         .build());
     }
     @ExceptionHandler(TokenExpiredException.class)
