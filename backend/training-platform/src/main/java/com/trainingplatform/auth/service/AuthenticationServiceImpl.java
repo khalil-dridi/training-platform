@@ -5,6 +5,8 @@ import com.trainingplatform.auth.dto.request.RegisterRequest;
 import com.trainingplatform.auth.dto.response.AuthenticationResponse;
 import com.trainingplatform.auth.dto.response.UserResponse;
 import com.trainingplatform.auth.service.AuthenticationService;
+import com.trainingplatform.common.exception.EmailAlreadyExistsException;
+import com.trainingplatform.common.exception.InvalidCredentialsException;
 import com.trainingplatform.security.JwtService;
 import com.trainingplatform.user.entity.User;
 import com.trainingplatform.user.enums.Role;
@@ -31,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public UserResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists.");
+            throw new EmailAlreadyExistsException("Email already exists.");
         }
 
         User user = User.builder()
@@ -68,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password."));
 
         String token = jwtService.generateToken(user);
 
