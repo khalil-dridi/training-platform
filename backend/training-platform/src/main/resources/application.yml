@@ -47,3 +47,6 @@ springdoc:
     path: /swagger-ui.html
     operationsSorter: method
     tagsSorter: alpha
+jwt:
+  secret: MyVerySecretKeyForJwtAuthentication123456789
+  expiration: 86400000
