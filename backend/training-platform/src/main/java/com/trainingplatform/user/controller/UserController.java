@@ -8,10 +8,12 @@ import com.trainingplatform.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 
 @RestController
@@ -91,6 +93,44 @@ public class UserController {
                         .success(true)
                         .message("Avatar deleted successfully.")
                         .data(userService.deleteAvatar(authentication))
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(
+            @RequestParam(required = false) String search,
+            Pageable pageable
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<Page<UserResponse>>builder()
+                        .success(true)
+                        .message("Users retrieved successfully.")
+                        .data(userService.getAllUsers(search, pageable))
+                        .build()
+        );
+    }
+
+    @GetMapping("/debug")
+    public ResponseEntity<?> debug(Authentication authentication) {
+
+        return ResponseEntity.ok(
+                authentication.getAuthorities()
+        );
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<UserResponse>builder()
+                        .success(true)
+                        .message("User retrieved successfully.")
+                        .data(userService.getUserById(id))
                         .build()
         );
     }

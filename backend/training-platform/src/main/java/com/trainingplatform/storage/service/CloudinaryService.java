@@ -46,4 +46,23 @@ public class CloudinaryService {
         );
     }
 
+    public CloudinaryResponse uploadDocument(
+            MultipartFile file,
+            String folder
+    ) throws IOException {
+
+        Map<?, ?> result = cloudinary.uploader().upload(
+                file.getBytes(),
+                ObjectUtils.asMap(
+                        "folder", folder,
+                        "resource_type", "raw"
+                )
+        );
+
+        return CloudinaryResponse.builder()
+                .url((String) result.get("secure_url"))
+                .publicId((String) result.get("public_id"))
+                .build();
+    }
+
 }

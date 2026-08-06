@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trainingplatform.storage.dto.CloudinaryResponse;
 import com.trainingplatform.storage.service.CloudinaryService;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -156,4 +158,23 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
+    public Page<UserResponse> getAllUsers(
+            String search,
+            Pageable pageable
+    ) {
+
+        return userRepository.searchUsers(search, pageable)
+                .map(userMapper::toUserResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserById(Long id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        return userMapper.toUserResponse(user);
+    }
 }
