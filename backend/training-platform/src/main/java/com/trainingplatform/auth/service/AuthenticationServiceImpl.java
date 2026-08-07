@@ -121,6 +121,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String token = jwtService.generateToken(user);
 
+        System.out.println("LOGIN EMAIL = " + request.getEmail());
+        System.out.println("TOKEN FOR = " + user.getEmail());
+
+
         return AuthenticationResponse.builder()
                 .accessToken(token)
                 .tokenType("Bearer")
