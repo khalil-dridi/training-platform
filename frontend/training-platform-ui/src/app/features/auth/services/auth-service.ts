@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
-import { ApiResponse } from '../../../models/api-response.model';
+import { ApiResponse } from '../../../core/models/api-response.model';
 import { LoginRequest } from '../models/login-request.model';
 import { AuthenticationResponse } from '../models/authentication-response.model';
 import { environment } from '../../../../environments/environment.development';

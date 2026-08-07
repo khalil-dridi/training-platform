@@ -1,36 +1,14 @@
 import { Routes } from '@angular/router';
-import { Login } from './features/auth/pages/login/login';
-import { ForgotPassword } from './features/auth/pages/forgot-password/forgot-password';
-import { ResetPassword } from './features/auth/pages/reset-password/reset-password';
-import { Register } from './features/auth/pages/register/register';
-import { VerifyEmail } from './features/auth/pages/verify-email/verify-email';
+import { AUTH_ROUTES } from './features/auth/auth.routes';
+import { PUBLIC_ROUTES } from './features/public/public.routes';
+import { ADMIN_ROUTES } from './features/admin/admin.routes';
+import { TRAINER_ROUTES } from './features/trainer/trainer.routes';
+import { LEARNER_ROUTES } from './features/learner/learner.routes';
 
 export const routes: Routes = [
-  {
-    path: 'login',
-    component: Login,
-  },
-  {
-    path: 'forgot-password',
-    component: ForgotPassword,
-  },
-  {
-    path: 'reset-password',
-    component: ResetPassword,
-  },
-  {
-  path: 'oauth2/callback',
-  loadComponent: () =>
-    import('./features/auth/pages/oauth2-callback/oauth2-callback')
-      .then(m => m.OAuth2Callback)
-},
-{
-  path: 'register',
-  component: Register,
-},
-
-{
-  path: 'verify-email',
-  component: VerifyEmail,
-},
+  ...PUBLIC_ROUTES,
+  ...AUTH_ROUTES,
+  ...ADMIN_ROUTES,
+  ...TRAINER_ROUTES,
+  ...LEARNER_ROUTES,
 ];

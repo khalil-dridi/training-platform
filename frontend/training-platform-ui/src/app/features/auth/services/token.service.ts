@@ -22,5 +22,8 @@ export class TokenService {
   isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
+  hasToken(): boolean {
+  return !!this.getToken();
+}
 
 }
