@@ -65,4 +65,37 @@ public class CloudinaryService {
                 .build();
     }
 
+    public CloudinaryResponse uploadVideo(
+            MultipartFile file,
+            String folder
+    ) throws IOException {
+
+        Map<?, ?> result = cloudinary.uploader().upload(
+                file.getBytes(),
+                ObjectUtils.asMap(
+                        "folder", folder,
+                        "resource_type", "video"
+                )
+        );
+
+        return CloudinaryResponse.builder()
+                .url((String) result.get("secure_url"))
+                .publicId((String) result.get("public_id"))
+                .build();
+    }
+
+    public void deleteVideo(String publicId) throws IOException {
+
+        if (publicId == null || publicId.isBlank()) {
+            return;
+        }
+
+        cloudinary.uploader().destroy(
+                publicId,
+                ObjectUtils.asMap(
+                        "resource_type", "video"
+                )
+        );
+    }
+
 }
