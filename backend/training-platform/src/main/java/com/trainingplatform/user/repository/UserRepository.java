@@ -1,6 +1,7 @@
 package com.trainingplatform.user.repository;
 
 import com.trainingplatform.user.entity.User;
+import com.trainingplatform.user.enums.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
                    OR LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))
             """)
     Page<User> searchUsers(String search, Pageable pageable);
+
+    long countByRole(Role role);
 
 }

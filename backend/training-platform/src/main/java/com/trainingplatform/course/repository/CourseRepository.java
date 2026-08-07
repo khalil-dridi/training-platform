@@ -18,4 +18,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             Long categoryId,
             CourseStatus status
     );
+    long countByStatus(CourseStatus status);
+
+    long countByTrainer(User trainer);
+
+    long countByTrainerAndStatus(
+            User trainer,
+            CourseStatus status
+    );
 }

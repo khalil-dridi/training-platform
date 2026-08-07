@@ -38,4 +38,6 @@ public interface InstructorRequestRepository
             Pageable pageable
     );
 
+    long countByStatus(InstructorRequestStatus status);
+
 }
