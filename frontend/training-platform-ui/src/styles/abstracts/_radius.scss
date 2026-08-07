@@ -1,0 +1,24 @@
+////
+/// Radius — Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : rayons de bordure pour une UI cohérente et moderne.
+/// Échelle : small, medium, large (+ full pour pills / avatars).
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+$radius-small: 4px;
+$radius-medium: 8px;
+$radius-large: 16px;
+$radius-full: 9999px;
+
+/// Alias courts
+$radius-sm: $radius-small;
+$radius-md: $radius-medium;
+$radius-lg: $radius-large;
+
+$radii: (
+  small: $radius-small,
+  medium: $radius-medium,
+  large: $radius-large,
+  full: $radius-full,
+);

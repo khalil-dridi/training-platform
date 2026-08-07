@@ -1,0 +1,201 @@
+////
+/// Global — Base
+/// ---------------------------------------------------------------------------
+/// Rôle : expose les Design Tokens en CSS custom properties, applique la
+/// typographie native et les styles de fondation de l'application LMS.
+////
+
+@use '../abstracts/variables' as *;
+
+// -----------------------------------------------------------------------------
+// Design Tokens → CSS Custom Properties
+// Consommables dans templates / styles de composants sans import SCSS.
+// -----------------------------------------------------------------------------
+:root {
+  // Brand
+  --color-primary: #{$primary-color};
+  --color-primary-hover: #{$primary-hover};
+  --color-primary-active: #{$primary-active};
+  --color-primary-light: #{$primary-light};
+  --color-primary-dark: #{$primary-dark};
+
+  --color-secondary: #{$secondary-color};
+  --color-secondary-hover: #{$secondary-hover};
+  --color-secondary-active: #{$secondary-active};
+  --color-secondary-light: #{$secondary-light};
+
+  // Semantic
+  --color-success: #{$success-color};
+  --color-success-light: #{$success-light};
+  --color-error: #{$error-color};
+  --color-error-light: #{$error-light};
+  --color-warning: #{$warning-color};
+  --color-warning-light: #{$warning-light};
+  --color-info: #{$info-color};
+  --color-info-light: #{$info-light};
+
+  // Neutrals & surfaces
+  --color-background: #{$background-color};
+  --color-surface: #{$surface-color};
+  --color-border: #{$border-color};
+  --color-divider: #{$divider-color};
+
+  --color-text-primary: #{$text-primary};
+  --color-text-secondary: #{$text-secondary};
+  --color-text-muted: #{$text-muted};
+  --color-text-inverse: #{$text-inverse};
+  --color-text-link: #{$text-link};
+  --color-text-disabled: #{$text-disabled};
+
+  --color-focus-ring: #{$focus-ring-color};
+
+  // Spacing
+  --space-1: #{$spacing-1};
+  --space-2: #{$spacing-2};
+  --space-3: #{$spacing-3};
+  --space-4: #{$spacing-4};
+  --space-6: #{$spacing-6};
+  --space-8: #{$spacing-8};
+  --space-12: #{$spacing-12};
+  --space-16: #{$spacing-16};
+
+  // Radius
+  --radius-sm: #{$radius-small};
+  --radius-md: #{$radius-medium};
+  --radius-lg: #{$radius-large};
+  --radius-full: #{$radius-full};
+
+  // Shadows
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+  --shadow-focus: #{$shadow-focus};
+
+  // Typography
+  --font-family-base: #{$font-family-base};
+  --font-family-mono: #{$font-family-mono};
+
+  --font-size-display: #{$font-size-display};
+  --font-size-h1: #{$font-size-h1};
+  --font-size-h2: #{$font-size-h2};
+  --font-size-h3: #{$font-size-h3};
+  --font-size-body: #{$font-size-body};
+  --font-size-small: #{$font-size-small};
+
+  --font-weight-regular: #{$font-weight-regular};
+  --font-weight-medium: #{$font-weight-medium};
+  --font-weight-semibold: #{$font-weight-semibold};
+  --font-weight-bold: #{$font-weight-bold};
+
+  --line-height-tight: #{$line-height-tight};
+  --line-height-normal: #{$line-height-normal};
+
+  // Layout & motion
+  --container-max-width: #{$container-max-width};
+  --header-height: #{$header-height};
+  --sidebar-width: #{$sidebar-width};
+
+  --transition-fast: #{$transition-fast};
+  --transition-base: #{$transition-base};
+  --transition-slow: #{$transition-slow};
+}
+
+// -----------------------------------------------------------------------------
+// Document
+// -----------------------------------------------------------------------------
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  min-height: 100%;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+}
+
+// -----------------------------------------------------------------------------
+// Native typography hierarchy
+// -----------------------------------------------------------------------------
+.ds-display,
+h1.ds-display {
+  @include typography(display);
+  color: var(--color-text-primary);
+}
+
+h1,
+.ds-h1 {
+  @include typography(h1);
+  color: var(--color-text-primary);
+}
+
+h2,
+.ds-h2 {
+  @include typography(h2);
+  color: var(--color-text-primary);
+}
+
+h3,
+.ds-h3 {
+  @include typography(h3);
+  color: var(--color-text-primary);
+}
+
+p,
+.ds-body {
+  @include typography(body);
+}
+
+small,
+.ds-small {
+  @include typography(small);
+  color: var(--color-text-secondary);
+}
+
+a:not([class]) {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+
+  &:focus-visible {
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-focus);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Selection & scrollbars (subtil)
+// -----------------------------------------------------------------------------
+::selection {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+:focus-visible {
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--radius-sm);
+}

@@ -1,0 +1,73 @@
+////
+/// Variables — Agrégateur des Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : point d'entrée unique des abstracts (couleurs, spacing, typo, etc.).
+/// Importer ce fichier via `@use '../abstracts/variables' as *;` dans les
+/// partials qui génèrent du CSS.
+/// Contient aussi les tokens transverses : breakpoints, z-index, transitions.
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+@use 'sass:map';
+
+@forward 'colors';
+@forward 'spacing';
+@forward 'typography';
+@forward 'radius';
+@forward 'shadows';
+
+// -----------------------------------------------------------------------------
+// Breakpoints (mobile-first)
+// -----------------------------------------------------------------------------
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1440px;
+
+$breakpoints: (
+  sm: $breakpoint-sm,
+  md: $breakpoint-md,
+  lg: $breakpoint-lg,
+  xl: $breakpoint-xl,
+  2xl: $breakpoint-2xl,
+);
+
+/// Media query helper (min-width)
+@mixin respond-to($name) {
+  $value: map.get($breakpoints, $name);
+
+  @if $value == null {
+    @error 'Breakpoint inconnu: #{$name}.';
+  }
+
+  @media (min-width: $value) {
+    @content;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+$container-max-width: 1200px;
+$container-narrow: 720px;
+$container-wide: 1440px;
+$header-height: 64px;
+$sidebar-width: 280px;
+
+// -----------------------------------------------------------------------------
+// Motion
+// -----------------------------------------------------------------------------
+$transition-fast: 150ms ease;
+$transition-base: 200ms ease;
+$transition-slow: 300ms ease;
+
+// -----------------------------------------------------------------------------
+// Z-index scale
+// -----------------------------------------------------------------------------
+$z-dropdown: 100;
+$z-sticky: 200;
+$z-overlay: 300;
+$z-modal: 400;
+$z-toast: 500;
+$z-tooltip: 600;

@@ -1,0 +1,32 @@
+////
+/// Main — Point d'entrée du Design System
+/// ---------------------------------------------------------------------------
+/// Rôle : agrège l'architecture SCSS 7-1 adaptée à Angular.
+/// Ordre d'import important :
+///   1. Thème Material (tokens système)
+///   2. Reset & global (fondation)
+///   3. Layouts
+///   4. Components (classes DS)
+///   5. Utilities (helpers atomiques)
+///
+/// Ce fichier ne contient aucune règle CSS propre : il orchestre uniquement.
+/// Entrée Angular : `src/styles.scss` → `@use 'styles/main'`.
+////
+
+// 1. Thème Angular Material (customisé avec nos tokens)
+@use 'themes/material-theme';
+
+// 2. Fondation
+@use 'base/reset';
+@use 'base/global';
+
+// 3. Layouts
+@use 'layouts/container';
+
+// 4. Components (styles globaux du Design System)
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+
+// 5. Utilities
+@use 'utilities/utilities';

@@ -1,0 +1,140 @@
+////
+/// Buttons — Components (styles globaux)
+/// ---------------------------------------------------------------------------
+/// Rôle : classes utilitaires de boutons du Design System, alignées Material.
+/// Préfixe `.ds-btn` pour coexister avec `mat-button` / `mat-flat-button`.
+/// Ne remplace pas Angular Material : complète et harmonise l'apparence.
+////
+
+@use '../abstracts/variables' as *;
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  min-height: 40px;
+  padding: $spacing-2 $spacing-4;
+  border: 1px solid transparent;
+  border-radius: $radius-medium;
+  font-family: $font-family-base;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast;
+  user-select: none;
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    box-shadow: $shadow-focus;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Variants
+// -----------------------------------------------------------------------------
+.ds-btn--primary {
+  background-color: $primary-color;
+  color: $text-inverse;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+
+  &:active {
+    background-color: $primary-active;
+  }
+}
+
+.ds-btn--secondary {
+  background-color: $secondary-light;
+  color: $secondary-color;
+  border-color: $border-color;
+
+  &:hover {
+    background-color: $neutral-200;
+    color: $secondary-hover;
+  }
+
+  &:active {
+    background-color: $neutral-300;
+    color: $secondary-active;
+  }
+}
+
+.ds-btn--outline {
+  background-color: transparent;
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+  }
+
+  &:active {
+    background-color: #d7ebf8;
+  }
+}
+
+.ds-btn--ghost {
+  background-color: transparent;
+  color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+  }
+
+  &:active {
+    background-color: #d7ebf8;
+  }
+}
+
+.ds-btn--danger {
+  background-color: $error-color;
+  color: $text-inverse;
+
+  &:hover {
+    background-color: $error-dark;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Sizes
+// -----------------------------------------------------------------------------
+.ds-btn--sm {
+  min-height: 32px;
+  padding: $spacing-1 $spacing-3;
+  font-size: $font-size-small;
+  border-radius: $radius-small;
+}
+
+.ds-btn--lg {
+  min-height: 48px;
+  padding: $spacing-3 $spacing-6;
+  font-size: $font-size-body;
+  border-radius: $radius-medium;
+}
+
+.ds-btn--block {
+  width: 100%;
+}
+
+.ds-btn--icon {
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: $radius-medium;
+}

@@ -56,26 +56,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         userRepository.save(user);
+        System.out.println("1 - User saved");
+
         VerificationToken verificationToken =
                 verificationTokenService.createVerificationToken(user);
+        System.out.println("2 - Verification token created");
 
         String verificationLink =
-                "http://localhost:8080/api/auth/verify?token="
+                "http://localhost:4200/verify-email?token="
                         + verificationToken.getToken();
+
+        System.out.println("3 - Before sendEmail");
 
         emailService.sendEmail(
                 user.getEmail(),
                 "Verify your account",
                 """
                 Welcome to Training Platform!
-        
+    
                 Please verify your email by clicking the link below:
-        
+    
                 %s
-        
+    
                 This link expires in 24 hours.
                 """.formatted(verificationLink)
         );
+
+        System.out.println("4 - After sendEmail");
 
         return userMapper.toUserResponse(user);
     }

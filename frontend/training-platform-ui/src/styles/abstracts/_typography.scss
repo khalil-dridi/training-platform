@@ -1,0 +1,99 @@
+////
+/// Typography — Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : système typographique global (famille, tailles, graisses, hauteurs).
+/// Police principale : Inter — lisible, moderne, adaptée aux interfaces LMS.
+/// Échelle : display, h1, h2, h3, body, small.
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+@use 'sass:map';
+
+// -----------------------------------------------------------------------------
+// Font families
+// -----------------------------------------------------------------------------
+$font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  sans-serif;
+$font-family-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas,
+  monospace;
+
+// -----------------------------------------------------------------------------
+// Font weights
+// -----------------------------------------------------------------------------
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// -----------------------------------------------------------------------------
+// Type scale
+// -----------------------------------------------------------------------------
+$font-size-display: 3rem; // 48px
+$font-size-h1: 2.25rem; // 36px
+$font-size-h2: 1.75rem; // 28px
+$font-size-h3: 1.375rem; // 22px
+$font-size-body: 1rem; // 16px
+$font-size-small: 0.875rem; // 14px
+
+$line-height-tight: 1.2;
+$line-height-snug: 1.35;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.65;
+
+$letter-spacing-tight: -0.02em;
+$letter-spacing-normal: 0;
+$letter-spacing-wide: 0.02em;
+
+/// Map complète de la scale typographique
+$typography-scale: (
+  display: (
+    size: $font-size-display,
+    weight: $font-weight-bold,
+    line-height: $line-height-tight,
+    letter-spacing: $letter-spacing-tight,
+  ),
+  h1: (
+    size: $font-size-h1,
+    weight: $font-weight-bold,
+    line-height: $line-height-tight,
+    letter-spacing: $letter-spacing-tight,
+  ),
+  h2: (
+    size: $font-size-h2,
+    weight: $font-weight-semibold,
+    line-height: $line-height-snug,
+    letter-spacing: $letter-spacing-tight,
+  ),
+  h3: (
+    size: $font-size-h3,
+    weight: $font-weight-semibold,
+    line-height: $line-height-snug,
+    letter-spacing: $letter-spacing-normal,
+  ),
+  body: (
+    size: $font-size-body,
+    weight: $font-weight-regular,
+    line-height: $line-height-normal,
+    letter-spacing: $letter-spacing-normal,
+  ),
+  small: (
+    size: $font-size-small,
+    weight: $font-weight-regular,
+    line-height: $line-height-normal,
+    letter-spacing: $letter-spacing-normal,
+  ),
+);
+
+/// Mixin pour appliquer un niveau typographique
+@mixin typography($level) {
+  $token: map.get($typography-scale, $level);
+
+  @if $token == null {
+    @error 'Niveau typographique inconnu: #{$level}. Niveaux valides: display, h1, h2, h3, body, small.';
+  }
+
+  font-size: map.get($token, size);
+  font-weight: map.get($token, weight);
+  line-height: map.get($token, line-height);
+  letter-spacing: map.get($token, letter-spacing);
+}

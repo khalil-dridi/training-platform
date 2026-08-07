@@ -36,7 +36,7 @@ public class ForgotPasswordService {
         passwordResetTokenRepository.save(passwordResetToken);
 
         String resetLink =
-                "http://localhost:8080/api/auth/reset-password?token="
+                "http://localhost:4200/reset-password?token="
                         + passwordResetToken.getToken();
 
         emailService.sendEmail(

@@ -1,0 +1,21 @@
+////
+/// Shadows — Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : élévations subtiles pour cards, menus et surfaces flottantes.
+/// Style : ombres douces et professionnelles (inspirées Stripe / Material 3).
+/// Échelle : sm, md, lg.
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+$shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+$shadow-md: 0 4px 8px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+$shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.08), 0 4px 8px rgba(15, 23, 42, 0.04);
+
+/// Focus / interaction (complément accessibilité)
+$shadow-focus: 0 0 0 3px rgba(15, 108, 189, 0.35);
+
+$shadows: (
+  sm: $shadow-sm,
+  md: $shadow-md,
+  lg: $shadow-lg,
+);

@@ -1,0 +1,118 @@
+////
+/// Forms — Components (styles globaux)
+/// ---------------------------------------------------------------------------
+/// Rôle : styles de formulaires natifs et classes `.ds-form-*` pour aligner
+/// l'expérience hors Material, tout en respectant l'accessibilité WCAG AA.
+////
+
+@use '../abstracts/variables' as *;
+
+.ds-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  width: 100%;
+}
+
+.ds-form-label {
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+
+  .ds-form-label__required {
+    color: $error-color;
+    margin-inline-start: $spacing-1;
+  }
+}
+
+.ds-form-hint {
+  @include typography(small);
+  color: $text-muted;
+}
+
+.ds-form-error {
+  @include typography(small);
+  color: $error-color;
+}
+
+.ds-input,
+.ds-select,
+.ds-textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: $spacing-2 $spacing-3;
+  color: $text-primary;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast,
+    background-color $transition-fast;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+
+  &:hover:not(:disabled):not([aria-disabled='true']) {
+    border-color: $neutral-400;
+  }
+
+  &:focus-visible {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    color: $text-disabled;
+    background-color: $neutral-100;
+    cursor: not-allowed;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: $error-color;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba($error-color, 0.3);
+    }
+  }
+}
+
+.ds-textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: $line-height-normal;
+}
+
+.ds-checkbox,
+.ds-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  @include typography(body);
+  color: $text-primary;
+  cursor: pointer;
+
+  input {
+    width: 18px;
+    height: 18px;
+    accent-color: $primary-color;
+    cursor: pointer;
+  }
+}
+
+.ds-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.ds-form-row {
+  display: grid;
+  gap: $spacing-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

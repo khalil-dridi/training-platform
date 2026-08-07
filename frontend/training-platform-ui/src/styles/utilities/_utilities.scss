@@ -1,0 +1,355 @@
+////
+/// Utilities — Helpers
+/// ---------------------------------------------------------------------------
+/// Rôle : classes utilitaires atomiques générées depuis les Design Tokens.
+/// Usage ponctuel pour ajuster spacing, typo, couleurs sans styles locaux.
+/// Préfixe `.u-` pour éviter les collisions avec Angular Material.
+////
+
+@use '../abstracts/variables' as *;
+
+// -----------------------------------------------------------------------------
+// Display
+// -----------------------------------------------------------------------------
+.u-hidden {
+  display: none !important;
+}
+
+.u-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.u-block {
+  display: block;
+}
+
+.u-flex {
+  display: flex;
+}
+
+.u-inline-flex {
+  display: inline-flex;
+}
+
+.u-grid {
+  display: grid;
+}
+
+// -----------------------------------------------------------------------------
+// Flex helpers
+// -----------------------------------------------------------------------------
+.u-items-center {
+  align-items: center;
+}
+
+.u-items-start {
+  align-items: flex-start;
+}
+
+.u-justify-center {
+  justify-content: center;
+}
+
+.u-justify-between {
+  justify-content: space-between;
+}
+
+.u-flex-col {
+  flex-direction: column;
+}
+
+.u-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.u-gap-1 {
+  gap: $spacing-1;
+}
+
+.u-gap-2 {
+  gap: $spacing-2;
+}
+
+.u-gap-3 {
+  gap: $spacing-3;
+}
+
+.u-gap-4 {
+  gap: $spacing-4;
+}
+
+.u-gap-6 {
+  gap: $spacing-6;
+}
+
+.u-gap-8 {
+  gap: $spacing-8;
+}
+
+// -----------------------------------------------------------------------------
+// Spacing (margin / padding) — généré depuis $spacings
+// -----------------------------------------------------------------------------
+@each $key, $value in $spacings {
+  .u-m-#{$key} {
+    margin: $value !important;
+  }
+
+  .u-mt-#{$key} {
+    margin-top: $value !important;
+  }
+
+  .u-mb-#{$key} {
+    margin-bottom: $value !important;
+  }
+
+  .u-ml-#{$key} {
+    margin-left: $value !important;
+  }
+
+  .u-mr-#{$key} {
+    margin-right: $value !important;
+  }
+
+  .u-mx-#{$key} {
+    margin-inline: $value !important;
+  }
+
+  .u-my-#{$key} {
+    margin-block: $value !important;
+  }
+
+  .u-p-#{$key} {
+    padding: $value !important;
+  }
+
+  .u-pt-#{$key} {
+    padding-top: $value !important;
+  }
+
+  .u-pb-#{$key} {
+    padding-bottom: $value !important;
+  }
+
+  .u-pl-#{$key} {
+    padding-left: $value !important;
+  }
+
+  .u-pr-#{$key} {
+    padding-right: $value !important;
+  }
+
+  .u-px-#{$key} {
+    padding-inline: $value !important;
+  }
+
+  .u-py-#{$key} {
+    padding-block: $value !important;
+  }
+}
+
+.u-m-0 {
+  margin: 0 !important;
+}
+
+.u-p-0 {
+  padding: 0 !important;
+}
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+.u-text-display {
+  @include typography(display);
+}
+
+.u-text-h1 {
+  @include typography(h1);
+}
+
+.u-text-h2 {
+  @include typography(h2);
+}
+
+.u-text-h3 {
+  @include typography(h3);
+}
+
+.u-text-body {
+  @include typography(body);
+}
+
+.u-text-small {
+  @include typography(small);
+}
+
+.u-font-regular {
+  font-weight: $font-weight-regular;
+}
+
+.u-font-medium {
+  font-weight: $font-weight-medium;
+}
+
+.u-font-semibold {
+  font-weight: $font-weight-semibold;
+}
+
+.u-font-bold {
+  font-weight: $font-weight-bold;
+}
+
+.u-text-left {
+  text-align: left;
+}
+
+.u-text-center {
+  text-align: center;
+}
+
+.u-text-right {
+  text-align: right;
+}
+
+.u-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// -----------------------------------------------------------------------------
+// Colors
+// -----------------------------------------------------------------------------
+.u-text-primary {
+  color: $text-primary !important;
+}
+
+.u-text-secondary {
+  color: $text-secondary !important;
+}
+
+.u-text-muted {
+  color: $text-muted !important;
+}
+
+.u-text-brand {
+  color: $primary-color !important;
+}
+
+.u-text-success {
+  color: $success-color !important;
+}
+
+.u-text-error {
+  color: $error-color !important;
+}
+
+.u-text-warning {
+  color: $warning-color !important;
+}
+
+.u-bg-surface {
+  background-color: $surface-color !important;
+}
+
+.u-bg-background {
+  background-color: $background-color !important;
+}
+
+.u-bg-primary {
+  background-color: $primary-color !important;
+}
+
+.u-bg-primary-light {
+  background-color: $primary-light !important;
+}
+
+// -----------------------------------------------------------------------------
+// Radius & shadows
+// -----------------------------------------------------------------------------
+.u-radius-sm {
+  border-radius: $radius-small !important;
+}
+
+.u-radius-md {
+  border-radius: $radius-medium !important;
+}
+
+.u-radius-lg {
+  border-radius: $radius-large !important;
+}
+
+.u-radius-full {
+  border-radius: $radius-full !important;
+}
+
+.u-shadow-sm {
+  box-shadow: $shadow-sm !important;
+}
+
+.u-shadow-md {
+  box-shadow: $shadow-md !important;
+}
+
+.u-shadow-lg {
+  box-shadow: $shadow-lg !important;
+}
+
+.u-shadow-none {
+  box-shadow: none !important;
+}
+
+// -----------------------------------------------------------------------------
+// Borders & width
+// -----------------------------------------------------------------------------
+.u-border {
+  border: 1px solid $border-color !important;
+}
+
+.u-border-0 {
+  border: 0 !important;
+}
+
+.u-w-full {
+  width: 100% !important;
+}
+
+.u-h-full {
+  height: 100% !important;
+}
+
+.u-min-h-screen {
+  min-height: 100vh !important;
+}
+
+// -----------------------------------------------------------------------------
+// Responsive visibility
+// -----------------------------------------------------------------------------
+.u-hide-sm {
+  @include respond-to(sm) {
+    display: none !important;
+  }
+}
+
+.u-show-md {
+  display: none !important;
+
+  @include respond-to(md) {
+    display: block !important;
+  }
+}
+
+.u-show-lg {
+  display: none !important;
+
+  @include respond-to(lg) {
+    display: block !important;
+  }
+}

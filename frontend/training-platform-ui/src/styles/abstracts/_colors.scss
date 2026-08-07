@@ -1,0 +1,103 @@
+////
+/// Colors — Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : définit la palette de couleurs globale de la plateforme LMS.
+/// Ces tokens alimentent les variables CSS, les composants et le thème Material.
+/// Inspiration : Microsoft Learn, Coursera, LinkedIn Learning, Stripe.
+/// Accessibilité : contrastes ciblés WCAG AA (texte / fond).
+/// ---------------------------------------------------------------------------
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+// -----------------------------------------------------------------------------
+// Brand — Primary
+// Bleu professionnel (confiance, apprentissage, clarté)
+// -----------------------------------------------------------------------------
+$primary-color: #0f6cbd;
+$primary-hover: #0b5a9e;
+$primary-active: #094d86;
+$primary-light: #e8f3fc;
+$primary-dark: #062f52;
+
+// -----------------------------------------------------------------------------
+// Brand — Secondary
+// Neutre froid pour actions secondaires et éléments de support
+// -----------------------------------------------------------------------------
+$secondary-color: #475569;
+$secondary-hover: #334155;
+$secondary-active: #1e293b;
+$secondary-light: #f1f5f9;
+
+// -----------------------------------------------------------------------------
+// Semantic
+// -----------------------------------------------------------------------------
+$success-color: #0e7c3a;
+$success-light: #e6f6ec;
+$success-dark: #0a5c2b;
+
+$error-color: #c50f1f;
+$error-light: #fde7e9;
+$error-dark: #8b0a15;
+
+$warning-color: #c47b00;
+$warning-light: #fff4e5;
+$warning-dark: #8a5700;
+
+$info-color: #0078d4;
+$info-light: #e6f2fb;
+$info-dark: #005a9e;
+
+// -----------------------------------------------------------------------------
+// Neutrals (échelle)
+// -----------------------------------------------------------------------------
+$neutral-0: #ffffff;
+$neutral-50: #f8fafc;
+$neutral-100: #f1f5f9;
+$neutral-200: #e2e8f0;
+$neutral-300: #cbd5e1;
+$neutral-400: #94a3b8;
+$neutral-500: #64748b;
+$neutral-600: #475569;
+$neutral-700: #334155;
+$neutral-800: #1e293b;
+$neutral-900: #0f172a;
+$neutral-950: #020617;
+
+// -----------------------------------------------------------------------------
+// Surfaces & texte
+// -----------------------------------------------------------------------------
+$background-color: $neutral-50;
+$surface-color: $neutral-0;
+$surface-elevated: $neutral-0;
+$border-color: $neutral-200;
+$divider-color: $neutral-200;
+
+$text-primary: $neutral-900;
+$text-secondary: $neutral-600;
+$text-muted: $neutral-500;
+$text-inverse: $neutral-0;
+$text-link: $primary-color;
+$text-disabled: $neutral-400;
+
+// -----------------------------------------------------------------------------
+// Focus (accessibilité WCAG AA)
+// -----------------------------------------------------------------------------
+$focus-ring-color: rgba($primary-color, 0.45);
+$focus-ring-width: 3px;
+
+// -----------------------------------------------------------------------------
+// Map — export pratique pour itérations SCSS
+// -----------------------------------------------------------------------------
+$colors: (
+  primary: $primary-color,
+  secondary: $secondary-color,
+  success: $success-color,
+  error: $error-color,
+  warning: $warning-color,
+  info: $info-color,
+  background: $background-color,
+  surface: $surface-color,
+  border: $border-color,
+  text-primary: $text-primary,
+  text-secondary: $text-secondary,
+);

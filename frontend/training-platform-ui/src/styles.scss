@@ -1,0 +1,9 @@
+////
+/// Styles globaux Angular — Entry point
+/// ---------------------------------------------------------------------------
+/// Rôle : point d'entrée déclaré dans `angular.json` (`styles`).
+/// Délègue entièrement au Design System (`src/styles/main.scss`).
+/// Ne pas ajouter de styles métier ici.
+////
+
+@use 'styles/main';

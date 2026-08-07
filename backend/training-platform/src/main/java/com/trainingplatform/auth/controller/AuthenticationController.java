@@ -31,17 +31,17 @@ public class AuthenticationController {
                 .build();
     }
 
-    @PostMapping("/login")
-    public ApiResponse<AuthenticationResponse> login(
-            @Valid @RequestBody LoginRequest request
-    ) {
+        @PostMapping("/login")
+        public ApiResponse<AuthenticationResponse> login(
+                @Valid @RequestBody LoginRequest request
+        ) {
 
-        AuthenticationResponse response = authenticationService.login(request);
+            AuthenticationResponse response = authenticationService.login(request);
 
-        return ApiResponse.<AuthenticationResponse>builder()
-                .success(true)
-                .message("Login successful")
-                .data(response)
-                .build();
-    }
+            return ApiResponse.<AuthenticationResponse>builder()
+                    .success(true)
+                    .message("Login successful")
+                    .data(response)
+                    .build();
+        }
 }

@@ -71,9 +71,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                         .timestamp(LocalDateTime.now())
                         .build();
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        String redirectUrl =
+                "http://localhost:4200/oauth2/callback?token=" + accessToken;
 
-        objectMapper.writeValue(response.getOutputStream(), apiResponse);
+        response.sendRedirect(redirectUrl);
     }
 }

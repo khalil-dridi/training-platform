@@ -1,0 +1,117 @@
+////
+/// Material Theme — Angular Material 20
+/// ---------------------------------------------------------------------------
+/// Rôle : personnalise Angular Material pour qu'il consomme le Design System.
+/// Utilise `mat.theme()` (API Material 3) + overrides des system tokens CSS
+/// afin d'aligner primary, surfaces, typo (Inter) et densité.
+////
+
+@use '@angular/material' as mat;
+@use '../abstracts/variables' as *;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: (
+        plain-family: Inter,
+        brand-family: Inter,
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Alignement des system tokens Material sur nos Design Tokens
+// -----------------------------------------------------------------------------
+:root {
+  color-scheme: light;
+
+  // Brand
+  --mat-sys-primary: #{$primary-color};
+  --mat-sys-on-primary: #{$text-inverse};
+  --mat-sys-primary-container: #{$primary-light};
+  --mat-sys-on-primary-container: #{$primary-dark};
+
+  --mat-sys-secondary: #{$secondary-color};
+  --mat-sys-on-secondary: #{$text-inverse};
+  --mat-sys-secondary-container: #{$secondary-light};
+  --mat-sys-on-secondary-container: #{$secondary-active};
+
+  --mat-sys-tertiary: #{$info-color};
+  --mat-sys-on-tertiary: #{$text-inverse};
+
+  --mat-sys-error: #{$error-color};
+  --mat-sys-on-error: #{$text-inverse};
+  --mat-sys-error-container: #{$error-light};
+  --mat-sys-on-error-container: #{$error-dark};
+
+  // Surfaces
+  --mat-sys-surface: #{$surface-color};
+  --mat-sys-on-surface: #{$text-primary};
+  --mat-sys-surface-container: #{$neutral-50};
+  --mat-sys-surface-container-low: #{$neutral-50};
+  --mat-sys-surface-container-high: #{$neutral-100};
+  --mat-sys-surface-container-highest: #{$neutral-100};
+  --mat-sys-surface-variant: #{$neutral-100};
+  --mat-sys-on-surface-variant: #{$text-secondary};
+
+  --mat-sys-background: #{$background-color};
+  --mat-sys-on-background: #{$text-primary};
+
+  --mat-sys-outline: #{$neutral-300};
+  --mat-sys-outline-variant: #{$border-color};
+
+  // Shape — rayons cohérents avec le DS
+  --mat-sys-corner-small: #{$radius-small};
+  --mat-sys-corner-medium: #{$radius-medium};
+  --mat-sys-corner-large: #{$radius-large};
+}
+
+// -----------------------------------------------------------------------------
+// Harmonisation globale body ↔ Material
+// -----------------------------------------------------------------------------
+body {
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-surface);
+  font-family: $font-family-base;
+}
+
+// -----------------------------------------------------------------------------
+// Overrides composants Material (cohérence visuelle LMS)
+// -----------------------------------------------------------------------------
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  --mdc-filled-button-container-shape: #{$radius-medium};
+  --mdc-protected-button-container-shape: #{$radius-medium};
+}
+
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-container-shape: #{$radius-medium};
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-card {
+  --mdc-elevated-card-container-shape: #{$radius-large};
+  --mdc-outlined-card-container-shape: #{$radius-large};
+  border-radius: $radius-large;
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-shape: #{$radius-medium};
+}
+
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: #{$radius-large};
+}

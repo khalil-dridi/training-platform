@@ -1,0 +1,40 @@
+////
+/// Spacing — Design Tokens
+/// ---------------------------------------------------------------------------
+/// Rôle : échelle d'espacement cohérente pour marges, paddings et gaps.
+/// Base : 4px. Utiliser ces tokens plutôt que des valeurs magiques.
+/// Aucune règle CSS n'est émise ici (fichier abstract uniquement).
+////
+
+$spacing-unit: 4px;
+
+$spacing-1: $spacing-unit; // 4px
+$spacing-2: $spacing-unit * 2; // 8px
+$spacing-3: $spacing-unit * 3; // 12px
+$spacing-4: $spacing-unit * 4; // 16px
+$spacing-6: $spacing-unit * 6; // 24px
+$spacing-8: $spacing-unit * 8; // 32px
+$spacing-12: $spacing-unit * 12; // 48px
+$spacing-16: $spacing-unit * 16; // 64px
+
+/// Alias sémantiques (lisibilité dans les composants)
+$space-xs: $spacing-1; // 4px
+$space-sm: $spacing-2; // 8px
+$space-md: $spacing-3; // 12px
+$space-base: $spacing-4; // 16px
+$space-lg: $spacing-6; // 24px
+$space-xl: $spacing-8; // 32px
+$space-2xl: $spacing-12; // 48px
+$space-3xl: $spacing-16; // 64px
+
+/// Map pour génération d'utilitaires
+$spacings: (
+  1: $spacing-1,
+  2: $spacing-2,
+  3: $spacing-3,
+  4: $spacing-4,
+  6: $spacing-6,
+  8: $spacing-8,
+  12: $spacing-12,
+  16: $spacing-16,
+);
