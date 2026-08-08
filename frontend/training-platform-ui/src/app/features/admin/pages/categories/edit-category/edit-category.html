@@ -1,0 +1,39 @@
+<h2>Edit Category</h2>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="name">Name</label>
+
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+    />
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="image">Image</label>
+
+    <input
+      id="image"
+      type="file"
+      accept="image/*"
+      (change)="onImageSelected($event)"
+    />
+  </div>
+
+  <button type="submit">
+    Update Category
+  </button>
+
+</form>

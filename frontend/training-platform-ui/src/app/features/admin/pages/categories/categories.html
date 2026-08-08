@@ -1,0 +1,17 @@
+<div *ngFor="let category of categories">
+  <h3>{{ category.name }}</h3>
+  <p>{{ category.description }}</p>
+
+  <button type="button" (click)="deleteCategory(category.id)">
+    Delete
+  </button>
+  <button
+  type="button"
+  [routerLink]="['/admin/categories/edit', category.id]"
+>
+  Edit
+</button>
+</div>
+<button routerLink="/admin/categories/create">
+  Create Category
+</button>   
