@@ -1,1 +1,26 @@
-<p>navbar works!</p>
+@if (currentUserService.user(); as user) {
+
+  <a routerLink="/admin/profile">
+
+    @if (user.avatarUrl) {
+      <img
+        [src]="user.avatarUrl"
+        [alt]="user.firstName + ' ' + user.lastName"
+        width="40"
+        height="40"
+      />
+    }
+
+    <span>
+      {{ user.firstName }} {{ user.lastName }}
+    </span>
+
+  </a>
+  <button
+  type="button"
+  (click)="logout()"
+>
+  Logout
+</button>
+
+}

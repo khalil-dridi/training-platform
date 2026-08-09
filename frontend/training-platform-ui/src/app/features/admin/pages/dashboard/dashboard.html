@@ -1,1 +1,48 @@
-<p>dashboard works!</p>
+<h2>Admin Dashboard</h2>
+
+@if (dashboard) {
+
+  <div>
+    <h3>Users</h3>
+
+    <p>Total Users: {{ dashboard.totalUsers }}</p>
+    <p>Learners: {{ dashboard.totalLearners }}</p>
+    <p>Trainers: {{ dashboard.totalTrainers }}</p>
+    <p>Admins: {{ dashboard.totalAdmins }}</p>
+  </div>
+
+  <div>
+    <h3>Courses & Categories</h3>
+
+    <p>Categories: {{ dashboard.totalCategories }}</p>
+    <p>Total Courses: {{ dashboard.totalCourses }}</p>
+    <p>Published Courses: {{ dashboard.publishedCourses }}</p>
+    <p>Draft Courses: {{ dashboard.draftCourses }}</p>
+  </div>
+
+  <div>
+    <h3>Enrollments</h3>
+
+    <p>Total Enrollments: {{ dashboard.totalEnrollments }}</p>
+  </div>
+
+  <div>
+    <h3>Instructor Requests</h3>
+
+    <p>
+      Pending:
+      {{ dashboard.pendingInstructorRequests }}
+    </p>
+
+    <p>
+      Approved:
+      {{ dashboard.approvedInstructorRequests }}
+    </p>
+
+    <p>
+      Rejected:
+      {{ dashboard.rejectedInstructorRequests }}
+    </p>
+  </div>
+
+}

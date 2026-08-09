@@ -1,9 +1,15 @@
-<app-sidebar></app-sidebar>
+<div class="admin-layout">
 
-<div>
-  <app-navbar></app-navbar>
+  <app-sidebar></app-sidebar>
 
-  <main>
-    <router-outlet />
-  </main>
+  <div class="content-area">
+
+    <app-navbar></app-navbar>
+
+    <main>
+      <router-outlet />
+    </main>
+
+  </div>
+
 </div>

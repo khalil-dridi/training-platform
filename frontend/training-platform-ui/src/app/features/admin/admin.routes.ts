@@ -9,6 +9,7 @@ import { EditCategory } from './pages/categories/edit-category/edit-category';
 import { Users } from './pages/users/users';
 import { UserDetails } from './pages/users/user-details/user-details';
 import { InstructorRequests } from './pages/instructor-requests/instructor-requests';
+import { Profile } from './pages/profile/profile';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -46,6 +47,10 @@ export const ADMIN_ROUTES: Routes = [
         {
           path: 'instructor-requests',
           component: InstructorRequests,
+        } , 
+        {
+          path: 'profile',
+          component: Profile,
         }
       
         

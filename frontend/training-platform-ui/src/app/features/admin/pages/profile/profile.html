@@ -1,0 +1,190 @@
+<h2>My Profile</h2>
+
+@if (user) {
+
+  @if (user.avatarUrl) {
+    <img
+      [src]="user.avatarUrl"
+      [alt]="user.firstName + ' ' + user.lastName"
+      width="150"
+    />
+
+    <div>
+  <label for="avatar">
+    Change Avatar
+  </label>
+
+  <input
+    id="avatar"
+    type="file"
+    accept="image/*"
+    (change)="onAvatarSelected($event)"
+  />
+
+  <button
+    type="button"
+    (click)="uploadAvatar()"
+    [disabled]="!selectedAvatar"
+  >
+    Upload Avatar
+  </button>
+
+  @if (user?.avatarUrl) {
+  <button
+    type="button"
+    (click)="deleteAvatar()"
+  >
+    Delete Avatar
+  </button>
+}
+</div>
+  }
+
+  <p>Email : {{ user.email }}</p>
+  <p>Role : {{ user.role }}</p>
+
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+
+    <div>
+      <label for="firstName">First Name</label>
+
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+      />
+
+      @if (
+        profileForm.controls.firstName.touched &&
+        profileForm.controls.firstName.invalid
+      ) {
+        <small>First name is required.</small>
+      }
+    </div>
+
+    <div>
+      <label for="lastName">Last Name</label>
+
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+      />
+
+      @if (
+        profileForm.controls.lastName.touched &&
+        profileForm.controls.lastName.invalid
+      ) {
+        <small>Last name is required.</small>
+      }
+    </div>
+
+    <div>
+      <label for="phone">Phone</label>
+
+      <input
+        id="phone"
+        type="text"
+        formControlName="phone"
+      />
+
+      @if (
+        profileForm.controls.phone.touched &&
+        profileForm.controls.phone.invalid
+      ) {
+        <small>
+          Phone number must contain exactly 8 digits.
+        </small>
+      }
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="profileForm.invalid"
+    >
+      Save Changes
+    </button>
+
+  </form>
+}
+
+<hr>
+
+<h3>Change Password</h3>
+
+<form
+  [formGroup]="passwordForm"
+  (ngSubmit)="changePassword()"
+>
+
+  <div>
+    <label for="currentPassword">
+      Current Password
+    </label>
+
+    <input
+      id="currentPassword"
+      type="password"
+      formControlName="currentPassword"
+    />
+
+    @if (
+      passwordForm.controls.currentPassword.touched &&
+      passwordForm.controls.currentPassword.invalid
+    ) {
+      <small>
+        Current password is required.
+      </small>
+    }
+  </div>
+
+  <div>
+    <label for="newPassword">
+      New Password
+    </label>
+
+    <input
+      id="newPassword"
+      type="password"
+      formControlName="newPassword"
+    />
+
+    @if (
+      passwordForm.controls.newPassword.touched &&
+      passwordForm.controls.newPassword.invalid
+    ) {
+      <small>
+        New password must contain at least 8 characters.
+      </small>
+    }
+  </div>
+
+  <div>
+    <label for="confirmPassword">
+      Confirm Password
+    </label>
+
+    <input
+      id="confirmPassword"
+      type="password"
+      formControlName="confirmPassword"
+    />
+
+    @if (
+      passwordForm.controls.confirmPassword.touched &&
+      passwordForm.controls.confirmPassword.invalid
+    ) {
+      <small>
+        Confirm password is required.
+      </small>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="passwordForm.invalid"
+  >
+    Change Password
+  </button>
+
+</form>
