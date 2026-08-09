@@ -1,0 +1,87 @@
+<div>
+  <button
+    type="button"
+    (click)="filterByStatus(undefined)"
+  >
+    All
+  </button>
+
+  <button
+    type="button"
+    (click)="filterByStatus('PENDING')"
+  >
+    Pending
+  </button>
+
+  <button
+    type="button"
+    (click)="filterByStatus('APPROVED')"
+  >
+    Approved
+  </button>
+
+  <button
+    type="button"
+    (click)="filterByStatus('REJECTED')"
+  >
+    Rejected
+  </button>
+</div>
+
+<div *ngFor="let request of requests">
+
+  <h3>
+    {{ request.user.firstName }}
+    {{ request.user.lastName }}
+  </h3>
+
+  <p>Email : {{ request.user.email }}</p>
+  <p>Status : {{ request.status }}</p>
+
+  <a
+    [href]="request.cvUrl"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    View CV
+  </a>
+
+  <button
+    type="button"
+    (click)="approveRequest(request.id)"
+    [disabled]="request.status !== 'PENDING'"
+  >
+    Approve
+  </button>
+
+  <button
+    type="button"
+    (click)="rejectRequest(request.id)"
+    [disabled]="request.status !== 'PENDING'"
+  >
+    Reject
+  </button>
+
+</div>
+
+<div>
+  <button
+    type="button"
+    (click)="previousPage()"
+    [disabled]="currentPage === 0"
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {{ currentPage + 1 }} / {{ totalPages }}
+  </span>
+
+  <button
+    type="button"
+    (click)="nextPage()"
+    [disabled]="currentPage >= totalPages - 1"
+  >
+    Next
+  </button>
+</div>

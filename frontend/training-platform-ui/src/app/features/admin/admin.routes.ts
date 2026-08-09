@@ -8,6 +8,7 @@ import { CreateCategory } from './pages/categories/create-category/create-catego
 import { EditCategory } from './pages/categories/edit-category/edit-category';
 import { Users } from './pages/users/users';
 import { UserDetails } from './pages/users/user-details/user-details';
+import { InstructorRequests } from './pages/instructor-requests/instructor-requests';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -41,6 +42,10 @@ export const ADMIN_ROUTES: Routes = [
         {
           path: 'users/:id',
           component: UserDetails,
+        } , 
+        {
+          path: 'instructor-requests',
+          component: InstructorRequests,
         }
       
         
