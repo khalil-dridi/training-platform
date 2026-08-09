@@ -6,6 +6,8 @@ import { authGuard } from '../../core/guards/auth-guard';
 import { roleGuard } from '../../core/guards/role-guard';
 import { CreateCategory } from './pages/categories/create-category/create-category';
 import { EditCategory } from './pages/categories/edit-category/edit-category';
+import { Users } from './pages/users/users';
+import { UserDetails } from './pages/users/user-details/user-details';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -32,6 +34,14 @@ export const ADMIN_ROUTES: Routes = [
         path: 'categories/edit/:id',
         component: EditCategory,
         },
+        {
+          path :'users',
+          component: Users,
+        } , 
+        {
+          path: 'users/:id',
+          component: UserDetails,
+        }
       
         
     ],

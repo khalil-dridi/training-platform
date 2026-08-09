@@ -1,0 +1,45 @@
+<h2>Users</h2>
+<input
+  type="text"
+  placeholder="Search users"
+  #searchInput
+  (input)="searchUsers(searchInput.value)"
+/>
+<div *ngFor="let user of users">
+  <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+
+  <p>Prenom : {{ user.firstName }}</p>
+  <p>Nom : {{ user.lastName }}</p>
+  <p><img
+      [src]="user.avatarUrl"
+      [alt]="user.firstName + ' ' + user.lastName"
+      width="150"
+    /></p>
+  <button
+  type="button"
+  [routerLink]="['/admin/users', user.id]"
+>
+  Details
+</button>
+</div>
+<div>
+  <button
+    type="button"
+    (click)="previousPage()"
+    [disabled]="currentPage === 0"
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {{ currentPage + 1 }} / {{ totalPages }}
+  </span>
+
+  <button
+    type="button"
+    (click)="nextPage()"
+    [disabled]="currentPage >= totalPages - 1"
+  >
+    Next
+  </button>
+</div>

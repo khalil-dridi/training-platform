@@ -1,0 +1,22 @@
+@if (user) {
+  <h2>User Details</h2>
+
+  @if (user.avatarUrl) {
+    <img
+      [src]="user.avatarUrl"
+      [alt]="user.firstName + ' ' + user.lastName"
+      width="150"
+    />
+  }
+
+  <p>ID : {{ user.id }}</p>
+  <p>First Name : {{ user.firstName }}</p>
+  <p>Last Name : {{ user.lastName }}</p>
+  <p>Email : {{ user.email }}</p>
+  <p>Phone : {{ user.phone }}</p>
+  <p>Role : {{ user.role }}</p>
+  <p>Enabled : {{ user.enabled }}</p>
+}
+<button routerLink="/admin/users">
+  Back to Users
+</button>
