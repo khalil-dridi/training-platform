@@ -1,0 +1,229 @@
+////
+/// Learner course details — local styles
+/// ---------------------------------------------------------------------------
+/// Role: published course detail page with enrollment action.
+/// Design System tokens only.
+////
+
+@use '../../../../../../styles/abstracts/variables' as *;
+
+.learner-course-details {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading,
+  &--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    min-height: 240px;
+    text-align: center;
+  }
+
+  &--error mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $error-color;
+  }
+}
+
+.learner-course-details__status-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-course-details__back {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-4;
+  @include typography(small);
+  color: $text-link;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+    text-underline-offset: $spacing-1;
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+.learner-course-details__card {
+  overflow: hidden;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.learner-course-details__thumbnail-wrap {
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  background-color: $neutral-100;
+  border-bottom: 1px solid $border-color;
+
+  @include respond-to(md) {
+    aspect-ratio: 16 / 6;
+  }
+}
+
+.learner-course-details__thumbnail {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  &--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+
+    mat-icon {
+      font-size: $font-size-h1;
+      width: $font-size-h1;
+      height: $font-size-h1;
+    }
+  }
+}
+
+.learner-course-details__content {
+  padding: $spacing-4;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.learner-course-details__header {
+  margin-bottom: $spacing-6;
+}
+
+.learner-course-details__title {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-course-details__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-course-details__meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-3;
+  margin: 0 0 $spacing-6;
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    min-width: 0;
+  }
+
+  dt {
+    @include typography(small);
+    margin: 0;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
+  }
+
+  dd {
+    @include typography(body);
+    margin: 0;
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.learner-course-details__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-3;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-course-details__description {
+  margin-bottom: $spacing-6;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+}
+
+.learner-course-details__description-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  white-space: pre-wrap;
+  line-height: $line-height-relaxed;
+}
+
+.learner-course-details__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+}
+
+.learner-course-details__enroll-btn {
+  min-width: 180px;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &--enrolled {
+    background-color: $success-color !important;
+    color: $surface-color !important;
+    opacity: 1;
+    cursor: default;
+  }
+}

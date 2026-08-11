@@ -1,0 +1,251 @@
+////
+/// Learner my courses — local styles
+/// ---------------------------------------------------------------------------
+/// Role: enrolled courses list with progress and status.
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.learner-my-courses {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading,
+  &--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    min-height: 240px;
+    text-align: center;
+  }
+
+  &--error mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $error-color;
+  }
+}
+
+.learner-my-courses__status-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-my-courses__error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+}
+
+.learner-my-courses__header {
+  margin-bottom: $spacing-6;
+}
+
+.learner-my-courses__title {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-my-courses__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-my-courses__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+
+  a mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+    margin-right: $spacing-1;
+    color: inherit;
+  }
+}
+
+.learner-my-courses__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.learner-my-courses__card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $neutral-300;
+  }
+}
+
+.learner-my-courses__card-accent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  background: linear-gradient(135deg, $primary-light 0%, $neutral-100 100%);
+  border-bottom: 1px solid $border-color;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $primary-color;
+    opacity: 0.85;
+  }
+}
+
+.learner-my-courses__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: $spacing-3;
+  padding: $spacing-4;
+}
+
+.learner-my-courses__course-title {
+  @include typography(body);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.learner-my-courses__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.learner-my-courses__progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+}
+
+.learner-my-courses__progress-label {
+  @include typography(small);
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.learner-my-courses__progress-value {
+  @include typography(small);
+  color: $primary-color;
+  font-weight: $font-weight-bold;
+}
+
+.learner-my-courses__progress-bar {
+  height: $spacing-2;
+  border-radius: $radius-full;
+  background-color: $neutral-200;
+  overflow: hidden;
+}
+
+.learner-my-courses__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: $radius-full;
+  background-color: $primary-color;
+  transition: width $transition-base;
+}
+
+.learner-my-courses__enrolled-date {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.learner-my-courses__status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  align-self: flex-start;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    font-size: $font-size-small;
+    width: $font-size-small;
+    height: $font-size-small;
+  }
+
+  &--completed {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--in-progress {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+}
+
+.learner-my-courses__continue-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+}

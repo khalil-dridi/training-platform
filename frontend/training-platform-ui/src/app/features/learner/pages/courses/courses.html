@@ -1,0 +1,107 @@
+@if (isLoading) {
+  <div class="learner-courses learner-courses--loading" aria-busy="true" aria-live="polite">
+    <p class="learner-courses__loading-text">Loading courses...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="learner-courses learner-courses--error" aria-live="polite">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <p class="learner-courses__error-text">{{ errorMessage }}</p>
+    <button mat-flat-button color="primary" type="button" (click)="loadCourses()">
+      Retry
+    </button>
+  </div>
+} @else {
+  <div class="learner-courses">
+    <header class="learner-courses__header">
+      <div class="learner-courses__intro">
+        <h1 class="learner-courses__title">Browse Courses</h1>
+        <p class="learner-courses__subtitle">
+          Explore our courses and continue your learning journey.
+        </p>
+      </div>
+
+      <div class="learner-courses__search">
+        <mat-icon class="learner-courses__search-icon" aria-hidden="true">search</mat-icon>
+        <input
+          class="learner-courses__search-input"
+          type="search"
+          placeholder="Search courses..."
+          [value]="searchQuery"
+          (input)="onSearchInput($event)"
+          aria-label="Search courses"
+        />
+      </div>
+    </header>
+
+    <section class="learner-courses__section" aria-labelledby="courses-list-title">
+      <h2 id="courses-list-title" class="learner-courses__section-title">Courses</h2>
+
+      @if (courses.length === 0) {
+        <div class="learner-courses__empty ds-card ds-card--flat">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+          <p>No courses available.</p>
+        </div>
+      } @else if (filteredCourses.length === 0) {
+        <div class="learner-courses__empty ds-card ds-card--flat">
+          <mat-icon aria-hidden="true">search_off</mat-icon>
+          <p>No courses match your search.</p>
+        </div>
+      } @else {
+        <ul class="learner-courses__grid">
+          @for (course of filteredCourses; track course.id) {
+            <li class="learner-courses__card ds-card ds-card--flat">
+              <div class="learner-courses__thumbnail-wrap">
+                @if (course.thumbnailUrl) {
+                  <img
+                    class="learner-courses__thumbnail"
+                    [src]="course.thumbnailUrl"
+                    [alt]="course.title"
+                    loading="lazy"
+                  />
+                } @else {
+                  <span class="learner-courses__thumbnail learner-courses__thumbnail--placeholder" aria-hidden="true">
+                    <mat-icon>image</mat-icon>
+                  </span>
+                }
+              </div>
+
+              <div class="learner-courses__body">
+                <h3 class="learner-courses__course-title">{{ course.title }}</h3>
+
+                <p class="learner-courses__description">{{ course.shortDescription }}</p>
+
+                <ul class="learner-courses__meta">
+                  <li>
+                    <mat-icon aria-hidden="true">category</mat-icon>
+                    <span>{{ course.categoryName }}</span>
+                  </li>
+                  <li>
+                    <mat-icon aria-hidden="true">signal_cellular_alt</mat-icon>
+                    <span>{{ formatLevel(course.level) }}</span>
+                  </li>
+                  <li>
+                    <mat-icon aria-hidden="true">language</mat-icon>
+                    <span>{{ course.language }}</span>
+                  </li>
+                  <li>
+                    <mat-icon aria-hidden="true">payments</mat-icon>
+                    <span>{{ course.price | currency: 'USD' : 'symbol' : '1.0-2' }}</span>
+                  </li>
+                </ul>
+
+                <a
+                  mat-flat-button
+                  color="primary"
+                  class="learner-courses__view-btn"
+                  [routerLink]="['/learner/courses', course.id]"
+                >
+                  View Course
+                </a>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+}

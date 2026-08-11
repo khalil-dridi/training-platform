@@ -1,0 +1,288 @@
+////
+/// Learner browse courses — local styles
+/// ---------------------------------------------------------------------------
+/// Role: published courses catalog for learners (card grid + search).
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.learner-courses {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading,
+  &--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    min-height: 240px;
+    text-align: center;
+  }
+
+  &--error mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $error-color;
+  }
+}
+
+.learner-courses__loading-text,
+.learner-courses__error-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-courses__header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: $spacing-6;
+  }
+}
+
+.learner-courses__intro {
+  min-width: 0;
+}
+
+.learner-courses__title {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-courses__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-courses__search {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+
+  @include respond-to(md) {
+    width: 360px;
+  }
+}
+
+.learner-courses__search-icon {
+  flex-shrink: 0;
+  font-size: $font-size-body;
+  width: $font-size-body;
+  height: $font-size-body;
+  color: $text-muted;
+}
+
+.learner-courses__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  @include typography(body);
+  color: $text-primary;
+  outline: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.learner-courses__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-4;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-courses__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+.learner-courses__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.learner-courses__card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $neutral-300;
+  }
+}
+
+.learner-courses__thumbnail-wrap {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: $neutral-100;
+}
+
+.learner-courses__thumbnail {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  &--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+
+    mat-icon {
+      font-size: $font-size-h2;
+      width: $font-size-h2;
+      height: $font-size-h2;
+    }
+  }
+}
+
+.learner-courses__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: $spacing-3;
+  padding: $spacing-4;
+}
+
+.learner-courses__course-title {
+  @include typography(body);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.learner-courses__description {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.learner-courses__meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    min-width: 0;
+    @include typography(small);
+    color: $text-secondary;
+
+    mat-icon {
+      flex-shrink: 0;
+      font-size: $font-size-small;
+      width: $font-size-small;
+      height: $font-size-small;
+      color: $text-muted;
+    }
+
+    span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.learner-courses__view-btn {
+  align-self: flex-start;
+  margin-top: auto;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+}

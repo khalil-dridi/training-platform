@@ -1,0 +1,179 @@
+@if (isLoading) {
+  <div class="learning learning--loading" aria-busy="true" aria-live="polite">
+    <p class="learning__status-text">Loading course content...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="learning learning--error" aria-live="polite">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <p class="learning__status-text">{{ errorMessage }}</p>
+    <div class="learning__error-actions">
+      <button mat-flat-button color="primary" type="button" (click)="loadLearningData()">
+        Retry
+      </button>
+      <a mat-stroked-button routerLink="/learner/my-courses">Back to My Courses</a>
+    </div>
+  </div>
+} @else {
+  <div class="learning">
+    <header class="learning__topbar">
+      <a class="learning__back" routerLink="/learner/my-courses">
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        Back to My Courses
+      </a>
+
+      @if (totalLessonsCount() > 0) {
+        <p class="learning__summary">
+          {{ completedLessonsCount() }} / {{ totalLessonsCount() }} lessons completed
+          ({{ courseProgressPercent() }}%)
+        </p>
+      }
+    </header>
+
+    <div class="learning__layout">
+      <aside class="learning__sidebar ds-card ds-card--flat" aria-label="Course content">
+        <h1 class="learning__course-title">{{ courseTitle }}</h1>
+
+        @if (chaptersWithLessons.length === 0) {
+          <p class="learning__sidebar-empty">No lessons available.</p>
+        } @else {
+          <nav class="learning__nav" aria-label="Chapters and lessons">
+            @for (item of chaptersWithLessons; track item.chapter.id) {
+              <section class="learning__chapter">
+                <h2 class="learning__chapter-title">{{ item.chapter.title }}</h2>
+
+                <ul class="learning__lesson-list">
+                  @for (lesson of item.lessons; track lesson.id) {
+                    <li>
+                      <button
+                        type="button"
+                        class="learning__lesson-btn"
+                        [class.learning__lesson-btn--active]="isLessonActive(lesson.id)"
+                        (click)="selectLesson(lesson)"
+                      >
+                        <mat-icon aria-hidden="true">
+                          {{ isLessonCompleted(lesson.id) ? 'check_circle' : 'radio_button_unchecked' }}
+                        </mat-icon>
+                        <span class="learning__lesson-label">{{ lesson.title }}</span>
+                        @if (lesson.preview) {
+                          <span class="learning__preview-badge">Preview</span>
+                        }
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+          </nav>
+        }
+      </aside>
+
+      <main class="learning__main ds-card ds-card--flat">
+        @if (!currentLesson) {
+          <div class="learning__main-empty">
+            <mat-icon aria-hidden="true">play_circle_outline</mat-icon>
+            <p>No lessons available.</p>
+          </div>
+        } @else {
+          <header class="learning__lesson-header">
+            <p class="learning__lesson-chapter">{{ currentLesson.chapterTitle }}</p>
+            <h2 class="learning__lesson-title">{{ currentLesson.title }}</h2>
+            @if (currentLesson.preview) {
+              <span class="learning__preview-badge learning__preview-badge--main">Preview</span>
+            }
+          </header>
+
+          @if (currentLesson.description) {
+            <p class="learning__lesson-description">{{ currentLesson.description }}</p>
+          }
+
+          <div class="learning__video-wrap">
+            <video
+              class="learning__video"
+              controls
+              [src]="currentLesson.videoUrl"
+              [attr.aria-label]="'Video for ' + currentLesson.title"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <dl class="learning__lesson-meta">
+            <div>
+              <dt>Duration</dt>
+              <dd>{{ formatDuration(currentLesson.duration) }}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                @if (isLessonCompleted(currentLesson.id)) {
+                  <span class="learning__status learning__status--completed">
+                    <mat-icon aria-hidden="true">check_circle</mat-icon>
+                    Completed
+                  </span>
+                } @else {
+                  <span class="learning__status learning__status--in-progress">
+                    <mat-icon aria-hidden="true">pending</mat-icon>
+                    Not completed
+                  </span>
+                }
+              </dd>
+            </div>
+          </dl>
+
+          <div class="learning__lesson-actions">
+            @if (isLessonCompleted(currentLesson.id)) {
+              <button
+                mat-stroked-button
+                type="button"
+                class="learning__complete-btn"
+                [disabled]="isUncompleting"
+                (click)="markAsIncomplete()"
+              >
+                @if (isUncompleting) {
+                  Updating...
+                } @else {
+                  Mark as incomplete
+                }
+              </button>
+            } @else {
+              <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                class="learning__complete-btn"
+                [disabled]="isCompleting"
+                (click)="markAsCompleted()"
+              >
+                @if (isCompleting) {
+                  Completing...
+                } @else {
+                  Mark as completed
+                }
+              </button>
+            }
+          </div>
+
+          <footer class="learning__nav-actions">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="previousLesson()"
+              [disabled]="!canGoPrevious()"
+            >
+              Previous Lesson
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="nextLesson()"
+              [disabled]="!canGoNext()"
+            >
+              Next Lesson
+            </button>
+          </footer>
+        }
+      </main>
+    </div>
+  </div>
+}

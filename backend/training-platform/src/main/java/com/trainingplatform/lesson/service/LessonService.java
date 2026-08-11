@@ -4,6 +4,9 @@ import com.cloudinary.utils.ObjectUtils;
 import com.trainingplatform.chapter.entity.Chapter;
 import com.trainingplatform.chapter.repository.ChapterRepository;
 import com.trainingplatform.common.exception.ResourceNotFoundException;
+import com.trainingplatform.course.entity.Course;
+import com.trainingplatform.course.enums.CourseStatus;
+import com.trainingplatform.enrollment.repository.EnrollmentRepository;
 import com.trainingplatform.lesson.dto.request.CreateLessonRequest;
 import com.trainingplatform.lesson.dto.request.UpdateLessonRequest;
 import com.trainingplatform.lesson.dto.response.LessonResponse;
@@ -33,7 +36,7 @@ public class LessonService {
     private final ChapterRepository chapterRepository;
     private final UserRepository userRepository;
     private final CloudinaryService cloudinaryService;
-
+    private final EnrollmentRepository enrollmentRepository;
 
 
     @Transactional
@@ -219,6 +222,46 @@ public class LessonService {
         );
 
         lessonRepository.delete(lesson);
+    }
+
+    @Transactional(readOnly = true)
+    public List<LessonResponse> getLearnerChapterLessons(
+            Authentication authentication,
+            Long chapterId
+    ) {
+
+        User learner = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        Chapter chapter = chapterRepository.findById(chapterId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Chapter not found.")
+                );
+
+        Course course = chapter.getCourse();
+
+        if (course.getStatus() != CourseStatus.PUBLISHED) {
+            throw new IllegalStateException(
+                    "This course is not available."
+            );
+        }
+
+        if (!enrollmentRepository.existsByLearnerAndCourse(
+                learner,
+                course
+        )) {
+            throw new IllegalStateException(
+                    "You are not enrolled in this course."
+            );
+        }
+
+        return lessonRepository
+                .findByChapterOrderByPositionAsc(chapter)
+                .stream()
+                .map(lessonMapper::toResponse)
+                .toList();
     }
 
 }

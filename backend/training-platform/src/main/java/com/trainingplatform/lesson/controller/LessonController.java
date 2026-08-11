@@ -109,5 +109,25 @@ public class LessonController {
                         .build()
         );
     }
+    @PreAuthorize("hasRole('LEARNER')")
+    @GetMapping("/learner/chapter/{chapterId}")
+    public ResponseEntity<ApiResponse<List<LessonResponse>>> getLearnerChapterLessons(
+            Authentication authentication,
+            @PathVariable Long chapterId
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<LessonResponse>>builder()
+                        .success(true)
+                        .message("Chapter lessons retrieved successfully.")
+                        .data(
+                                lessonService.getLearnerChapterLessons(
+                                        authentication,
+                                        chapterId
+                                )
+                        )
+                        .build()
+        );
+    }
 
 }

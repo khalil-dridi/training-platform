@@ -1,0 +1,93 @@
+@if (isLoading) {
+  <div class="learner-my-courses learner-my-courses--loading" aria-busy="true" aria-live="polite">
+    <p class="learner-my-courses__status-text">Loading your courses...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="learner-my-courses learner-my-courses--error" aria-live="polite">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <p class="learner-my-courses__status-text">{{ errorMessage }}</p>
+    <div class="learner-my-courses__error-actions">
+      <button mat-flat-button color="primary" type="button" (click)="loadMyCourses()">
+        Retry
+      </button>
+      <a mat-stroked-button routerLink="/learner/courses">Browse Courses</a>
+    </div>
+  </div>
+} @else {
+  <div class="learner-my-courses">
+    <header class="learner-my-courses__header">
+      <h1 class="learner-my-courses__title">My Courses</h1>
+      <p class="learner-my-courses__subtitle">Continue your learning journey.</p>
+    </header>
+
+    @if (enrollments.length === 0) {
+      <div class="learner-my-courses__empty ds-card ds-card--flat">
+        <mat-icon aria-hidden="true">menu_book</mat-icon>
+        <p>You haven't enrolled in any courses yet.</p>
+        <a mat-flat-button color="primary" routerLink="/learner/courses">
+          <mat-icon aria-hidden="true">explore</mat-icon>
+          Browse Courses
+        </a>
+      </div>
+    } @else {
+      <ul class="learner-my-courses__grid" aria-label="Enrolled courses">
+        @for (enrollment of enrollments; track enrollment.id) {
+          <li class="learner-my-courses__card ds-card ds-card--flat">
+            <div class="learner-my-courses__card-accent" aria-hidden="true">
+              <mat-icon>menu_book</mat-icon>
+            </div>
+
+            <div class="learner-my-courses__body">
+              <h2 class="learner-my-courses__course-title">{{ enrollment.courseTitle }}</h2>
+
+              <div class="learner-my-courses__progress-block">
+                <div class="learner-my-courses__progress-top">
+                  <span class="learner-my-courses__progress-label">Progress</span>
+                  <span class="learner-my-courses__progress-value">{{ enrollment.progress }}%</span>
+                </div>
+                <div
+                  class="learner-my-courses__progress-bar"
+                  role="progressbar"
+                  [attr.aria-valuenow]="enrollment.progress"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  [attr.aria-label]="'Progress for ' + enrollment.courseTitle"
+                >
+                  <span
+                    class="learner-my-courses__progress-fill"
+                    [style.width.%]="enrollment.progress"
+                  ></span>
+                </div>
+              </div>
+
+              <p class="learner-my-courses__enrolled-date">
+                Enrolled on {{ enrollment.enrolledAt | date: 'MMM d, y' }}
+              </p>
+
+              @if (enrollment.completed) {
+                <span class="learner-my-courses__status learner-my-courses__status--completed">
+                  <mat-icon aria-hidden="true">check_circle</mat-icon>
+                  Completed
+                </span>
+              } @else {
+                <span class="learner-my-courses__status learner-my-courses__status--in-progress">
+                  <mat-icon aria-hidden="true">pending</mat-icon>
+                  In Progress
+                </span>
+              }
+
+              <a
+                mat-flat-button
+                color="primary"
+                class="learner-my-courses__continue-btn"
+                [routerLink]="['/learner/courses', enrollment.courseId, 'learn']"
+              >
+                Continue Learning
+              </a>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+}

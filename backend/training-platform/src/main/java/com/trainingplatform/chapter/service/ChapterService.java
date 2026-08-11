@@ -8,7 +8,9 @@ import com.trainingplatform.chapter.mapper.ChapterMapper;
 import com.trainingplatform.chapter.repository.ChapterRepository;
 import com.trainingplatform.common.exception.ResourceNotFoundException;
 import com.trainingplatform.course.entity.Course;
+import com.trainingplatform.course.enums.CourseStatus;
 import com.trainingplatform.course.repository.CourseRepository;
+import com.trainingplatform.enrollment.repository.EnrollmentRepository;
 import com.trainingplatform.user.entity.User;
 import com.trainingplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class ChapterService {
     private final ChapterMapper chapterMapper;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     @Transactional
     public ChapterResponse createChapter(
@@ -171,5 +174,42 @@ public class ChapterService {
         }
 
         chapterRepository.delete(chapter);
+    }
+    @Transactional(readOnly = true)
+    public List<ChapterResponse> getLearnerCourseChapters(
+            Authentication authentication,
+            Long courseId
+    ) {
+
+        User learner = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Course not found.")
+                );
+
+        if (course.getStatus() != CourseStatus.PUBLISHED) {
+            throw new IllegalStateException(
+                    "This course is not available."
+            );
+        }
+
+        if (!enrollmentRepository.existsByLearnerAndCourse(
+                learner,
+                course
+        )) {
+            throw new IllegalStateException(
+                    "You are not enrolled in this course."
+            );
+        }
+
+        return chapterRepository
+                .findByCourseOrderByPositionAsc(course)
+                .stream()
+                .map(chapterMapper::toResponse)
+                .toList();
     }
 }

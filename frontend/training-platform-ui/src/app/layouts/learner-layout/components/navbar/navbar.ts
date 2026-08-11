@@ -59,6 +59,10 @@ export class Navbar {
   }
 
   private resolvePageTitle(url: string): string {
+    if (/\/learner\/courses\/\d+/.test(url)) {
+      return 'Course Details';
+    }
+
     if (url.includes('/learner/courses') && !url.includes('/learner/my-courses')) {
       return 'Browse Courses';
     }

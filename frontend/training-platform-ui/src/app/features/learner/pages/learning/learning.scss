@@ -1,0 +1,367 @@
+////
+/// Learner learning player — local styles
+/// ---------------------------------------------------------------------------
+/// Role: course learning player (sidebar + lesson content + video).
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.learning {
+  padding: $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading,
+  &--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    min-height: 320px;
+    text-align: center;
+  }
+
+  &--error mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $error-color;
+  }
+}
+
+.learning__status-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learning__error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+}
+
+.learning__topbar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.learning__back {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  @include typography(small);
+  color: $text-link;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+    text-underline-offset: $spacing-1;
+  }
+}
+
+.learning__summary {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.learning__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-4;
+  min-width: 0;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.learning__sidebar {
+  padding: $spacing-4;
+  max-height: none;
+  overflow: visible;
+
+  @include respond-to(lg) {
+    position: sticky;
+    top: $spacing-4;
+    max-height: calc(100vh - #{$spacing-8});
+    overflow-y: auto;
+  }
+}
+
+.learning__course-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-4;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learning__sidebar-empty {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learning__nav {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.learning__chapter-title {
+  @include typography(small);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learning__lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.learning__lesson-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  width: 100%;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid transparent;
+  border-radius: $radius-medium;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+    color: $text-muted;
+  }
+
+  &:hover {
+    background-color: $neutral-50;
+    border-color: $border-color;
+  }
+
+  &--active {
+    background-color: $primary-light;
+    border-color: $primary-color;
+
+    mat-icon {
+      color: $primary-color;
+    }
+
+    .learning__lesson-label {
+      color: $primary-color;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+.learning__lesson-label {
+  flex: 1;
+  min-width: 0;
+  @include typography(small);
+  color: $text-secondary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.learning__preview-badge {
+  flex-shrink: 0;
+  padding: 2px $spacing-2;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-size: 0.6875rem;
+  font-weight: $font-weight-medium;
+  background-color: $info-light;
+  color: $info-color;
+
+  &--main {
+    align-self: flex-start;
+    margin-top: $spacing-2;
+  }
+}
+
+.learning__main {
+  padding: $spacing-4;
+  min-width: 0;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.learning__main-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  min-height: 280px;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+.learning__lesson-header {
+  margin-bottom: $spacing-4;
+}
+
+.learning__lesson-chapter {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.learning__lesson-title {
+  @include typography(h2);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learning__lesson-description {
+  @include typography(body);
+  margin: 0 0 $spacing-4;
+  color: $text-secondary;
+  white-space: pre-wrap;
+  line-height: $line-height-relaxed;
+}
+
+.learning__video-wrap {
+  margin-bottom: $spacing-4;
+  border-radius: $radius-medium;
+  overflow: hidden;
+  background-color: $neutral-900;
+}
+
+.learning__video {
+  display: block;
+  width: 100%;
+  max-height: 480px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background-color: $neutral-900;
+}
+
+.learning__lesson-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-3;
+  margin: 0 0 $spacing-4;
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  dt {
+    @include typography(small);
+    margin: 0;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.learning__status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    font-size: $font-size-small;
+    width: $font-size-small;
+    height: $font-size-small;
+  }
+
+  &--completed {
+    color: $success-dark;
+  }
+
+  &--in-progress {
+    color: $warning-dark;
+  }
+}
+
+.learning__lesson-actions {
+  margin-bottom: $spacing-4;
+}
+
+.learning__complete-btn {
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+}
+
+.learning__nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+}

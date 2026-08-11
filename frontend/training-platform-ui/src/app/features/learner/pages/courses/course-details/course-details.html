@@ -1,0 +1,104 @@
+@if (isLoading) {
+  <div class="learner-course-details learner-course-details--loading" aria-busy="true" aria-live="polite">
+    <p class="learner-course-details__status-text">Loading course...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="learner-course-details learner-course-details--error" aria-live="polite">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <p class="learner-course-details__status-text">{{ errorMessage }}</p>
+    @if (canRetry) {
+      <button mat-flat-button color="primary" type="button" (click)="loadCourse()">
+        Retry
+      </button>
+    }
+    <a mat-stroked-button routerLink="/learner/courses">Back to Browse Courses</a>
+  </div>
+} @else if (course) {
+  <div class="learner-course-details">
+    <a class="learner-course-details__back" routerLink="/learner/courses">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to Browse Courses
+    </a>
+
+    <article class="learner-course-details__card ds-card ds-card--flat">
+      <div class="learner-course-details__thumbnail-wrap">
+        @if (course.thumbnailUrl) {
+          <img
+            class="learner-course-details__thumbnail"
+            [src]="course.thumbnailUrl"
+            [alt]="course.title"
+          />
+        } @else {
+          <span class="learner-course-details__thumbnail learner-course-details__thumbnail--placeholder" aria-hidden="true">
+            <mat-icon>image</mat-icon>
+          </span>
+        }
+      </div>
+
+      <div class="learner-course-details__content">
+        <header class="learner-course-details__header">
+          <h1 class="learner-course-details__title">{{ course.title }}</h1>
+          <p class="learner-course-details__subtitle">{{ course.shortDescription }}</p>
+        </header>
+
+        <dl class="learner-course-details__meta">
+          <div>
+            <dt>Category</dt>
+            <dd>{{ course.categoryName }}</dd>
+          </div>
+          <div>
+            <dt>Level</dt>
+            <dd>{{ formatLevel(course.level) }}</dd>
+          </div>
+          <div>
+            <dt>Language</dt>
+            <dd>{{ course.language }}</dd>
+          </div>
+          <div>
+            <dt>Trainer</dt>
+            <dd>{{ course.trainerName }}</dd>
+          </div>
+          <div>
+            <dt>Price</dt>
+            <dd>{{ course.price | currency: 'USD' : 'symbol' : '1.0-2' }}</dd>
+          </div>
+        </dl>
+
+        <section class="learner-course-details__description" aria-labelledby="course-description-title">
+          <h2 id="course-description-title" class="learner-course-details__section-title">Description</h2>
+          <p class="learner-course-details__description-text">{{ course.description }}</p>
+        </section>
+
+        <footer class="learner-course-details__actions">
+          @if (isEnrolled) {
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              class="learner-course-details__enroll-btn learner-course-details__enroll-btn--enrolled"
+              disabled
+            >
+              <mat-icon aria-hidden="true">check</mat-icon>
+              Enrolled
+            </button>
+          } @else {
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              class="learner-course-details__enroll-btn"
+              [disabled]="isEnrolling || isCheckingEnrollment"
+              (click)="enrollInCourse()"
+            >
+              @if (isEnrolling) {
+                Enrolling...
+              } @else {
+                Enroll in Course
+              }
+            </button>
+          }
+        </footer>
+      </div>
+    </article>
+  </div>
+}
