@@ -1,1 +1,182 @@
-<p>dashboard works!</p>
+@if (isLoading) {
+  <div class="learner-dashboard learner-dashboard--loading" aria-busy="true" aria-live="polite">
+    <p class="learner-dashboard__loading-text">Loading dashboard...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="learner-dashboard learner-dashboard--error" aria-live="polite">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <p class="learner-dashboard__error-text">{{ errorMessage }}</p>
+    <button mat-flat-button color="primary" type="button" (click)="loadDashboard()">
+      Retry
+    </button>
+  </div>
+} @else if (dashboard) {
+  <div class="learner-dashboard">
+    <header class="learner-dashboard__header">
+      <div class="learner-dashboard__intro">
+        <h1 class="learner-dashboard__welcome">
+          Welcome back, {{ learnerFirstName() }}
+          <span class="learner-dashboard__wave" aria-hidden="true">👋</span>
+        </h1>
+        <p class="learner-dashboard__subtitle">Continue your learning journey.</p>
+      </div>
+
+      <a
+        mat-flat-button
+        color="primary"
+        class="learner-dashboard__action-btn"
+        routerLink="/learner/courses"
+      >
+        <mat-icon aria-hidden="true">explore</mat-icon>
+        Browse Courses
+      </a>
+    </header>
+
+    <section class="learner-dashboard__stats" aria-label="Learning statistics">
+      <article class="learner-dashboard__stat-card ds-card ds-card--flat">
+        <div class="learner-dashboard__stat-icon learner-dashboard__stat-icon--courses">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+        </div>
+        <div class="learner-dashboard__stat-content">
+          <p class="learner-dashboard__stat-label">My Courses</p>
+          <p class="learner-dashboard__stat-value">{{ dashboard.enrolledCourses }}</p>
+          <p class="learner-dashboard__stat-meta">Courses you are enrolled in</p>
+        </div>
+      </article>
+
+      <article class="learner-dashboard__stat-card ds-card ds-card--flat">
+        <div class="learner-dashboard__stat-icon learner-dashboard__stat-icon--completed">
+          <mat-icon aria-hidden="true">check_circle</mat-icon>
+        </div>
+        <div class="learner-dashboard__stat-content">
+          <p class="learner-dashboard__stat-label">Completed</p>
+          <p class="learner-dashboard__stat-value">{{ dashboard.completedCourses }}</p>
+          <p class="learner-dashboard__stat-meta">Courses finished</p>
+        </div>
+      </article>
+
+      <article class="learner-dashboard__stat-card ds-card ds-card--flat">
+        <div class="learner-dashboard__stat-icon learner-dashboard__stat-icon--in-progress">
+          <mat-icon aria-hidden="true">pending</mat-icon>
+        </div>
+        <div class="learner-dashboard__stat-content">
+          <p class="learner-dashboard__stat-label">In Progress</p>
+          <p class="learner-dashboard__stat-value">{{ dashboard.inProgressCourses }}</p>
+          <p class="learner-dashboard__stat-meta">Courses still in progress</p>
+        </div>
+      </article>
+
+      <article class="learner-dashboard__stat-card ds-card ds-card--flat">
+        <div class="learner-dashboard__stat-icon learner-dashboard__stat-icon--overall">
+          <mat-icon aria-hidden="true">trending_up</mat-icon>
+        </div>
+        <div class="learner-dashboard__stat-content">
+          <p class="learner-dashboard__stat-label">Overall Progress</p>
+          <p class="learner-dashboard__stat-value">{{ dashboard.overallProgress }}%</p>
+          <p class="learner-dashboard__stat-meta">Average across all courses</p>
+        </div>
+      </article>
+    </section>
+
+    <section
+      class="learner-dashboard__panel ds-card ds-card--flat"
+      aria-labelledby="my-progress-title"
+    >
+      <div class="learner-dashboard__panel-header">
+        <h2 id="my-progress-title" class="learner-dashboard__panel-title">My Progress</h2>
+        <a class="learner-dashboard__panel-link" routerLink="/learner/my-courses">View my courses</a>
+      </div>
+
+      <div class="learner-dashboard__progress">
+        <div
+          class="learner-dashboard__donut"
+          role="img"
+          [attr.aria-label]="
+            'Overall learning progress: ' +
+            dashboard.overallProgress +
+            '%. ' +
+            dashboard.completedCourses +
+            ' completed, ' +
+            dashboard.inProgressCourses +
+            ' in progress out of ' +
+            dashboard.enrolledCourses +
+            ' enrolled courses.'
+          "
+        >
+          <svg viewBox="0 0 42 42" aria-hidden="true" focusable="false">
+            <circle class="learner-dashboard__donut-ring" cx="21" cy="21" r="15.915"></circle>
+
+            @if (dashboard.enrolledCourses > 0) {
+              <circle
+                class="learner-dashboard__donut-segment"
+                cx="21"
+                cy="21"
+                r="15.915"
+                [attr.stroke-dasharray]="dashboard.overallProgress + ', 100'"
+                [attr.stroke-dashoffset]="progressDashOffset()"
+              ></circle>
+            }
+          </svg>
+
+          <div class="learner-dashboard__donut-center">
+            <span class="learner-dashboard__donut-value">{{ dashboard.overallProgress }}%</span>
+            <span class="learner-dashboard__donut-label">Overall</span>
+          </div>
+        </div>
+
+        <div class="learner-dashboard__progress-details">
+          <div class="learner-dashboard__progress-bar-block">
+            <div class="learner-dashboard__progress-bar-top">
+              <span class="learner-dashboard__progress-bar-label">Overall Progress</span>
+              <span class="learner-dashboard__progress-bar-value">{{ dashboard.overallProgress }}%</span>
+            </div>
+            <div
+              class="learner-dashboard__progress-bar"
+              role="progressbar"
+              [attr.aria-valuenow]="dashboard.overallProgress"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-label="Overall progress"
+            >
+              <span
+                class="learner-dashboard__progress-bar-fill"
+                [style.width.%]="dashboard.overallProgress"
+              ></span>
+            </div>
+          </div>
+
+          <ul class="learner-dashboard__legend">
+            <li>
+              <span class="learner-dashboard__legend-dot learner-dashboard__legend-dot--enrolled" aria-hidden="true"></span>
+              <span class="learner-dashboard__legend-label">Enrolled courses</span>
+              <span class="learner-dashboard__legend-value">{{ dashboard.enrolledCourses }}</span>
+            </li>
+            <li>
+              <span class="learner-dashboard__legend-dot learner-dashboard__legend-dot--completed" aria-hidden="true"></span>
+              <span class="learner-dashboard__legend-label">Completed</span>
+              <span class="learner-dashboard__legend-value">{{ dashboard.completedCourses }}</span>
+            </li>
+            <li>
+              <span class="learner-dashboard__legend-dot learner-dashboard__legend-dot--in-progress" aria-hidden="true"></span>
+              <span class="learner-dashboard__legend-label">In progress</span>
+              <span class="learner-dashboard__legend-value">{{ dashboard.inProgressCourses }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="learner-dashboard__cta ds-card ds-card--flat" aria-label="Browse courses">
+      <div class="learner-dashboard__cta-content">
+        <mat-icon aria-hidden="true">explore</mat-icon>
+        <div>
+          <h2 class="learner-dashboard__cta-title">Discover new courses</h2>
+          <p class="learner-dashboard__cta-text">Explore the catalog and start learning something new today.</p>
+        </div>
+      </div>
+      <a mat-flat-button color="primary" class="learner-dashboard__cta-btn" routerLink="/learner/courses">
+        Browse Courses
+      </a>
+    </section>
+  </div>
+}

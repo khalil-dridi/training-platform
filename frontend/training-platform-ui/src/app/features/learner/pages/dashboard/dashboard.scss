@@ -1,0 +1,442 @@
+////
+/// Learner dashboard — local styles
+/// ---------------------------------------------------------------------------
+/// Role: learner home page (enrollment stats, overall progress).
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.learner-dashboard {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading,
+  &--error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    min-height: 240px;
+    text-align: center;
+  }
+
+  &--error mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $error-color;
+  }
+}
+
+.learner-dashboard__loading-text,
+.learner-dashboard__error-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-dashboard__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.learner-dashboard__intro {
+  min-width: 0;
+}
+
+.learner-dashboard__welcome {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-dashboard__wave {
+  display: inline-block;
+}
+
+.learner-dashboard__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-dashboard__action-btn {
+  flex-shrink: 0;
+  min-height: $spacing-8;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+  box-shadow: $shadow-sm;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.learner-dashboard__stats {
+  display: grid;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.learner-dashboard__stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $neutral-300;
+  }
+}
+
+.learner-dashboard__stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &--courses {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+
+  &--completed {
+    background-color: $success-light;
+    color: $success-color;
+  }
+
+  &--in-progress {
+    background-color: $warning-light;
+    color: $warning-color;
+  }
+
+  &--overall {
+    background-color: $info-light;
+    color: $info-color;
+  }
+}
+
+.learner-dashboard__stat-content {
+  min-width: 0;
+}
+
+.learner-dashboard__stat-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.learner-dashboard__stat-value {
+  @include typography(h2);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+.learner-dashboard__stat-meta {
+  @include typography(small);
+  margin: $spacing-1 0 0;
+  color: $text-secondary;
+}
+
+.learner-dashboard__panel {
+  padding: $spacing-4;
+  margin-bottom: $spacing-4;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.learner-dashboard__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+}
+
+.learner-dashboard__panel-title {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-dashboard__panel-link {
+  @include typography(small);
+  color: $text-link;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+    text-underline-offset: $spacing-1;
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+.learner-dashboard__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.learner-dashboard__donut {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  flex-shrink: 0;
+}
+
+.learner-dashboard__donut svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.learner-dashboard__donut-ring {
+  fill: transparent;
+  stroke: $neutral-200;
+  stroke-width: 3.2;
+}
+
+.learner-dashboard__donut-segment {
+  fill: transparent;
+  stroke: $primary-color;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+.learner-dashboard__donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  pointer-events: none;
+}
+
+.learner-dashboard__donut-value {
+  @include typography(h2);
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  line-height: $line-height-tight;
+}
+
+.learner-dashboard__donut-label {
+  @include typography(small);
+  color: $text-muted;
+}
+
+.learner-dashboard__progress-details {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.learner-dashboard__progress-bar-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.learner-dashboard__progress-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+}
+
+.learner-dashboard__progress-bar-label {
+  @include typography(small);
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.learner-dashboard__progress-bar-value {
+  @include typography(body);
+  font-weight: $font-weight-bold;
+  color: $primary-color;
+}
+
+.learner-dashboard__progress-bar {
+  height: $spacing-2;
+  border-radius: $radius-full;
+  background-color: $neutral-200;
+  overflow: hidden;
+}
+
+.learner-dashboard__progress-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: $radius-full;
+  background-color: $primary-color;
+  transition: width $transition-base;
+}
+
+.learner-dashboard__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-2 0;
+    border-bottom: 1px solid $divider-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.learner-dashboard__legend-dot {
+  width: $spacing-2;
+  height: $spacing-2;
+  border-radius: $radius-full;
+
+  &--enrolled {
+    background-color: $info-color;
+  }
+
+  &--completed {
+    background-color: $success-color;
+  }
+
+  &--in-progress {
+    background-color: $warning-color;
+  }
+}
+
+.learner-dashboard__legend-label {
+  @include typography(small);
+  color: $text-secondary;
+}
+
+.learner-dashboard__legend-value {
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.learner-dashboard__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $spacing-4;
+  padding: $spacing-4;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-6;
+  }
+}
+
+.learner-dashboard__cta-content {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  min-width: 0;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+    color: $primary-color;
+  }
+}
+
+.learner-dashboard__cta-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-dashboard__cta-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.learner-dashboard__cta-btn {
+  flex-shrink: 0;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+}
