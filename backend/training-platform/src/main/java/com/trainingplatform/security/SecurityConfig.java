@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import org.springframework.http.HttpMethod;
 import java.util.List;
 import org.springframework.security.config.Customizer;
 @Configuration
@@ -58,6 +58,15 @@ public class SecurityConfig {
                                 "/login/oauth2/**"
                         )
                         .permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/courses",
+                                "/api/courses/*",
+                                "/api/courses/category/*"
+                        )
+                        .permitAll()
+
                         .anyRequest()
                         .authenticated()
                 )
