@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import { LearnerLayout } from './learner-layout';
+import { Navbar } from './navbar';
 
-describe('LearnerLayout', () => {
-  let component: LearnerLayout;
-  let fixture: ComponentFixture<LearnerLayout>;
+describe('Navbar', () => {
+  let component: Navbar;
+  let fixture: ComponentFixture<Navbar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LearnerLayout],
+      imports: [Navbar],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LearnerLayout);
+    fixture = TestBed.createComponent(Navbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

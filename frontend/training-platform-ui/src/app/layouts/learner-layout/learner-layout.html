@@ -1,3 +1,15 @@
-<h1>learner Layout</h1>
+<div class="learner-layout" [class.learner-layout--sidebar-collapsed]="sidebarCollapsed">
 
-<router-outlet />
+  <app-sidebar></app-sidebar>
+
+  <div class="content-area">
+
+    <app-navbar (menuToggle)="onNavbarMenuToggle()"></app-navbar>
+
+    <main>
+      <router-outlet />
+    </main>
+
+  </div>
+
+</div>

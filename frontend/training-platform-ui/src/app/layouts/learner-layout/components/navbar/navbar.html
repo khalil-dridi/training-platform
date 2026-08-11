@@ -1,0 +1,58 @@
+<header class="learner-navbar" role="banner">
+  <div class="learner-navbar__start">
+    <button
+      type="button"
+      class="learner-navbar__menu-btn"
+      (click)="onMenuClick()"
+      aria-label="Toggle navigation menu"
+    >
+      <mat-icon aria-hidden="true">menu</mat-icon>
+    </button>
+
+    <h1 class="learner-navbar__title">{{ pageTitle() }}</h1>
+  </div>
+
+  <div class="learner-navbar__end">
+    <button
+      type="button"
+      class="learner-navbar__notification-btn"
+      aria-label="Notifications"
+    >
+      <mat-icon aria-hidden="true">notifications_none</mat-icon>
+    </button>
+
+    <a
+      class="learner-navbar__profile"
+      routerLink="/learner/profile"
+      aria-label="Open learner profile"
+    >
+      @if (currentUserService.user(); as user) {
+        @if (user.avatarUrl) {
+          <img
+            class="learner-navbar__avatar"
+            [src]="user.avatarUrl"
+            [alt]="displayName(user)"
+            width="36"
+            height="36"
+          />
+        } @else {
+          <span class="learner-navbar__avatar learner-navbar__avatar--fallback" aria-hidden="true">
+            {{ userInitials(user) }}
+          </span>
+        }
+
+        <span class="learner-navbar__profile-text">
+          <span class="learner-navbar__name">{{ displayName(user) }}</span>
+          <span class="learner-navbar__role">{{ displayRole(user) }}</span>
+        </span>
+      } @else {
+        <span class="learner-navbar__avatar learner-navbar__avatar--fallback" aria-hidden="true">LR</span>
+
+        <span class="learner-navbar__profile-text">
+          <span class="learner-navbar__name">Learner User</span>
+          <span class="learner-navbar__role">Learner</span>
+        </span>
+      }
+    </a>
+  </div>
+</header>

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import { LearnerLayout } from './learner-layout';
+import { Sidebar } from './sidebar';
 
-describe('LearnerLayout', () => {
-  let component: LearnerLayout;
-  let fixture: ComponentFixture<LearnerLayout>;
+describe('Sidebar', () => {
+  let component: Sidebar;
+  let fixture: ComponentFixture<Sidebar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LearnerLayout],
+      imports: [Sidebar],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LearnerLayout);
+    fixture = TestBed.createComponent(Sidebar);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

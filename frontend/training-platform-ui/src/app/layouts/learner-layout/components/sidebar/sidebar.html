@@ -1,0 +1,93 @@
+<button
+  type="button"
+  class="learner-sidebar__menu-trigger"
+  (click)="toggleMobileNav()"
+  [attr.aria-expanded]="isMobileOpen()"
+  aria-controls="learner-sidebar-nav"
+  aria-label="Open or close navigation menu"
+>
+  <mat-icon aria-hidden="true">{{ isMobileOpen() ? 'close' : 'menu' }}</mat-icon>
+</button>
+
+@if (isMobileOpen()) {
+  <div
+    class="learner-sidebar__backdrop"
+    (click)="closeMobileNav()"
+    aria-hidden="true"
+  ></div>
+}
+
+<aside
+  class="learner-sidebar"
+  [class.learner-sidebar--open]="isMobileOpen()"
+  aria-label="Learner navigation"
+>
+  <header class="learner-sidebar__brand">
+    <span class="learner-sidebar__logo" aria-hidden="true">
+      <mat-icon>school</mat-icon>
+    </span>
+    <div class="learner-sidebar__brand-text">
+      <span class="learner-sidebar__brand-line">Training</span>
+      <span class="learner-sidebar__brand-line">Platform</span>
+    </div>
+  </header>
+
+  <nav id="learner-sidebar-nav" class="learner-sidebar__nav" aria-label="Main navigation">
+    <a
+      class="learner-sidebar__link"
+      routerLink="/learner/dashboard"
+      routerLinkActive="learner-sidebar__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Dashboard"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">space_dashboard</mat-icon>
+      <span class="learner-sidebar__label">Dashboard</span>
+    </a>
+
+    <a
+      class="learner-sidebar__link"
+      routerLink="/learner/courses"
+      routerLinkActive="learner-sidebar__link--active"
+      aria-label="Browse Courses"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">explore</mat-icon>
+      <span class="learner-sidebar__label">Browse Courses</span>
+    </a>
+
+    <a
+      class="learner-sidebar__link"
+      routerLink="/learner/my-courses"
+      routerLinkActive="learner-sidebar__link--active"
+      aria-label="My Courses"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">menu_book</mat-icon>
+      <span class="learner-sidebar__label">My Courses</span>
+    </a>
+
+    <a
+      class="learner-sidebar__link"
+      routerLink="/learner/profile"
+      routerLinkActive="learner-sidebar__link--active"
+      aria-label="Profile"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">person_outline</mat-icon>
+      <span class="learner-sidebar__label">Profile</span>
+    </a>
+  </nav>
+
+  <footer class="learner-sidebar__footer">
+    <button
+      type="button"
+      class="learner-sidebar__link learner-sidebar__link--logout"
+      (click)="logout()"
+      aria-label="Logout"
+    >
+      <mat-icon aria-hidden="true">logout</mat-icon>
+      <span class="learner-sidebar__label">Logout</span>
+    </button>
+  </footer>
+</aside>

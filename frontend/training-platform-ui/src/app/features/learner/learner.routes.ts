@@ -3,22 +3,35 @@ import { LearnerLayout } from '../../layouts/learner-layout/learner-layout';
 import { authGuard } from '../../core/guards/auth-guard';
 import { roleGuard } from '../../core/guards/role-guard';
 import { Dashboard } from './pages/dashboard/dashboard';
-
+import { Courses } from './pages/courses/courses';
+import { MyCourses } from './pages/my-courses/my-courses';
+import { Profile } from './pages/profile/profile';
 
 export const LEARNER_ROUTES: Routes = [
-  //
   {
     path: 'learner',
     component: LearnerLayout,
     canActivate: [authGuard, roleGuard],
     data: {
-  role: 'LEARNER'
-},
+      role: 'LEARNER',
+    },
     children: [
-          {
-            path: 'dashboard',
-            component: Dashboard,
-          },
-        ],
+      {
+        path: 'dashboard',
+        component: Dashboard,
+      },
+      {
+        path: 'courses',
+        component: Courses,
+      },
+      {
+        path: 'my-courses',
+        component: MyCourses,
+      },
+      {
+        path: 'profile',
+        component: Profile,
+      },
+    ],
   },
 ];
