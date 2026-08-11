@@ -1,144 +1,67 @@
-<div class="trainer-students">
-  <header class="trainer-students__header">
-    <div class="trainer-students__intro">
-      <h1 class="trainer-students__title">My Students</h1>
-      <p class="trainer-students__subtitle">
-        @if (!loading && students.length > 0) {
-          {{ students.length }} students enrolled across your courses.
-        } @else {
-          Track learner progress and enrollment across your courses.
-        }
+<h1>My Students</h1>
+
+@if (students.length === 0) {
+
+  <p>No students found.</p>
+
+} @else {
+
+  @for (student of students; track student.learnerId) {
+
+    <div>
+
+      <h2>
+        {{ student.learnerName }}
+      </h2>
+
+      <p>
+        Email: {{ student.learnerEmail }}
       </p>
-    </div>
+      
 
-    <div class="trainer-students__toolbar">
-      <div class="trainer-students__search">
-        <mat-icon class="trainer-students__search-icon" aria-hidden="true">search</mat-icon>
-        <input
-          class="trainer-students__search-input"
-          type="search"
-          placeholder="Search by name, email or course..."
-          [value]="searchQuery"
-          (input)="onSearchInput($event)"
-          aria-label="Search students"
-        />
-      </div>
-    </div>
-  </header>
+      @if (student.courses.length === 0) {
 
-  <section class="trainer-students__card ds-card ds-card--flat" aria-label="Students list">
-    @if (loading) {
-      <div class="trainer-students__empty" aria-busy="true">
-        <p>Loading students...</p>
-      </div>
-    } @else if (students.length === 0) {
-      <div class="trainer-students__empty">
-        <mat-icon aria-hidden="true">groups</mat-icon>
-        <p>No students enrolled in your courses yet.</p>
-      </div>
-    } @else if (filteredStudents.length === 0) {
-      <div class="trainer-students__empty">
-        <mat-icon aria-hidden="true">search_off</mat-icon>
-        <p>No students match your search.</p>
-      </div>
-    } @else {
-      <ul class="trainer-students__list">
-        @for (student of filteredStudents; track student.learnerId) {
-          <li class="trainer-students__student">
-            <div class="trainer-students__student-header">
-              @if (student.avatarUrl) {
-                <img
-                  class="trainer-students__avatar"
-                  [src]="student.avatarUrl"
-                  [alt]="student.learnerName"
-                  width="48"
-                  height="48"
-                />
-              } @else {
-                <span class="trainer-students__avatar trainer-students__avatar--fallback" aria-hidden="true">
-                  {{ studentInitials(student) }}
-                </span>
-              }
+        <p>No courses.</p>
 
-              <div class="trainer-students__student-info">
-                <h2 class="trainer-students__student-name">{{ student.learnerName }}</h2>
-                <p class="trainer-students__student-email">{{ student.learnerEmail }}</p>
-              </div>
+      } @else {
 
-              <span class="trainer-students__course-count">
-                {{ student.courses.length }}
-                {{ student.courses.length === 1 ? 'course' : 'courses' }}
-              </span>
-            </div>
+        @for (course of student.courses; track course.enrollmentId) {
 
-            @if (student.courses.length === 0) {
-              <p class="trainer-students__no-courses">No courses enrolled.</p>
-            } @else {
-              <ul class="trainer-students__courses">
-                @for (course of student.courses; track course.enrollmentId) {
-                  <li class="trainer-students__course">
-                    <div class="trainer-students__course-main">
-                      <div class="trainer-students__course-icon" aria-hidden="true">
-                        <mat-icon>menu_book</mat-icon>
-                      </div>
+          <div>
 
-                      <div class="trainer-students__course-info">
-                        <p class="trainer-students__course-title">{{ course.courseTitle }}</p>
+            <h3>
+              {{ course.courseTitle }}
+            </h3>
 
-                        <div class="trainer-students__progress">
-                          <div
-                            class="trainer-students__progress-bar"
-                            role="progressbar"
-                            [attr.aria-valuenow]="course.progress"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                            [attr.aria-label]="course.courseTitle + ' progress'"
-                          >
-                            <span
-                              class="trainer-students__progress-fill"
-                              [style.width.%]="course.progress"
-                            ></span>
-                          </div>
-                          <span class="trainer-students__progress-value">{{ course.progress }}%</span>
-                        </div>
+            <p>
+              Progress: {{ course.progress }}%
+            </p>
 
-                        <p class="trainer-students__course-meta">
-                          Enrolled {{ course.enrolledAt | date: 'mediumDate' }}
-                        </p>
-                      </div>
-                    </div>
+            <p>
+              Status:
+              {{ course.completed ? 'Completed' : 'In progress' }}
+            </p>
 
-                    <div class="trainer-students__course-actions">
-                      <span
-                        class="trainer-students__status"
-                        [class.trainer-students__status--completed]="course.completed"
-                        [class.trainer-students__status--in-progress]="!course.completed"
-                      >
-                        {{ course.completed ? 'Completed' : 'In progress' }}
-                      </span>
+          </div>
+          <button
+  type="button"
+  [routerLink]="[
+    '/trainer/courses',
+    course.courseId,
+    'students',
+    student.learnerId
+  ]"
+>
+  View Details
+</button>
 
-                      <button
-                        mat-stroked-button
-                        type="button"
-                        class="trainer-students__details-btn"
-                        (click)="openStudentDetails(course.courseId, student.learnerId)"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </li>
-                }
-              </ul>
-            }
-          </li>
         }
-      </ul>
 
-      <footer class="trainer-students__footer">
-        <p class="trainer-students__footer-text">
-          Showing {{ filteredStudents.length }} of {{ students.length }} students
-        </p>
-      </footer>
-    }
-  </section>
-</div>
+      }
+      
+
+    </div>
+
+  }
+
+}

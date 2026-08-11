@@ -8,11 +8,12 @@ import { EnrollmentService } from '../../../services/enrollment';
 import { StudentDetails } from '../../courses/student-details/student-details';
 import { StudentDetailsDialogData } from '../../courses/student-details/student-details-dialog-data.model';
 import { TrainerStudentResponse } from '../../models/trainer-student-response.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-students',
   standalone: true,
-  imports: [DatePipe, MatButtonModule, MatIconModule],
+  imports: [DatePipe, MatButtonModule, MatIconModule,RouterLink],
   templateUrl: './students.html',
   styleUrl: './students.scss',
 })
