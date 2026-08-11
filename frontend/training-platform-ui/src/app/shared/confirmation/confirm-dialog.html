@@ -1,0 +1,47 @@
+<div
+  class="tp-confirm"
+  [attr.data-tone]="data.tone"
+  role="alertdialog"
+  [attr.aria-labelledby]="'tp-confirm-title'"
+  [attr.aria-describedby]="'tp-confirm-message'"
+>
+  <header class="tp-confirm__header">
+    <span class="tp-confirm__icon-wrap" aria-hidden="true">
+      <mat-icon>{{ data.icon }}</mat-icon>
+    </span>
+    <div class="tp-confirm__titles">
+      <h2 id="tp-confirm-title" class="tp-confirm__title">{{ data.title }}</h2>
+      <p id="tp-confirm-message" class="tp-confirm__message">{{ data.message }}</p>
+    </div>
+  </header>
+
+  <footer class="tp-confirm__actions">
+    <button
+      mat-stroked-button
+      type="button"
+      class="tp-confirm__cancel"
+      [disabled]="loading()"
+      (click)="cancel()"
+    >
+      {{ data.cancelLabel }}
+    </button>
+
+    <button
+      mat-flat-button
+      type="button"
+      class="tp-confirm__confirm"
+      [class.tp-confirm__confirm--danger]="data.tone === 'danger'"
+      [class.tp-confirm__confirm--warning]="data.tone === 'warning'"
+      [disabled]="loading()"
+      [attr.aria-busy]="loading()"
+      (click)="confirm()"
+    >
+      @if (loading()) {
+        <mat-spinner diameter="18" aria-hidden="true"></mat-spinner>
+        <span>Please wait...</span>
+      } @else {
+        <span>{{ data.confirmLabel }}</span>
+      }
+    </button>
+  </footer>
+</div>

@@ -21,11 +21,12 @@ export class NotificationService {
   private readonly defaultConfig: MatSnackBarConfig = {
     horizontalPosition: 'center',
     verticalPosition: 'top',
+    panelClass: ['tp-notification-panel'],
   };
 
   success(
     message: string,
-    duration = 5000
+    duration = 4500
   ): MatSnackBarRef<NotificationSnackbar> {
     return this.open({
       message,
@@ -37,7 +38,7 @@ export class NotificationService {
 
   error(
     message: string,
-    duration = 5000
+    duration = 5500
   ): MatSnackBarRef<NotificationSnackbar> {
     return this.open({
       message,
@@ -47,11 +48,23 @@ export class NotificationService {
     });
   }
 
+  warning(
+    message: string,
+    duration = 5000
+  ): MatSnackBarRef<NotificationSnackbar> {
+    return this.open({
+      message,
+      type: 'warning',
+      icon: 'warning_amber',
+      duration,
+    });
+  }
+
   /** Affiche une snackbar d'erreur à partir d'une réponse HTTP. */
   errorFromHttp(
     error: unknown,
     fallback: string,
-    duration = 5000
+    duration = 5500
   ): MatSnackBarRef<NotificationSnackbar> {
     return this.error(this.resolveHttpErrorMessage(error, fallback), duration);
   }
@@ -83,7 +96,10 @@ export class NotificationService {
       ...this.defaultConfig,
       duration: options.duration,
       data,
-      panelClass: ['tp-notification-panel', `tp-notification-panel--${options.type}`],
+      panelClass: [
+        'tp-notification-panel',
+        `tp-notification-panel--${options.type}`,
+      ],
     });
   }
 }

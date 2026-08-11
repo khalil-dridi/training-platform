@@ -1,0 +1,146 @@
+////
+/// Public footer — local styles
+/// ---------------------------------------------------------------------------
+/// Role: site footer for public pages.
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.public-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  background-color: $neutral-900;
+  color: $surface-color;
+}
+
+.public-footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: $spacing-12 $spacing-4 $spacing-6;
+
+  @include respond-to(md) {
+    padding-inline: $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding-inline: $spacing-8;
+  }
+}
+
+.public-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-8;
+  margin-bottom: $spacing-8;
+
+  @include respond-to(md) {
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: $spacing-6;
+  }
+}
+
+.public-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.92;
+  }
+
+  &:focus-visible {
+    border-radius: $radius-medium;
+    box-shadow: 0 0 0 2px rgba($surface-color, 0.5);
+    outline: none;
+  }
+}
+
+.public-footer__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+  background-color: rgba($primary-color, 0.18);
+  color: rgba($surface-color, 0.92);
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+}
+
+.public-footer__brand-name {
+  display: block;
+  @include typography(body);
+  font-weight: $font-weight-semibold;
+  color: $surface-color;
+}
+
+.public-footer__tagline {
+  display: block;
+  @include typography(small);
+  color: rgba($surface-color, 0.72);
+  margin-top: $spacing-1;
+}
+
+.public-footer__description {
+  @include typography(small);
+  margin: 0;
+  max-width: 360px;
+  color: rgba($surface-color, 0.68);
+  line-height: $line-height-relaxed;
+}
+
+.public-footer__column-title {
+  @include typography(small);
+  margin: 0 0 $spacing-3;
+  color: $surface-color;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.public-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  a {
+    @include typography(small);
+    color: rgba($surface-color, 0.78);
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $surface-color;
+    }
+
+    &:focus-visible {
+      border-radius: $radius-small;
+      box-shadow: 0 0 0 2px rgba($surface-color, 0.45);
+      outline: none;
+    }
+  }
+}
+
+.public-footer__copyright {
+  @include typography(small);
+  margin: 0;
+  padding-top: $spacing-6;
+  border-top: 1px solid rgba($surface-color, 0.12);
+  color: rgba($surface-color, 0.55);
+  text-align: center;
+
+  @include respond-to(md) {
+    text-align: left;
+  }
+}

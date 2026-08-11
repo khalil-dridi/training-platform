@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { CurrentUserService } from '../../../../core/services/current-user';
+import { ConfirmationService } from '../../../../shared/confirmation/confirmation.service';
 import { NotificationService } from '../../../../shared/notifications/notification.service';
 import { ChangePasswordRequest } from '../../../admin/models/change-password-request.model';
 import { UpdateProfileRequest } from '../../../admin/models/update-profile-request.model';
@@ -34,6 +35,7 @@ export class Profile implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly currentUserService = inject(CurrentUserService);
   private readonly notification = inject(NotificationService);
+  private readonly confirmation = inject(ConfirmationService);
 
   user: UserResponse | null = null;
   selectedAvatar: File | null = null;
@@ -161,23 +163,27 @@ export class Profile implements OnInit {
   }
 
   deleteAvatar(): void {
-    this.avatarUploading = true;
-
-    this.userService.deleteAvatar().subscribe({
-      next: (response) => {
-        this.user = response.data;
-        this.currentUserService.setUser(response.data);
-        this.avatarPreviewUrl = null;
-        this.selectedAvatar = null;
-        this.avatarUploading = false;
-        this.notification.success('Profile photo removed successfully.');
-      },
-      error: (error) => {
-        this.avatarUploading = false;
-        this.notification.errorFromHttp(error, 'Failed to remove profile photo.');
-        console.error('Failed to delete avatar', error);
-      },
-    });
+    this.confirmation
+      .confirm({
+        title: 'Remove profile photo?',
+        message:
+          'Your current profile photo will be removed. You can upload a new one at any time.',
+        confirmLabel: 'Remove photo',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'hide_image',
+        action: () => this.userService.deleteAvatar(),
+        successMessage: 'Profile photo removed successfully.',
+        errorFallback: 'Failed to remove profile photo.',
+      })
+      .subscribe({
+        next: (response) => {
+          this.user = response.data;
+          this.currentUserService.setUser(response.data);
+          this.avatarPreviewUrl = null;
+          this.selectedAvatar = null;
+        },
+      });
   }
 
   private loadProfile(): void {

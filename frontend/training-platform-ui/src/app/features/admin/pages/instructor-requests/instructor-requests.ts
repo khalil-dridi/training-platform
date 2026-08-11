@@ -3,6 +3,7 @@ import { DatePipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ConfirmationService } from '../../../../shared/confirmation/confirmation.service';
 import {
   InstructorRequestResponse,
   InstructorRequestStatus,
@@ -20,6 +21,7 @@ import { UserResponse } from '../../../user/models/user-response.model';
 })
 export class InstructorRequests implements OnInit {
   private readonly instructorRequestService = inject(InstructorRequestService);
+  private readonly confirmation = inject(ConfirmationService);
 
   requests: InstructorRequestResponse[] = [];
   loading = true;
@@ -67,31 +69,49 @@ export class InstructorRequests implements OnInit {
   }
 
   approveRequest(id: number): void {
-    this.instructorRequestService.approveRequest(id).subscribe({
-      next: (response) => {
-        this.updateRequestInList(response.data);
-      },
-      error: (error) => {
-        console.error('Failed to approve instructor request', error);
-      },
-    });
+    const request = this.requests.find((item) => item.id === id);
+    const name = request ? this.displayName(request.user) : 'this applicant';
+
+    this.confirmation
+      .confirm({
+        title: 'Approve instructor request?',
+        message: `Approve ${name} as a trainer? They will gain access to the trainer workspace.`,
+        confirmLabel: 'Approve',
+        cancelLabel: 'Cancel',
+        tone: 'primary',
+        icon: 'verified',
+        action: () => this.instructorRequestService.approveRequest(id),
+        successMessage: 'Instructor request approved successfully.',
+        errorFallback: 'Failed to approve instructor request.',
+      })
+      .subscribe({
+        next: (response) => {
+          this.updateRequestInList(response.data);
+        },
+      });
   }
 
   rejectRequest(id: number): void {
-    const confirmed = confirm('Are you sure you want to reject this instructor request?');
+    const request = this.requests.find((item) => item.id === id);
+    const name = request ? this.displayName(request.user) : 'this applicant';
 
-    if (!confirmed) {
-      return;
-    }
-
-    this.instructorRequestService.rejectRequest(id).subscribe({
-      next: (response) => {
-        this.updateRequestInList(response.data);
-      },
-      error: (error) => {
-        console.error('Failed to reject instructor request', error);
-      },
-    });
+    this.confirmation
+      .confirm({
+        title: 'Reject instructor request?',
+        message: `Reject the request from ${name}? This action can impact their application status.`,
+        confirmLabel: 'Reject request',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'cancel',
+        action: () => this.instructorRequestService.rejectRequest(id),
+        successMessage: 'Instructor request rejected.',
+        errorFallback: 'Failed to reject instructor request.',
+      })
+      .subscribe({
+        next: (response) => {
+          this.updateRequestInList(response.data);
+        },
+      });
   }
 
   nextPage(): void {

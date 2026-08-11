@@ -1,43 +1,64 @@
 <section class="login-page" aria-labelledby="login-title">
-  <!-- Brand panel — identité visuelle (desktop / large tablet) -->
+  <!-- Brand panel — identité e-learning (desktop) -->
   <aside class="login-brand" aria-label="Présentation Training Platform">
     <div class="login-brand__atmosphere" aria-hidden="true">
-      <span class="login-brand__shape login-brand__shape--orb"></span>
-      <span class="login-brand__shape login-brand__shape--ring"></span>
-      <span class="login-brand__shape login-brand__shape--bar"></span>
-      <span class="login-brand__shape login-brand__shape--dot"></span>
+      <span class="login-brand__glow login-brand__glow--primary"></span>
+      <span class="login-brand__glow login-brand__glow--soft"></span>
+      <span class="login-brand__grid"></span>
+      <span class="login-brand__orb login-brand__orb--lg"></span>
+      <span class="login-brand__orb login-brand__orb--sm"></span>
 
-      <svg class="login-brand__illustration" viewBox="0 0 360 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="48" y="56" width="152" height="176" rx="16" fill="currentColor" opacity="0.12" />
-        <rect x="64" y="80" width="120" height="12" rx="6" fill="currentColor" opacity="0.35" />
-        <rect x="64" y="108" width="96" height="8" rx="4" fill="currentColor" opacity="0.22" />
-        <rect x="64" y="128" width="108" height="8" rx="4" fill="currentColor" opacity="0.22" />
-        <rect x="64" y="148" width="72" height="8" rx="4" fill="currentColor" opacity="0.22" />
-        <rect x="64" y="184" width="88" height="28" rx="8" fill="currentColor" opacity="0.28" />
+      <svg
+        class="login-brand__illustration"
+        viewBox="0 0 420 320"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect x="36" y="48" width="210" height="224" rx="20" fill="currentColor" opacity="0.1" />
+        <rect x="36" y="48" width="210" height="224" rx="20" stroke="currentColor" stroke-width="1.5" opacity="0.22" />
+        <rect x="56" y="72" width="170" height="96" rx="12" fill="currentColor" opacity="0.14" />
+        <circle cx="141" cy="120" r="22" fill="currentColor" opacity="0.28" />
+        <path d="M134 120l12 7v-14l-12 7z" fill="currentColor" opacity="0.55" />
+        <rect x="56" y="184" width="120" height="10" rx="5" fill="currentColor" opacity="0.35" />
+        <rect x="56" y="204" width="88" height="8" rx="4" fill="currentColor" opacity="0.2" />
+        <rect x="56" y="224" width="148" height="8" rx="4" fill="currentColor" opacity="0.16" />
+        <rect x="56" y="244" width="64" height="12" rx="6" fill="currentColor" opacity="0.28" />
 
-        <circle cx="248" cy="96" r="52" fill="currentColor" opacity="0.1" />
-        <circle cx="248" cy="96" r="34" stroke="currentColor" stroke-width="2" opacity="0.35" />
+        <circle cx="318" cy="108" r="58" fill="currentColor" opacity="0.08" />
+        <circle cx="318" cy="108" r="46" stroke="currentColor" stroke-width="8" opacity="0.16" />
+        <circle
+          cx="318"
+          cy="108"
+          r="46"
+          stroke="currentColor"
+          stroke-width="8"
+          stroke-linecap="round"
+          opacity="0.55"
+          stroke-dasharray="210"
+          stroke-dashoffset="58"
+          transform="rotate(-90 318 108)"
+        />
         <path
-          d="M232 96h32M248 80v32"
+          d="M302 108h32M318 92v32"
           stroke="currentColor"
           stroke-width="2.5"
           stroke-linecap="round"
           opacity="0.45"
         />
 
+        <rect x="268" y="196" width="128" height="72" rx="14" fill="currentColor" opacity="0.12" />
+        <rect x="268" y="196" width="128" height="72" rx="14" stroke="currentColor" stroke-width="1.5" opacity="0.22" />
+        <circle cx="296" cy="232" r="14" fill="currentColor" opacity="0.28" />
         <path
-          d="M210 188c18-28 42-42 70-42s40 10 54 28"
+          d="M290 232l4 4 8-8"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="2.5"
           stroke-linecap="round"
-          opacity="0.3"
+          stroke-linejoin="round"
+          opacity="0.7"
         />
-        <circle cx="280" cy="174" r="6" fill="currentColor" opacity="0.45" />
-        <circle cx="314" cy="198" r="4" fill="currentColor" opacity="0.3" />
-
-        <rect x="204" y="210" width="112" height="36" rx="10" fill="currentColor" opacity="0.14" />
-        <rect x="220" y="222" width="48" height="8" rx="4" fill="currentColor" opacity="0.32" />
-        <circle cx="292" cy="228" r="8" fill="currentColor" opacity="0.28" />
+        <rect x="318" y="220" width="58" height="8" rx="4" fill="currentColor" opacity="0.35" />
+        <rect x="318" y="236" width="42" height="6" rx="3" fill="currentColor" opacity="0.2" />
       </svg>
     </div>
 
@@ -46,17 +67,27 @@
         <span class="login-brand__mark" aria-hidden="true">
           <mat-icon>school</mat-icon>
         </span>
-        <p class="login-brand__name">Training Platform</p>
+        <div>
+          <p class="login-brand__name">Training Platform</p>
+          <p class="login-brand__eyebrow">Apprentissage professionnel</p>
+        </div>
       </div>
+
+      
+
+      <p class="login-brand__tagline">
+        Accédez à vos formations, certifications et suivi de progression depuis un
+        espace unique, clair et sécurisé.
+      </p>
 
       <ul class="login-brand__pillars" aria-label="Piliers de la plateforme">
         <li>
           <mat-icon aria-hidden="true">menu_book</mat-icon>
-          <span>Formation</span>
+          <span>Formations</span>
         </li>
         <li>
           <mat-icon aria-hidden="true">workspace_premium</mat-icon>
-          <span>Certification</span>
+          <span>Certifications</span>
         </li>
         <li>
           <mat-icon aria-hidden="true">trending_up</mat-icon>
@@ -68,26 +99,18 @@
         </li>
       </ul>
 
-      <p class="login-brand__tagline">
-        Développez vos compétences grâce à des parcours de formation conçus par des experts.
-      </p>
-
       <ul class="login-brand__perks">
         <li>
           <mat-icon aria-hidden="true">check_circle</mat-icon>
-          <span>Plus de 500 formations</span>
+          <span>Plus de 500 formations expertes</span>
         </li>
         <li>
           <mat-icon aria-hidden="true">check_circle</mat-icon>
-          <span>Certifications professionnelles</span>
+          <span>Certifications professionnelles reconnues</span>
         </li>
         <li>
           <mat-icon aria-hidden="true">check_circle</mat-icon>
-          <span>Suivi de progression</span>
-        </li>
-        <li>
-          <mat-icon aria-hidden="true">check_circle</mat-icon>
-          <span>Accessible partout</span>
+          <span>Suivi de progression en temps réel</span>
         </li>
       </ul>
     </div>
@@ -122,11 +145,16 @@
                 inputmode="email"
                 required
                 aria-required="true"
+                [attr.aria-invalid]="
+                  loginForm.controls.email.touched && loginForm.controls.email.invalid
+                "
               />
               <mat-icon matPrefix aria-hidden="true">mail_outline</mat-icon>
               @if (loginForm.controls.email.touched && loginForm.controls.email.hasError('required')) {
                 <mat-error>L'email est obligatoire.</mat-error>
-              } @else if (loginForm.controls.email.touched && loginForm.controls.email.hasError('email')) {
+              } @else if (
+                loginForm.controls.email.touched && loginForm.controls.email.hasError('email')
+              ) {
                 <mat-error>Veuillez saisir un email valide.</mat-error>
               }
             </mat-form-field>
@@ -135,12 +163,14 @@
               <mat-label>Mot de passe</mat-label>
               <input
                 matInput
-                #passwordInput
-                type="password"
+                [type]="passwordVisible ? 'text' : 'password'"
                 formControlName="password"
                 autocomplete="current-password"
                 required
                 aria-required="true"
+                [attr.aria-invalid]="
+                  loginForm.controls.password.touched && loginForm.controls.password.invalid
+                "
               />
               <mat-icon matPrefix aria-hidden="true">lock_outline</mat-icon>
               <button
@@ -148,20 +178,19 @@
                 matSuffix
                 type="button"
                 class="login-form__toggle"
-                (click)="passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password'"
+                (click)="togglePasswordVisibility()"
                 [attr.aria-label]="
-                  passwordInput.type === 'password'
-                    ? 'Afficher le mot de passe'
-                    : 'Masquer le mot de passe'
+                  passwordVisible ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
                 "
-                [attr.aria-pressed]="passwordInput.type !== 'password'"
+                [attr.aria-pressed]="passwordVisible"
               >
                 <mat-icon aria-hidden="true">
-                  {{ passwordInput.type === 'password' ? 'visibility' : 'visibility_off' }}
+                  {{ passwordVisible ? 'visibility_off' : 'visibility' }}
                 </mat-icon>
               </button>
               @if (
-                loginForm.controls.password.touched && loginForm.controls.password.hasError('required')
+                loginForm.controls.password.touched &&
+                loginForm.controls.password.hasError('required')
               ) {
                 <mat-error>Le mot de passe est obligatoire.</mat-error>
               }
@@ -176,9 +205,27 @@
               color="primary"
               type="submit"
               class="login-form__submit"
-              [disabled]="loginForm.invalid "
+              [class.login-form__submit--loading]="submitState === 'loading'"
+              [class.login-form__submit--success]="submitState === 'success'"
+              [class.login-form__submit--error]="submitState === 'error'"
+              [disabled]="loginForm.invalid || isSubmitting || submitState === 'success'"
+              [attr.aria-busy]="isSubmitting"
             >
-              Se connecter
+              <span class="login-form__submit-inner">
+                @if (submitState === 'loading') {
+                  <mat-spinner diameter="20" aria-hidden="true"></mat-spinner>
+                  <span>Connexion...</span>
+                } @else if (submitState === 'success') {
+                  <mat-icon aria-hidden="true">check_circle</mat-icon>
+                  <span>Connecté</span>
+                } @else if (submitState === 'error') {
+                  <mat-icon aria-hidden="true">error_outline</mat-icon>
+                  <span>Échec — réessayer</span>
+                } @else {
+                  <span>Se connecter</span>
+                  <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+                }
+              </span>
             </button>
           </form>
 
@@ -193,28 +240,25 @@
             type="button"
             class="login-oauth"
             aria-label="Continuer avec Google"
+            [disabled]="isSubmitting"
             (click)="loginWithGoogle()"
           >
             <svg class="login-oauth__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path
-                fill="currentColor"
+                fill="#4285F4"
                 d="M21.6 12.23c0-.74-.07-1.45-.19-2.13H12v4.03h5.38a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.89-1.74 2.98-4.3 2.98-7.42Z"
-                opacity="0.92"
               />
               <path
-                fill="currentColor"
+                fill="#34A853"
                 d="M12 22c2.7 0 4.96-.9 6.61-2.42l-3.24-2.5c-.9.6-2.04.96-3.37.96-2.59 0-4.78-1.75-5.56-4.1H3.09v2.58A9.99 9.99 0 0 0 12 22Z"
-                opacity="0.75"
               />
               <path
-                fill="currentColor"
+                fill="#FBBC05"
                 d="M6.44 13.94A6.01 6.01 0 0 1 6.13 12c0-.67.11-1.33.31-1.94V7.48H3.09A9.99 9.99 0 0 0 2 12c0 1.61.39 3.14 1.09 4.52l3.35-2.58Z"
-                opacity="0.6"
               />
               <path
-                fill="currentColor"
+                fill="#EA4335"
                 d="M12 5.96c1.47 0 2.79.5 3.82 1.5l2.86-2.86C16.95 2.97 14.69 2 12 2 8.09 2 4.7 4.24 3.09 7.48l3.35 2.58C7.22 7.71 9.41 5.96 12 5.96Z"
-                opacity="0.8"
               />
             </svg>
             Continuer avec Google
@@ -223,6 +267,13 @@
           <p class="login-signup">
             Pas encore de compte&nbsp;?
             <a class="login-link login-link--emphasis" routerLink="/register">Créer un compte</a>
+          </p>
+
+          <p class="login-back">
+            <a class="login-link login-link--back" routerLink="/" aria-label="Retour à l'accueil">
+              <mat-icon aria-hidden="true">arrow_back</mat-icon>
+              Retour à l'accueil
+            </a>
           </p>
         </mat-card-content>
       </mat-card>

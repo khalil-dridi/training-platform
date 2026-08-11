@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ConfirmationService } from '../../../../shared/confirmation/confirmation.service';
 import { CategoryResponse } from '../../models/category-response.model';
 import { CategoryService } from '../../services/category';
 
@@ -15,6 +16,7 @@ import { CategoryService } from '../../services/category';
 })
 export class Categories implements OnInit {
   private readonly categoryService = inject(CategoryService);
+  private readonly confirmation = inject(ConfirmationService);
 
   categories: CategoryResponse[] = [];
   loading = true;
@@ -39,19 +41,23 @@ export class Categories implements OnInit {
   }
 
   deleteCategory(id: number, name: string): void {
-    const confirmed = confirm(`Are you sure you want to delete "${name}"?`);
-
-    if (!confirmed) {
-      return;
-    }
-
-    this.categoryService.deleteCategory(id).subscribe({
-      next: () => {
-        this.categories = this.categories.filter((category) => category.id !== id);
-      },
-      error: (error) => {
-        console.error('Failed to delete category', error);
-      },
-    });
+    this.confirmation
+      .confirm({
+        title: `Delete "${name}"?`,
+        message:
+          'This category will be permanently removed. Courses linked to it may be affected. This action cannot be undone.',
+        confirmLabel: 'Delete category',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'delete_forever',
+        action: () => this.categoryService.deleteCategory(id),
+        successMessage: `Category "${name}" deleted successfully.`,
+        errorFallback: 'Failed to delete category.',
+      })
+      .subscribe({
+        next: () => {
+          this.categories = this.categories.filter((category) => category.id !== id);
+        },
+      });
   }
 }

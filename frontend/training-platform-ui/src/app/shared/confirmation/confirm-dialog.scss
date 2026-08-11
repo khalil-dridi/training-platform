@@ -1,0 +1,127 @@
+////
+/// Confirm dialog — modal de confirmation Training Platform
+/// ---------------------------------------------------------------------------
+
+@use '../../../styles/abstracts/variables' as *;
+
+@keyframes tp-confirm-enter {
+  from {
+    opacity: 0;
+    transform: translateY($spacing-3) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tp-confirm-panel {
+  animation: tp-confirm-enter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: $radius-large !important;
+    box-shadow: $shadow-lg !important;
+    overflow: hidden;
+    padding: 0 !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.tp-confirm {
+  width: min(100%, 26rem);
+  padding: $spacing-6;
+  color: $text-primary;
+}
+
+.tp-confirm__header {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+}
+
+.tp-confirm__icon-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-medium;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+}
+
+.tp-confirm[data-tone='danger'] .tp-confirm__icon-wrap {
+  background-color: $error-light;
+  color: $error-color;
+}
+
+.tp-confirm[data-tone='warning'] .tp-confirm__icon-wrap {
+  background-color: $warning-light;
+  color: $warning-color;
+}
+
+.tp-confirm__titles {
+  min-width: 0;
+}
+
+.tp-confirm__title {
+  margin: 0 0 $spacing-2;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  color: $text-primary;
+}
+
+.tp-confirm__message {
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-relaxed;
+  color: $text-secondary;
+}
+
+.tp-confirm__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: $spacing-2;
+}
+
+.tp-confirm__cancel {
+  border-radius: $radius-medium !important;
+  min-height: 2.5rem;
+}
+
+.tp-confirm__confirm {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  min-height: 2.5rem;
+  border-radius: $radius-medium !important;
+  font-weight: $font-weight-semibold !important;
+
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #{$text-inverse};
+  }
+
+  &--danger {
+    background-color: $error-color !important;
+  }
+
+  &--warning {
+    background-color: $warning-color !important;
+  }
+}

@@ -1,67 +1,211 @@
-<h1>My Students</h1>
-
-@if (students.length === 0) {
-
-  <p>No students found.</p>
-
-} @else {
-
-  @for (student of students; track student.learnerId) {
-
-    <div>
-
-      <h2>
-        {{ student.learnerName }}
-      </h2>
-
-      <p>
-        Email: {{ student.learnerEmail }}
+<div class="trainer-students">
+  <header class="trainer-students__header">
+    <div class="trainer-students__intro">
+      <p class="trainer-students__kicker">Learner insights</p>
+      <h1 class="trainer-students__title">My Students</h1>
+      <p class="trainer-students__subtitle">
+        Track learner progress across your courses and open detailed profiles in one place.
       </p>
-      
-
-      @if (student.courses.length === 0) {
-
-        <p>No courses.</p>
-
-      } @else {
-
-        @for (course of student.courses; track course.enrollmentId) {
-
-          <div>
-
-            <h3>
-              {{ course.courseTitle }}
-            </h3>
-
-            <p>
-              Progress: {{ course.progress }}%
-            </p>
-
-            <p>
-              Status:
-              {{ course.completed ? 'Completed' : 'In progress' }}
-            </p>
-
-          </div>
-          <button
-  type="button"
-  [routerLink]="[
-    '/trainer/courses',
-    course.courseId,
-    'students',
-    student.learnerId
-  ]"
->
-  View Details
-</button>
-
-        }
-
-      }
-      
-
     </div>
 
-  }
+    @if (!loading && students.length > 0) {
+      <section class="trainer-students__stats" aria-label="Students overview">
+        <article class="trainer-students__stat">
+          <span class="trainer-students__stat-icon trainer-students__stat-icon--students" aria-hidden="true">
+            <mat-icon>groups</mat-icon>
+          </span>
+          <div>
+            <p class="trainer-students__stat-label">Students</p>
+            <p class="trainer-students__stat-value">{{ totalStudents }}</p>
+          </div>
+        </article>
 
-}
+        <article class="trainer-students__stat">
+          <span class="trainer-students__stat-icon trainer-students__stat-icon--enrollments" aria-hidden="true">
+            <mat-icon>school</mat-icon>
+          </span>
+          <div>
+            <p class="trainer-students__stat-label">Enrollments</p>
+            <p class="trainer-students__stat-value">{{ totalEnrollments }}</p>
+          </div>
+        </article>
+
+        <article class="trainer-students__stat">
+          <span class="trainer-students__stat-icon trainer-students__stat-icon--progress" aria-hidden="true">
+            <mat-icon>trending_up</mat-icon>
+          </span>
+          <div>
+            <p class="trainer-students__stat-label">In progress</p>
+            <p class="trainer-students__stat-value">{{ inProgressEnrollments }}</p>
+          </div>
+        </article>
+
+        <article class="trainer-students__stat">
+          <span class="trainer-students__stat-icon trainer-students__stat-icon--completed" aria-hidden="true">
+            <mat-icon>verified</mat-icon>
+          </span>
+          <div>
+            <p class="trainer-students__stat-label">Completed</p>
+            <p class="trainer-students__stat-value">{{ completedEnrollments }}</p>
+          </div>
+        </article>
+      </section>
+    }
+
+    <div class="trainer-students__toolbar">
+      <div class="trainer-students__search">
+        <mat-icon class="trainer-students__search-icon" aria-hidden="true">search</mat-icon>
+        <input
+          class="trainer-students__search-input"
+          type="search"
+          placeholder="Search by name, email or course..."
+          [value]="searchQuery"
+          (input)="onSearchInput($event)"
+          aria-label="Search students"
+        />
+        @if (searchQuery) {
+          <button
+            type="button"
+            class="trainer-students__search-clear"
+            (click)="clearSearch()"
+            aria-label="Clear search"
+          >
+            <mat-icon aria-hidden="true">close</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+  </header>
+
+  <section class="trainer-students__card ds-card ds-card--flat" aria-label="Students list">
+    @if (loading) {
+      <div class="trainer-students__empty" aria-busy="true" aria-live="polite">
+        <span class="trainer-students__loader" aria-hidden="true"></span>
+        <p>Loading your students...</p>
+      </div>
+    } @else if (students.length === 0) {
+      <div class="trainer-students__empty">
+        <span class="trainer-students__empty-icon" aria-hidden="true">
+          <mat-icon>groups</mat-icon>
+        </span>
+        <h2 class="trainer-students__empty-title">No students yet</h2>
+        <p>When learners enroll in your courses, they will appear here with live progress.</p>
+      </div>
+    } @else if (filteredStudents.length === 0) {
+      <div class="trainer-students__empty">
+        <span class="trainer-students__empty-icon" aria-hidden="true">
+          <mat-icon>search_off</mat-icon>
+        </span>
+        <h2 class="trainer-students__empty-title">No matches found</h2>
+        <p>Try another name, email, or course title.</p>
+        <button mat-stroked-button type="button" (click)="clearSearch()">Clear search</button>
+      </div>
+    } @else {
+      <ul class="trainer-students__list">
+        @for (student of filteredStudents; track trackStudent($index, student); let i = $index) {
+          <li class="trainer-students__student" [style.--student-delay]="i * 40 + 'ms'">
+            <div class="trainer-students__student-header">
+              @if (student.avatarUrl) {
+                <img
+                  class="trainer-students__avatar"
+                  [src]="student.avatarUrl"
+                  [alt]="student.learnerName"
+                  width="48"
+                  height="48"
+                />
+              } @else {
+                <span class="trainer-students__avatar trainer-students__avatar--fallback" aria-hidden="true">
+                  {{ studentInitials(student) }}
+                </span>
+              }
+
+              <div class="trainer-students__student-info">
+                <h2 class="trainer-students__student-name">{{ student.learnerName }}</h2>
+                <p class="trainer-students__student-email">{{ student.learnerEmail }}</p>
+              </div>
+
+              <span class="trainer-students__course-count">
+                {{ courseCountLabel(student.courses.length) }}
+              </span>
+            </div>
+
+            @if (student.courses.length === 0) {
+              <p class="trainer-students__no-courses">No active course enrollments.</p>
+            } @else {
+              <ul class="trainer-students__courses">
+                @for (course of student.courses; track trackCourse($index, course)) {
+                  <li class="trainer-students__course">
+                    <div class="trainer-students__course-main">
+                      <span class="trainer-students__course-icon" aria-hidden="true">
+                        <mat-icon>menu_book</mat-icon>
+                      </span>
+
+                      <div class="trainer-students__course-info">
+                        <h3 class="trainer-students__course-title">{{ course.courseTitle }}</h3>
+
+                        <div class="trainer-students__progress">
+                          <div
+                            class="trainer-students__progress-bar"
+                            role="progressbar"
+                            [attr.aria-valuenow]="course.progress"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            [attr.aria-label]="course.courseTitle + ' progress'"
+                          >
+                            <span
+                              class="trainer-students__progress-fill"
+                              [class.trainer-students__progress-fill--completed]="course.completed"
+                              [style.width.%]="course.progress"
+                            ></span>
+                          </div>
+                          <span class="trainer-students__progress-value">{{ course.progress }}%</span>
+                        </div>
+
+                        <p class="trainer-students__course-meta">
+                          Enrolled {{ course.enrolledAt | date: 'mediumDate' }}
+                          @if (course.completedAt) {
+                            <span aria-hidden="true"> · </span>
+                            Completed {{ course.completedAt | date: 'mediumDate' }}
+                          }
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="trainer-students__course-actions">
+                      <span
+                        class="trainer-students__status"
+                        [class.trainer-students__status--completed]="course.completed"
+                        [class.trainer-students__status--in-progress]="!course.completed"
+                      >
+                        <mat-icon aria-hidden="true">
+                          {{ course.completed ? 'check_circle' : 'pending' }}
+                        </mat-icon>
+                        {{ course.completed ? 'Completed' : 'In progress' }}
+                      </span>
+
+                      <button
+                        mat-stroked-button
+                        type="button"
+                        class="trainer-students__details-btn"
+                        (click)="openStudentDetails(course.courseId, student.learnerId)"
+                      >
+                        <mat-icon aria-hidden="true">visibility</mat-icon>
+                        View details
+                      </button>
+                    </div>
+                  </li>
+                }
+              </ul>
+            }
+          </li>
+        }
+      </ul>
+
+      <footer class="trainer-students__footer">
+        <p class="trainer-students__footer-text">
+          Showing {{ filteredStudents.length }} of {{ students.length }} students
+        </p>
+      </footer>
+    }
+  </section>
+</div>

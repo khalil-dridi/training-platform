@@ -1,16 +1,35 @@
 ////
-/// Trainer students list — local styles
+/// Trainer students — premium SaaS list
 /// ---------------------------------------------------------------------------
-/// Role: My Students page (learners + course progress).
-/// Design System tokens only.
+/// Tokens Design System uniquement.
 ////
 
 @use '../../../../../../styles/abstracts/variables' as *;
 
+@keyframes trainer-students-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY($spacing-2);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes trainer-students-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .trainer-students {
-  padding: $spacing-6 $spacing-4;
-  background-color: $background-color;
   min-height: 100%;
+  padding: $spacing-6 $spacing-4 $spacing-8;
+  background:
+    radial-gradient(ellipse 70% 40% at 0% 0%, rgba($primary-color, 0.06), transparent 55%),
+    $background-color;
 
   @include respond-to(md) {
     padding: $spacing-8 $spacing-6;
@@ -21,12 +40,30 @@
   }
 }
 
+// -----------------------------------------------------------------------------
+// Header
+// -----------------------------------------------------------------------------
 .trainer-students__header {
   margin-bottom: $spacing-6;
+  animation: trainer-students-fade-up 0.4s ease both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .trainer-students__intro {
-  margin-bottom: $spacing-4;
+  margin-bottom: $spacing-6;
+  max-width: 42rem;
+}
+
+.trainer-students__kicker {
+  margin: 0 0 $spacing-2;
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: $primary-color;
 }
 
 .trainer-students__title {
@@ -40,8 +77,97 @@
   @include typography(body);
   margin: 0;
   color: $text-secondary;
+  line-height: $line-height-relaxed;
 }
 
+// -----------------------------------------------------------------------------
+// Stats
+// -----------------------------------------------------------------------------
+.trainer-students__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-3;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.trainer-students__stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-large;
+  background-color: $surface-color;
+  box-shadow: $shadow-sm;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    border-color: $neutral-300;
+    box-shadow: $shadow-md;
+    transform: translateY(-1px);
+  }
+}
+
+.trainer-students__stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-medium;
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+
+  &--students {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+
+  &--enrollments {
+    background-color: $info-light;
+    color: $info-dark;
+  }
+
+  &--progress {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+
+  &--completed {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+}
+
+.trainer-students__stat-label {
+  margin: 0 0 $spacing-1;
+  @include typography(small);
+  color: $text-muted;
+}
+
+.trainer-students__stat-value {
+  margin: 0;
+  @include typography(h3);
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+}
+
+// -----------------------------------------------------------------------------
+// Toolbar / search
+// -----------------------------------------------------------------------------
 .trainer-students__toolbar {
   display: flex;
   flex-direction: column;
@@ -64,6 +190,7 @@
   border: 1px solid $border-color;
   border-radius: $radius-medium;
   background-color: $surface-color;
+  box-shadow: $shadow-sm;
   transition:
     border-color $transition-fast,
     box-shadow $transition-fast;
@@ -74,7 +201,7 @@
   }
 
   @include respond-to(md) {
-    max-width: 400px;
+    max-width: 28rem;
   }
 }
 
@@ -100,11 +227,55 @@
   }
 }
 
+.trainer-students__search-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  padding: 0;
+  border: none;
+  border-radius: $radius-full;
+  background: transparent;
+  color: $text-muted;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    background-color: $neutral-100;
+    color: $text-primary;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Main card
+// -----------------------------------------------------------------------------
 .trainer-students__card {
   padding: 0;
   overflow: hidden;
   border-color: $border-color;
   box-shadow: $shadow-sm;
+  background-color: $surface-color;
+  animation: trainer-students-fade-up 0.45s ease both;
+  animation-delay: 60ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .trainer-students__empty {
@@ -116,20 +287,54 @@
   padding: $spacing-12 $spacing-4;
   text-align: center;
 
-  mat-icon {
-    font-size: $font-size-h2;
-    width: $font-size-h2;
-    height: $font-size-h2;
-    color: $text-muted;
-  }
-
   p {
     @include typography(body);
     margin: 0;
+    max-width: 28ch;
     color: $text-secondary;
   }
 }
 
+.trainer-students__empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-16;
+  height: $spacing-16;
+  border-radius: $radius-full;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+  }
+}
+
+.trainer-students__empty-title {
+  margin: 0;
+  @include typography(h3);
+  color: $text-primary;
+}
+
+.trainer-students__loader {
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-full;
+  border: 3px solid $neutral-200;
+  border-top-color: $primary-color;
+  animation: trainer-students-spin 0.8s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    border-top-color: $neutral-200;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Student list
+// -----------------------------------------------------------------------------
 .trainer-students__list {
   list-style: none;
   margin: 0;
@@ -139,8 +344,10 @@
 }
 
 .trainer-students__student {
-  padding: $spacing-4 $spacing-4 $spacing-3;
+  padding: $spacing-4;
   border-bottom: 1px solid $divider-color;
+  animation: trainer-students-fade-up 0.35s ease both;
+  animation-delay: var(--student-delay, 0ms);
 
   &:last-child {
     border-bottom: none;
@@ -148,6 +355,10 @@
 
   @include respond-to(md) {
     padding: $spacing-6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
@@ -164,12 +375,14 @@
   height: $spacing-12;
   border-radius: $radius-full;
   object-fit: cover;
+  border: 2px solid $surface-color;
+  box-shadow: $shadow-sm;
 
   &--fallback {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: $primary-light;
+    background: linear-gradient(145deg, $primary-light, rgba($primary-color, 0.18));
     @include typography(body);
     font-weight: $font-weight-semibold;
     color: $primary-color;
@@ -205,6 +418,7 @@
   padding: $spacing-1 $spacing-3;
   border-radius: $radius-full;
   background-color: $info-light;
+  border: 1px solid rgba($info-color, 0.18);
   @include typography(small);
   font-weight: $font-weight-medium;
   color: $info-dark;
@@ -222,6 +436,9 @@
   text-align: center;
 }
 
+// -----------------------------------------------------------------------------
+// Courses under student
+// -----------------------------------------------------------------------------
 .trainer-students__courses {
   list-style: none;
   margin: 0;
@@ -237,15 +454,18 @@
   gap: $spacing-3;
   padding: $spacing-3;
   border: 1px solid $border-color;
-  border-radius: $radius-medium;
-  background-color: $neutral-50;
+  border-radius: $radius-large;
+  background:
+    linear-gradient(180deg, $surface-color 0%, $neutral-50 100%);
   transition:
     border-color $transition-fast,
-    box-shadow $transition-fast;
+    box-shadow $transition-fast,
+    transform $transition-fast;
 
   &:hover {
-    border-color: $neutral-300;
+    border-color: rgba($primary-color, 0.28);
     box-shadow: $shadow-sm;
+    transform: translateY(-1px);
   }
 
   @include respond-to(md) {
@@ -313,14 +533,18 @@
   display: block;
   height: 100%;
   border-radius: $radius-full;
-  background-color: $primary-color;
+  background: linear-gradient(90deg, $primary-color, $info-color);
   transition: width $transition-base;
+
+  &--completed {
+    background: linear-gradient(90deg, $success-dark, $success-color);
+  }
 }
 
 .trainer-students__progress-value {
   @include typography(small);
   flex-shrink: 0;
-  min-width: 2.5rem;
+  min-width: 2.75rem;
   font-weight: $font-weight-semibold;
   color: $text-secondary;
   text-align: right;
@@ -341,6 +565,7 @@
 
   @include respond-to(md) {
     align-items: flex-end;
+    min-width: 9.5rem;
   }
 }
 
@@ -348,11 +573,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: $spacing-1;
   padding: $spacing-1 $spacing-3;
   border-radius: $radius-full;
   @include typography(small);
   font-weight: $font-weight-medium;
   white-space: nowrap;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
 
   &--completed {
     background-color: $success-light;
@@ -368,8 +600,12 @@
 .trainer-students__details-btn {
   border-radius: $radius-medium;
   white-space: nowrap;
+  font-weight: $font-weight-medium;
 }
 
+// -----------------------------------------------------------------------------
+// Footer
+// -----------------------------------------------------------------------------
 .trainer-students__footer {
   padding: $spacing-3 $spacing-4;
   border-top: 1px solid $border-color;

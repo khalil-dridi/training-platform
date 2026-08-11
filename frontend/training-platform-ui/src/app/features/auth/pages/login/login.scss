@@ -1,24 +1,82 @@
 ////
-/// Login page — styles locaux (SaaS premium)
+/// Login page — SaaS / e-learning premium
 /// ---------------------------------------------------------------------------
-/// Rôle : composition visuelle de la page Connexion.
-/// Tokens uniquement — aucune couleur / spacing inventés.
+/// Split-screen moderne, animations légères, tokens design system uniquement.
 ////
 
 @use '../../../../../styles/abstracts/variables' as *;
 
 // -----------------------------------------------------------------------------
-// Motion — fade d'entrée (discret, respect reduced-motion)
+// Motion
 // -----------------------------------------------------------------------------
 @keyframes login-fade-up {
   from {
     opacity: 0;
-    transform: translateY($spacing-2);
+    transform: translateY($spacing-3);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes login-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes login-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-$spacing-2);
+  }
+}
+
+@keyframes login-orb-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.85;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes login-ring-progress {
+  from {
+    stroke-dashoffset: 220;
+  }
+
+  to {
+    stroke-dashoffset: 58;
+  }
+}
+
+@keyframes login-btn-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  75% {
+    transform: translateX(3px);
   }
 }
 
@@ -29,16 +87,18 @@
   display: grid;
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: $background-color;
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba($primary-color, 0.06), transparent 55%),
+    $background-color;
 
   @include respond-to(lg) {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    background-color: $surface-color;
   }
 }
 
 // -----------------------------------------------------------------------------
-// Brand panel — identité visuelle
-// Masqué complètement < lg (mobile + tablette)
+// Brand panel
 // -----------------------------------------------------------------------------
 .login-brand {
   display: none;
@@ -46,17 +106,16 @@
   overflow: hidden;
   color: $text-inverse;
   background: linear-gradient(
-    160deg,
+    155deg,
     $primary-dark 0%,
-    $primary-active 34%,
-    $primary-color 68%,
+    $primary-active 38%,
+    $primary-color 72%,
     $primary-hover 100%
   );
 
   @include respond-to(lg) {
     display: grid;
-    grid-template-rows: 1fr auto;
-    align-content: stretch;
+    align-content: end;
     padding: $spacing-8;
     min-height: 100%;
   }
@@ -71,76 +130,108 @@
   inset: 0;
   pointer-events: none;
   color: $text-inverse;
+  animation: login-fade-in $transition-slow both;
 }
 
-.login-brand__shape {
+.login-brand__glow {
   position: absolute;
   border-radius: $radius-full;
+  filter: blur($spacing-12);
   pointer-events: none;
+
+  &--primary {
+    width: 55%;
+    height: 45%;
+    top: -10%;
+    right: -8%;
+    background: rgba($neutral-0, 0.18);
+  }
+
+  &--soft {
+    width: 40%;
+    height: 35%;
+    bottom: 8%;
+    left: -12%;
+    background: rgba($info-color, 0.22);
+  }
 }
 
-.login-brand__shape--orb {
-  width: $spacing-16 * 3;
-  height: $spacing-16 * 3;
-  top: -$spacing-8;
-  right: -$spacing-6;
-  background: radial-gradient(circle, rgba($neutral-0, 0.16) 0%, transparent 70%);
+.login-brand__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(rgba($neutral-0, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($neutral-0, 0.35) 1px, transparent 1px);
+  background-size: $spacing-8 $spacing-8;
+  mask-image: radial-gradient(ellipse 70% 60% at 60% 35%, #000 20%, transparent 75%);
 }
 
-.login-brand__shape--ring {
-  width: $spacing-16 * 2;
-  height: $spacing-16 * 2;
-  bottom: $spacing-16;
-  left: -$spacing-8;
-  border: $spacing-1 solid rgba($neutral-0, 0.12);
-  background: transparent;
+.login-brand__orb {
+  position: absolute;
   border-radius: $radius-full;
-}
+  border: 1px solid rgba($neutral-0, 0.16);
+  animation: login-orb-pulse 6s ease-in-out infinite;
 
-.login-brand__shape--bar {
-  width: $spacing-16;
-  height: $spacing-16;
-  top: 28%;
-  right: 12%;
-  border-radius: $radius-large;
-  background-color: rgba($neutral-0, 0.06);
-  box-shadow: $shadow-lg;
-  transform: rotate(18deg);
-}
+  &--lg {
+    width: $spacing-16 * 2.5;
+    height: $spacing-16 * 2.5;
+    top: 12%;
+    right: 8%;
+    background: radial-gradient(circle, rgba($neutral-0, 0.12) 0%, transparent 70%);
+  }
 
-.login-brand__shape--dot {
-  width: $spacing-3;
-  height: $spacing-3;
-  top: 18%;
-  left: 22%;
-  background-color: rgba($neutral-0, 0.35);
+  &--sm {
+    width: $spacing-12;
+    height: $spacing-12;
+    bottom: 22%;
+    left: 12%;
+    animation-delay: 1.2s;
+    background: rgba($neutral-0, 0.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .login-brand__illustration {
   position: absolute;
   right: $spacing-4;
-  top: $spacing-6;
-  width: min(52%, #{$spacing-16 * 5});
-  max-width: $spacing-16 * 5;
+  top: $spacing-8;
+  width: min(58%, #{$spacing-16 * 6});
+  max-width: $spacing-16 * 6;
   height: auto;
   color: $text-inverse;
   opacity: 0.95;
-  filter: drop-shadow(0 $spacing-2 $spacing-4 rgba($primary-dark, 0.35));
+  filter: drop-shadow(0 $spacing-3 $spacing-6 rgba($primary-dark, 0.35));
+  animation: login-float 7s ease-in-out infinite;
+
+  circle[stroke-dasharray] {
+    animation: login-ring-progress 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 0.25s;
+  }
 
   @include respond-to(xl) {
     right: $spacing-8;
-    top: $spacing-8;
-    width: min(48%, #{$spacing-16 * 5.5});
+    top: $spacing-12;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+
+    circle[stroke-dasharray] {
+      animation: none;
+    }
   }
 }
 
 .login-brand__content {
   position: relative;
   z-index: 1;
-  align-self: end;
   max-width: $container-narrow;
-  padding-top: $spacing-16;
-  animation: login-fade-up $transition-slow both;
+  padding-top: $spacing-16 * 2;
+  animation: login-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -162,6 +253,7 @@
   height: $spacing-12;
   border-radius: $radius-medium;
   background-color: rgba($neutral-0, 0.14);
+  border: 1px solid rgba($neutral-0, 0.18);
   box-shadow: $shadow-sm;
   backdrop-filter: blur($spacing-1);
 
@@ -174,9 +266,33 @@
 }
 
 .login-brand__name {
-  @include typography(h1);
+  @include typography(h2);
   margin: 0;
   color: $text-inverse;
+}
+
+.login-brand__eyebrow {
+  margin: $spacing-1 0 0;
+  @include typography(small);
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: rgba($neutral-0, 0.72);
+}
+
+.login-brand__headline {
+  @include typography(h1);
+  max-width: 18ch;
+  margin: 0 0 $spacing-4;
+  color: $text-inverse;
+  line-height: $line-height-tight;
+}
+
+.login-brand__tagline {
+  @include typography(body);
+  max-width: 42ch;
+  margin: 0 0 $spacing-6;
+  color: rgba($neutral-0, 0.88);
+  line-height: $line-height-relaxed;
 }
 
 .login-brand__pillars {
@@ -192,34 +308,28 @@
     padding: $spacing-2 $spacing-3;
     border-radius: $radius-full;
     background-color: rgba($neutral-0, 0.1);
-    border: 1px solid rgba($neutral-0, 0.14);
+    border: 1px solid rgba($neutral-0, 0.16);
     @include typography(small);
     font-weight: $font-weight-medium;
     color: $text-inverse;
     transition:
       background-color $transition-fast,
-      border-color $transition-fast;
+      border-color $transition-fast,
+      transform $transition-fast;
 
     &:hover {
-      background-color: rgba($neutral-0, 0.16);
-      border-color: rgba($neutral-0, 0.24);
+      background-color: rgba($neutral-0, 0.18);
+      border-color: rgba($neutral-0, 0.28);
+      transform: translateY(-1px);
     }
 
     mat-icon {
       font-size: $font-size-body;
       width: $font-size-body;
       height: $font-size-body;
-      opacity: 0.9;
+      opacity: 0.92;
     }
   }
-}
-
-.login-brand__tagline {
-  @include typography(body);
-  max-width: 42ch;
-  margin-bottom: $spacing-6;
-  color: rgba($neutral-0, 0.9);
-  line-height: $line-height-relaxed;
 }
 
 .login-brand__perks {
@@ -239,7 +349,7 @@
       width: $font-size-body;
       height: $font-size-body;
       color: $text-inverse;
-      opacity: 0.85;
+      opacity: 0.9;
     }
   }
 }
@@ -253,7 +363,7 @@
   justify-content: center;
   width: 100%;
   padding: $spacing-6 $spacing-4;
-  background-color: $background-color;
+  background: transparent;
 
   @include respond-to(md) {
     padding: $spacing-8 $spacing-6;
@@ -261,15 +371,17 @@
 
   @include respond-to(lg) {
     padding: $spacing-12 $spacing-8;
-    background-color: $surface-color;
+    background:
+      radial-gradient(ellipse 70% 40% at 0% 0%, rgba($primary-color, 0.04), transparent 50%),
+      $surface-color;
   }
 }
 
 .login-panel__inner {
   width: 100%;
   max-width: #{$sidebar-width + $spacing-16 * 2};
-  animation: login-fade-up $transition-slow both;
-  animation-delay: 40ms;
+  animation: login-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 60ms;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -277,7 +389,7 @@
 }
 
 // -----------------------------------------------------------------------------
-// Header (mobile / tablet brand mark)
+// Header
 // -----------------------------------------------------------------------------
 .login-header {
   margin-bottom: $spacing-6;
@@ -307,6 +419,7 @@
   height: $spacing-8;
   border-radius: $radius-medium;
   background-color: $primary-light;
+  border: 1px solid rgba($primary-color, 0.12);
 
   mat-icon {
     font-size: $font-size-body;
@@ -316,15 +429,26 @@
   }
 }
 
+.login-header__kicker {
+  margin: 0 0 $spacing-2;
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: $primary-color;
+}
+
 .login-header__title {
   @include typography(h1);
-  margin-bottom: $spacing-2;
+  margin: 0 0 $spacing-2;
   color: $text-primary;
 }
 
 .login-header__welcome {
   @include typography(body);
+  margin: 0;
   color: $text-secondary;
+  line-height: $line-height-relaxed;
 }
 
 // -----------------------------------------------------------------------------
@@ -367,6 +491,15 @@
 
 .login-form__field {
   width: 100%;
+  animation: login-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &:nth-of-type(1) {
+    animation-delay: 100ms;
+  }
+
+  &:nth-of-type(2) {
+    animation-delay: 160ms;
+  }
 
   .mat-mdc-form-field-icon-prefix,
   .mat-mdc-form-field-icon-suffix {
@@ -378,6 +511,10 @@
       color: $primary-color;
       transition: color $transition-fast;
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
 
@@ -407,14 +544,33 @@
   transition:
     background-color $transition-fast,
     box-shadow $transition-base,
-    transform $transition-fast;
+    transform $transition-fast,
+    opacity $transition-fast;
+
+  .login-form__submit-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+  }
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #{$text-inverse};
+  }
 
   &:hover:not(:disabled) {
     box-shadow: $shadow-md;
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    transform: translateY(1px);
+    transform: translateY(0);
     box-shadow: $shadow-sm;
   }
 
@@ -424,6 +580,23 @@
 
   &:disabled {
     box-shadow: none;
+  }
+
+  &--loading {
+    cursor: progress;
+  }
+
+  &--success {
+    background-color: $success-color !important;
+  }
+
+  &--error {
+    background-color: $error-color !important;
+    animation: login-btn-shake 0.35s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 }
 
@@ -460,10 +633,34 @@
       text-decoration-color: $primary-hover;
     }
   }
+
+  &--back {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+
+    mat-icon {
+      font-size: $font-size-body;
+      width: $font-size-body;
+      height: $font-size-body;
+    }
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.login-back {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-6;
 }
 
 // -----------------------------------------------------------------------------
-// Divider — style badge moderne
+// Divider
 // -----------------------------------------------------------------------------
 .login-divider {
   display: flex;
@@ -475,7 +672,13 @@
 .login-divider__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, $divider-color 20%, $divider-color 80%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $divider-color 20%,
+    $divider-color 80%,
+    transparent
+  );
 }
 
 .login-divider__label {
@@ -512,19 +715,24 @@
     box-shadow $transition-base,
     transform $transition-fast;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: $neutral-50;
     border-color: $neutral-300;
     box-shadow: $shadow-md;
+    transform: translateY(-1px);
   }
 
-  &:active {
-    transform: translateY(1px);
+  &:active:not(:disabled) {
+    transform: translateY(0);
     box-shadow: $shadow-sm;
   }
 
   &:focus-visible {
     box-shadow: $shadow-focus;
+  }
+
+  &:disabled {
+    opacity: 0.6;
   }
 }
 
@@ -532,7 +740,6 @@
   width: $spacing-6;
   height: $spacing-6;
   flex-shrink: 0;
-  color: $secondary-color;
 }
 
 // -----------------------------------------------------------------------------

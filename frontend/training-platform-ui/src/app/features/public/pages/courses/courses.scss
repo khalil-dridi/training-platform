@@ -1,0 +1,8 @@
+@use '../../_public-page-shared';
+@use '../../../../../styles/abstracts/variables' as *;
+
+.public-page__placeholder-sub {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}

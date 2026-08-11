@@ -1,0 +1,198 @@
+<section class="public-home">
+  <!-- Hero -->
+  <div class="public-home__hero">
+    <div class="public-home__hero-grid">
+      <div class="public-home__hero-content">
+        <span class="public-home__badge">Online Learning Platform</span>
+        <h1 class="public-home__title">Build skills that move your career forward</h1>
+        <p class="public-home__subtitle">
+          Learn. Grow. Succeed. — Explore expert-led courses designed for real-world impact.
+        </p>
+        <div class="public-home__actions">
+          <a
+            mat-flat-button
+            color="primary"
+            class="public-home__cta public-home__cta--primary"
+            href="#featured-courses"
+            (click)="scrollToFeaturedFromHero($event)"
+          >
+            <mat-icon aria-hidden="true">menu_book</mat-icon>
+            Browse Courses
+          </a>
+          <a mat-stroked-button class="public-home__cta public-home__cta--secondary" routerLink="/register">
+            Get Started Free
+          </a>
+        </div>
+
+        <ul class="public-home__highlights" aria-label="Platform benefits">
+          <li>
+            <mat-icon aria-hidden="true">groups</mat-icon>
+            <span>Expert Instructors</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="true">schedule</mat-icon>
+            <span>Learn at Your Pace</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="true">trending_up</mat-icon>
+            <span>Track Progress</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="public-home__hero-visual" aria-hidden="true">
+        <div class="public-home__hero-visual-bg"></div>
+        <img
+          class="public-home__hero-image"
+          src="/images/hero-illustration.png"
+          alt=""
+          width="533"
+          height="600"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Training Platform -->
+  <section class="public-home__section" id="why-training-platform" aria-labelledby="why-title">
+    <header class="public-home__section-header">
+      <h2 id="why-title" class="public-home__section-title">Why Training Platform</h2>
+      <p class="public-home__section-subtitle">
+        Everything you need to learn effectively, track progress, and achieve your goals.
+      </p>
+    </header>
+
+    <div class="public-home__features">
+      <article class="public-home__feature ds-card ds-card--flat">
+        <span class="public-home__feature-icon" aria-hidden="true">
+          <mat-icon>verified</mat-icon>
+        </span>
+        <h3 class="public-home__feature-title">Expert-led courses</h3>
+        <p class="public-home__feature-text">Learn from experienced trainers with structured, practical content.</p>
+      </article>
+
+      <article class="public-home__feature ds-card ds-card--flat">
+        <span class="public-home__feature-icon" aria-hidden="true">
+          <mat-icon>schedule</mat-icon>
+        </span>
+        <h3 class="public-home__feature-title">Learn at your pace</h3>
+        <p class="public-home__feature-text">Access lessons anytime and progress through chapters on your schedule.</p>
+      </article>
+
+      <article class="public-home__feature ds-card ds-card--flat">
+        <span class="public-home__feature-icon" aria-hidden="true">
+          <mat-icon>trending_up</mat-icon>
+        </span>
+        <h3 class="public-home__feature-title">Track your progress</h3>
+        <p class="public-home__feature-text">Monitor completion, stay motivated, and celebrate milestones as you learn.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Featured Courses -->
+  <section
+    class="public-home__section public-home__courses-section"
+    id="featured-courses"
+    aria-labelledby="featured-courses-title"
+  >
+    <header class="public-home__section-header public-home__section-header--row">
+      <div>
+        <h2 id="featured-courses-title" class="public-home__section-title">Featured Courses</h2>
+        <p class="public-home__section-subtitle">Discover published courses from our expert trainers.</p>
+      </div>
+
+      @if (courses.length > slidesPerView) {
+        <div class="public-home__carousel-controls">
+          <button
+            type="button"
+            class="public-home__carousel-btn"
+            (click)="prevSlide()"
+            [disabled]="!canCarouselPrev()"
+            aria-label="Previous courses"
+          >
+            <mat-icon aria-hidden="true">chevron_left</mat-icon>
+          </button>
+          <button
+            type="button"
+            class="public-home__carousel-btn"
+            (click)="nextSlide()"
+            [disabled]="!canCarouselNext()"
+            aria-label="Next courses"
+          >
+            <mat-icon aria-hidden="true">chevron_right</mat-icon>
+          </button>
+        </div>
+      }
+    </header>
+
+    @if (coursesLoading) {
+      <div class="public-home__courses-state" aria-busy="true" aria-live="polite">
+        <p>Loading courses...</p>
+      </div>
+    } @else if (coursesError) {
+      <div class="public-home__courses-state public-home__courses-state--error" aria-live="polite">
+        <mat-icon aria-hidden="true">error_outline</mat-icon>
+        <p>{{ coursesError }}</p>
+        <button mat-flat-button color="primary" type="button" (click)="loadCourses()">Retry</button>
+      </div>
+    } @else if (courses.length === 0) {
+      <div class="public-home__courses-state ds-card ds-card--flat">
+        <mat-icon aria-hidden="true">menu_book</mat-icon>
+        <p>No courses available at the moment.</p>
+      </div>
+    } @else {
+      <div
+        class="public-home__carousel"
+        [style.--slide-count]="courses.length"
+        [style.--slides-per-view]="slidesPerView"
+      >
+        <div class="public-home__carousel-viewport">
+          <div
+            class="public-home__carousel-track"
+            [style.transform]="'translateX(-' + trackOffsetPercent() + '%)'"
+          >
+            @for (course of courses; track course.id) {
+              <article class="public-home__course-card ds-card ds-card--flat">
+                <div class="public-home__course-thumb">
+                  @if (course.thumbnailUrl) {
+                    <img [src]="course.thumbnailUrl" [alt]="course.title" loading="lazy" />
+                  } @else {
+                    <span class="public-home__course-thumb-placeholder">
+                      <mat-icon aria-hidden="true">image</mat-icon>
+                    </span>
+                  }
+                </div>
+
+                <div class="public-home__course-body">
+                  <h3 class="public-home__course-title">{{ course.title }}</h3>
+
+                  
+
+                  <a
+                    mat-flat-button
+                    color="primary"
+                    class="public-home__course-btn"
+                    [routerLink]="['/courses', course.id]"
+                  >
+                    View Course
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- CTA -->
+  <section class="public-home__cta-band ds-card ds-card--flat" aria-label="Get started">
+    <div>
+      <h2 class="public-home__cta-title">Ready to start learning?</h2>
+      <p class="public-home__cta-text">Create your free account and join Training Platform today.</p>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/register">Sign Up Now</a>
+  </section>
+</section>

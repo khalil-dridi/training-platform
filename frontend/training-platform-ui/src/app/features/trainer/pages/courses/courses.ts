@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ConfirmationService } from '../../../../shared/confirmation/confirmation.service';
 import { CourseService } from '../../services/course';
 import { CourseResponse } from '../models/course-response.model';
 
@@ -15,6 +16,7 @@ import { CourseResponse } from '../models/course-response.model';
 })
 export class Courses implements OnInit {
   private readonly courseService = inject(CourseService);
+  private readonly confirmation = inject(ConfirmationService);
   private readonly router = inject(Router);
 
   courses: CourseResponse[] = [];
@@ -34,46 +36,55 @@ export class Courses implements OnInit {
       },
     });
   }
-  deleteCourse(id: number): void {
-  const confirmed = confirm(
-    'Are you sure you want to delete this course?'
-  );
 
-  if (!confirmed) {
-    return;
+  deleteCourse(id: number): void {
+    const course = this.courses.find((item) => item.id === id);
+    const title = course?.title ?? 'this course';
+
+    this.confirmation
+      .confirm({
+        title: 'Delete this course?',
+        message: `Delete "${title}" permanently? Chapters, lessons and enrollments linked to it may be affected. This cannot be undone.`,
+        confirmLabel: 'Delete course',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'delete_forever',
+        action: () => this.courseService.deleteCourse(id),
+        successMessage: `Course "${title}" deleted successfully.`,
+        errorFallback: 'Failed to delete course.',
+      })
+      .subscribe({
+        next: () => {
+          this.courses = this.courses.filter((item) => item.id !== id);
+        },
+      });
   }
 
-  this.courseService.deleteCourse(id).subscribe({
-    next: () => {
-      this.courses = this.courses.filter(
-        course => course.id !== id
-      );
-    },
-    error: (error) => {
-      console.error(
-        'Failed to delete course',
-        error
-      );
-    },
-  });
-}
-publishCourse(id: number): void {
-  this.courseService.publishCourse(id).subscribe({
-    next: (response) => {
-      this.courses = this.courses.map(course =>
-        course.id === id
-          ? response.data
-          : course
-      );
-    },
-    error: (error) => {
-      console.error(
-        'Failed to publish course',
-        error
-      );
-    },
-  });
-}
+  publishCourse(id: number): void {
+    const course = this.courses.find((item) => item.id === id);
+    const title = course?.title ?? 'this course';
+
+    this.confirmation
+      .confirm({
+        title: 'Publish this course?',
+        message: `Publish "${title}" and make it visible to learners on the platform?`,
+        confirmLabel: 'Publish',
+        cancelLabel: 'Cancel',
+        tone: 'primary',
+        icon: 'publish',
+        action: () => this.courseService.publishCourse(id),
+        successMessage: `Course "${title}" published successfully.`,
+        errorFallback: 'Failed to publish course.',
+      })
+      .subscribe({
+        next: (response) => {
+          this.courses = this.courses.map((item) =>
+            item.id === id ? response.data : item
+          );
+        },
+      });
+  }
+
   updateCourse(id: number): void {
     this.router.navigate(['/trainer/courses/edit', id]);
   }
@@ -115,11 +126,8 @@ publishCourse(id: number): void {
   metricPlaceholder(): string {
     return '—';
   }
+
   viewStudents(courseId: number): void {
-  this.router.navigate([
-    '/trainer/courses',
-    courseId,
-    'students'
-  ]);
-}
+    this.router.navigate(['/trainer/courses', courseId, 'students']);
+  }
 }

@@ -1,0 +1,40 @@
+<footer class="public-footer" role="contentinfo">
+  <div class="public-footer__inner">
+    <div class="public-footer__grid">
+      <div class="public-footer__brand-block">
+        <a class="public-footer__brand" routerLink="/">
+          <span class="public-footer__logo" aria-hidden="true">
+            <mat-icon>school</mat-icon>
+          </span>
+          <span>
+            <span class="public-footer__brand-name">Training Platform</span>
+            <span class="public-footer__tagline">Learn. Grow. Succeed.</span>
+          </span>
+        </a>
+        <p class="public-footer__description">
+          Professional online training to help you build skills, advance your career, and reach your goals.
+        </p>
+      </div>
+
+      <div class="public-footer__column">
+        <h2 class="public-footer__column-title">Explore</h2>
+        <nav class="public-footer__links" aria-label="Footer explore links">
+          <a routerLink="/">Home</a>
+          <a href="/#featured-courses" (click)="goToCourses($event)">Courses</a>
+        </nav>
+      </div>
+
+      <div class="public-footer__column">
+        <h2 class="public-footer__column-title">Account</h2>
+        <nav class="public-footer__links" aria-label="Footer account links">
+          <a routerLink="/login">Login</a>
+          <a routerLink="/register">Sign Up</a>
+        </nav>
+      </div>
+    </div>
+
+    <p class="public-footer__copyright">
+      &copy; 2026 Training Platform. All rights reserved.
+    </p>
+  </div>
+</footer>

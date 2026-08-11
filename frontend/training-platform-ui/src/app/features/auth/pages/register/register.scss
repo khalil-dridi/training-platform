@@ -1,8 +1,8 @@
 ////
-/// Register page — styles locaux
+/// Register page — compact SaaS / e-learning
 /// ---------------------------------------------------------------------------
-/// Rôle : même langage visuel que Login, Forgot Password et Reset Password.
-/// Tokens Design System uniquement — aucune couleur / spacing inventés.
+/// Objectif : tenir dans le viewport (md+) sans scroll vertical.
+/// Tokens design system uniquement.
 ////
 
 @use '../../../../../styles/abstracts/variables' as *;
@@ -22,22 +22,69 @@
   }
 }
 
+@keyframes register-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes register-btn-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-3px);
+  }
+
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes register-bar-fill {
+  from {
+    transform: scaleX(0.35);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
 // -----------------------------------------------------------------------------
-// Page shell
+// Page shell — no page scroll on tablet/desktop
 // -----------------------------------------------------------------------------
 .register-page {
   display: grid;
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: $background-color;
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba($primary-color, 0.06), transparent 55%),
+    $background-color;
+
+  @include respond-to(md) {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
 
   @include respond-to(lg) {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    background-color: $surface-color;
   }
 }
 
 // -----------------------------------------------------------------------------
-// Brand panel — masqué < lg
+// Brand panel
 // -----------------------------------------------------------------------------
 .register-brand {
   display: none;
@@ -45,23 +92,24 @@
   overflow: hidden;
   color: $text-inverse;
   background: linear-gradient(
-    160deg,
+    155deg,
     $primary-dark 0%,
-    $primary-active 34%,
-    $primary-color 68%,
+    $primary-active 38%,
+    $primary-color 72%,
     $primary-hover 100%
   );
 
   @include respond-to(lg) {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    align-content: stretch;
-    padding: $spacing-8;
-    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    min-height: 0;
+    padding: $spacing-6 $spacing-8;
   }
 
   @include respond-to(xl) {
-    padding: $spacing-12;
+    padding: $spacing-8 $spacing-12;
   }
 }
 
@@ -69,77 +117,47 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  color: $text-inverse;
+  animation: register-fade-in $transition-slow both;
 }
 
-.register-brand__shape {
+.register-brand__glow {
   position: absolute;
   border-radius: $radius-full;
-  pointer-events: none;
-}
+  filter: blur($spacing-12);
 
-.register-brand__shape--orb {
-  width: $spacing-16 * 3;
-  height: $spacing-16 * 3;
-  top: -$spacing-8;
-  right: -$spacing-6;
-  background: radial-gradient(circle, rgba($neutral-0, 0.16) 0%, transparent 70%);
-}
-
-.register-brand__shape--ring {
-  width: $spacing-16 * 2;
-  height: $spacing-16 * 2;
-  bottom: $spacing-16;
-  left: -$spacing-8;
-  border: $spacing-1 solid rgba($neutral-0, 0.12);
-  background: transparent;
-  border-radius: $radius-full;
-}
-
-.register-brand__shape--bar {
-  width: $spacing-16;
-  height: $spacing-16;
-  top: 28%;
-  right: 12%;
-  border-radius: $radius-large;
-  background-color: rgba($neutral-0, 0.06);
-  box-shadow: $shadow-lg;
-  transform: rotate(18deg);
-}
-
-.register-brand__shape--dot {
-  width: $spacing-3;
-  height: $spacing-3;
-  top: 18%;
-  left: 22%;
-  background-color: rgba($neutral-0, 0.35);
-}
-
-.register-brand__illustration {
-  position: absolute;
-  right: $spacing-4;
-  top: $spacing-6;
-  width: min(52%, #{$spacing-16 * 5});
-  max-width: $spacing-16 * 5;
-  height: auto;
-  color: $text-inverse;
-  opacity: 0.95;
-  filter: drop-shadow(0 $spacing-2 $spacing-4 rgba($primary-dark, 0.35));
-
-  @include respond-to(xl) {
-    right: $spacing-8;
-    top: $spacing-8;
-    width: min(48%, #{$spacing-16 * 5.5});
+  &--primary {
+    width: 55%;
+    height: 40%;
+    top: -8%;
+    right: -10%;
+    background: rgba($neutral-0, 0.16);
   }
+
+  &--soft {
+    width: 42%;
+    height: 32%;
+    bottom: 10%;
+    left: -12%;
+    background: rgba($info-color, 0.2);
+  }
+}
+
+.register-brand__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image:
+    linear-gradient(rgba($neutral-0, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($neutral-0, 0.35) 1px, transparent 1px);
+  background-size: $spacing-8 $spacing-8;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 25%, transparent 75%);
 }
 
 .register-brand__content {
   position: relative;
   z-index: 1;
-  align-self: end;
-  max-width: $container-narrow;
-  padding-top: $spacing-16;
-  animation: register-fade-up $transition-slow both;
+  max-width: 34rem;
+  animation: register-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -150,7 +168,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-3;
-  margin-bottom: $spacing-6;
+  margin-bottom: $spacing-4;
 }
 
 .register-brand__mark {
@@ -161,8 +179,7 @@
   height: $spacing-12;
   border-radius: $radius-medium;
   background-color: rgba($neutral-0, 0.14);
-  box-shadow: $shadow-sm;
-  backdrop-filter: blur($spacing-1);
+  border: 1px solid rgba($neutral-0, 0.18);
 
   mat-icon {
     font-size: $font-size-h2;
@@ -173,62 +190,44 @@
 }
 
 .register-brand__name {
-  @include typography(h1);
   margin: 0;
+  @include typography(h2);
   color: $text-inverse;
 }
 
-.register-brand__pillars {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-2;
-  margin-bottom: $spacing-6;
+.register-brand__eyebrow {
+  margin: $spacing-1 0 0;
+  @include typography(small);
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: rgba($neutral-0, 0.72);
+}
 
-  li {
-    display: inline-flex;
-    align-items: center;
-    gap: $spacing-2;
-    padding: $spacing-2 $spacing-3;
-    border-radius: $radius-full;
-    background-color: rgba($neutral-0, 0.1);
-    border: 1px solid rgba($neutral-0, 0.14);
-    @include typography(small);
-    font-weight: $font-weight-medium;
-    color: $text-inverse;
-    transition:
-      background-color $transition-fast,
-      border-color $transition-fast;
-
-    &:hover {
-      background-color: rgba($neutral-0, 0.16);
-      border-color: rgba($neutral-0, 0.24);
-    }
-
-    mat-icon {
-      font-size: $font-size-body;
-      width: $font-size-body;
-      height: $font-size-body;
-      opacity: 0.9;
-    }
-  }
+.register-brand__headline {
+  margin: 0 0 $spacing-3;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-snug;
+  color: $text-inverse;
+  max-width: 22ch;
 }
 
 .register-brand__tagline {
-  @include typography(body);
-  max-width: 42ch;
-  margin-bottom: $spacing-6;
-  color: rgba($neutral-0, 0.9);
+  margin: 0 0 $spacing-4;
+  @include typography(small);
   line-height: $line-height-relaxed;
+  color: rgba($neutral-0, 0.88);
+  max-width: 42ch;
 }
 
 .register-brand__perks {
   display: grid;
-  gap: $spacing-3;
+  gap: $spacing-2;
 
   li {
     display: flex;
     align-items: center;
-    gap: $spacing-3;
+    gap: $spacing-2;
     @include typography(small);
     color: rgba($neutral-0, 0.92);
 
@@ -237,8 +236,7 @@
       font-size: $font-size-body;
       width: $font-size-body;
       height: $font-size-body;
-      color: $text-inverse;
-      opacity: 0.85;
+      opacity: 0.9;
     }
   }
 }
@@ -248,27 +246,39 @@
 // -----------------------------------------------------------------------------
 .register-panel {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   width: 100%;
-  padding: $spacing-6 $spacing-4;
-  background-color: $background-color;
+  min-height: 0;
+  padding: $spacing-4;
 
   @include respond-to(md) {
-    padding: $spacing-8 $spacing-6;
+    height: 100%;
+    overflow: hidden;
+    padding: $spacing-4 $spacing-6;
   }
 
   @include respond-to(lg) {
-    padding: $spacing-12 $spacing-8;
-    background-color: $surface-color;
+    padding: $spacing-4 $spacing-8;
+    background:
+      radial-gradient(ellipse 70% 40% at 0% 0%, rgba($primary-color, 0.04), transparent 50%),
+      $surface-color;
   }
 }
 
 .register-panel__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  max-width: #{$sidebar-width + $spacing-16 * 2};
-  animation: register-fade-up $transition-slow both;
-  animation-delay: 40ms;
+  max-width: 32rem;
+  min-height: 0;
+  animation: register-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 50ms;
+
+  @include respond-to(md) {
+    height: 100%;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
@@ -276,17 +286,18 @@
 }
 
 // -----------------------------------------------------------------------------
-// Header
+// Header — compact
 // -----------------------------------------------------------------------------
 .register-header {
-  margin-bottom: $spacing-6;
+  flex-shrink: 0;
+  margin-bottom: $spacing-3;
 }
 
 .register-header__brand {
   display: inline-flex;
   align-items: center;
   gap: $spacing-2;
-  margin-bottom: $spacing-4;
+  margin-bottom: $spacing-2;
   @include typography(small);
   font-weight: $font-weight-semibold;
   letter-spacing: $letter-spacing-wide;
@@ -306,6 +317,7 @@
   height: $spacing-8;
   border-radius: $radius-medium;
   background-color: $primary-light;
+  border: 1px solid rgba($primary-color, 0.12);
 
   mat-icon {
     font-size: $font-size-body;
@@ -315,28 +327,49 @@
   }
 }
 
+.register-header__kicker {
+  margin: 0 0 $spacing-1;
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: $primary-color;
+}
+
 .register-header__title {
-  @include typography(h1);
-  margin-bottom: $spacing-2;
+  margin: 0 0 $spacing-1;
+  font-size: $font-size-h3;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
   color: $text-primary;
+
+  @include respond-to(xl) {
+    font-size: $font-size-h2;
+  }
 }
 
 .register-header__welcome {
-  @include typography(body);
+  margin: 0;
+  @include typography(small);
   color: $text-secondary;
-  max-width: 42ch;
-  line-height: $line-height-relaxed;
+  line-height: $line-height-normal;
 }
 
 // -----------------------------------------------------------------------------
 // Card
 // -----------------------------------------------------------------------------
 .register-card {
+  flex: 1 1 auto;
+  min-height: 0;
   border-radius: $radius-large;
   border-color: $border-color;
   box-shadow: $shadow-md;
   background-color: $surface-color;
-  transition: box-shadow $transition-base;
+
+  @include respond-to(md) {
+    display: flex;
+    flex-direction: column;
+  }
 
   @include respond-to(lg) {
     box-shadow: none;
@@ -345,10 +378,15 @@
   }
 
   mat-card-content {
-    padding: $spacing-6 $spacing-4 !important;
+    padding: $spacing-4 !important;
 
     @include respond-to(md) {
-      padding: $spacing-6 !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      min-height: 0;
+      padding: $spacing-3 $spacing-4 !important;
     }
 
     @include respond-to(lg) {
@@ -358,17 +396,17 @@
 }
 
 // -----------------------------------------------------------------------------
-// Form
+// Form — dense
 // -----------------------------------------------------------------------------
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-4;
+  gap: $spacing-2;
 }
 
 .register-form__row {
   display: grid;
-  gap: $spacing-4;
+  gap: $spacing-2;
 
   @include respond-to(md) {
     grid-template-columns: 1fr 1fr;
@@ -378,15 +416,50 @@
 .register-form__field {
   width: 100%;
 
+  .mat-mdc-form-field-subscript-wrapper {
+    margin-top: 0;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    transition:
+      box-shadow $transition-fast,
+      border-color $transition-fast;
+  }
+
   .mat-mdc-form-field-icon-prefix,
   .mat-mdc-form-field-icon-suffix {
     color: $text-muted;
+    transition: color $transition-fast;
   }
 
   &:focus-within {
     .mat-mdc-form-field-icon-prefix {
       color: $primary-color;
-      transition: color $transition-fast;
+    }
+  }
+
+  &--valid {
+    .mat-mdc-form-field-icon-prefix {
+      color: $success-color;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: rgba($success-color, 0.55) !important;
+    }
+  }
+
+  &.ng-invalid.ng-touched,
+  &--error {
+    .mat-mdc-form-field-icon-prefix {
+      color: $error-color;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: rgba($error-color, 0.7) !important;
     }
   }
 }
@@ -401,8 +474,8 @@
 
 .register-form__submit {
   width: 100%;
-  min-height: $spacing-12;
-  margin-top: $spacing-2;
+  min-height: 2.75rem;
+  margin-top: $spacing-1;
   border-radius: $radius-medium;
   font-weight: $font-weight-semibold;
   letter-spacing: $letter-spacing-wide;
@@ -412,13 +485,30 @@
     box-shadow $transition-base,
     transform $transition-fast;
 
+  .register-form__submit-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+  }
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: #{$text-inverse};
+  }
+
   &:hover:not(:disabled) {
     box-shadow: $shadow-md;
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
-    transform: translateY(1px);
-    box-shadow: $shadow-sm;
+    transform: translateY(0);
   }
 
   &:focus-visible {
@@ -428,18 +518,153 @@
   &:disabled {
     box-shadow: none;
   }
+
+  &--loading {
+    cursor: progress;
+  }
+
+  &--success {
+    background-color: $success-color !important;
+  }
+
+  &--error {
+    background-color: $error-color !important;
+    animation: register-btn-shake 0.35s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
-// Links
+// Password strength + rules
+// -----------------------------------------------------------------------------
+.register-strength {
+  display: grid;
+  gap: $spacing-1;
+  padding: $spacing-2 $spacing-3;
+  border-radius: $radius-medium;
+  background-color: $secondary-light;
+  border: 1px solid $border-color;
+  animation: register-fade-up 0.25s ease both;
+}
+
+.register-strength__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+}
+
+.register-strength__label,
+.register-strength__value {
+  @include typography(small);
+  font-weight: $font-weight-medium;
+}
+
+.register-strength__label {
+  color: $text-secondary;
+}
+
+.register-strength__value {
+  color: $text-primary;
+}
+
+.register-strength__bars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-1;
+
+  span {
+    height: 0.35rem;
+    border-radius: $radius-full;
+    background-color: $neutral-200;
+    transform-origin: left center;
+    transition: background-color $transition-fast;
+  }
+}
+
+.register-strength[data-level='weak'] {
+  .register-strength__value {
+    color: $error-color;
+  }
+
+  .register-strength__bars span:nth-child(1) {
+    background-color: $error-color;
+    animation: register-bar-fill 0.25s ease both;
+  }
+}
+
+.register-strength[data-level='fair'] {
+  .register-strength__value {
+    color: $warning-color;
+  }
+
+  .register-strength__bars span:nth-child(-n + 2) {
+    background-color: $warning-color;
+    animation: register-bar-fill 0.25s ease both;
+  }
+}
+
+.register-strength[data-level='good'] {
+  .register-strength__value {
+    color: $info-color;
+  }
+
+  .register-strength__bars span:nth-child(-n + 3) {
+    background-color: $info-color;
+    animation: register-bar-fill 0.25s ease both;
+  }
+}
+
+.register-strength[data-level='strong'] {
+  .register-strength__value {
+    color: $success-color;
+  }
+
+  .register-strength__bars span {
+    background-color: $success-color;
+    animation: register-bar-fill 0.25s ease both;
+  }
+}
+
+.register-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-1 $spacing-2;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    @include typography(small);
+    color: $text-muted;
+    transition: color $transition-fast;
+
+    mat-icon {
+      font-size: 0.95rem;
+      width: 0.95rem;
+      height: 0.95rem;
+    }
+  }
+}
+
+.register-rules__item--met {
+  color: $success-color;
+  font-weight: $font-weight-medium;
+}
+
+// -----------------------------------------------------------------------------
+// Links / divider / oauth
 // -----------------------------------------------------------------------------
 .register-link {
   @include typography(small);
   color: $text-link;
   text-decoration: none;
-  transition:
-    color $transition-fast,
-    text-decoration-color $transition-fast;
+  transition: color $transition-fast;
 
   &:hover {
     color: $primary-hover;
@@ -455,35 +680,55 @@
 
   &--emphasis {
     font-weight: $font-weight-semibold;
-    text-decoration: underline;
-    text-decoration-color: rgba($primary-color, 0.35);
-    text-underline-offset: $spacing-1;
+  }
+
+  &--back {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+
+    mat-icon {
+      font-size: $font-size-body;
+      width: $font-size-body;
+      height: $font-size-body;
+    }
 
     &:hover {
-      text-decoration-color: $primary-hover;
+      color: $primary-color;
     }
   }
 }
 
-// -----------------------------------------------------------------------------
-// Divider
-// -----------------------------------------------------------------------------
+.register-back {
+  display: flex;
+  justify-content: center;
+  margin-top: $spacing-3;
+}
+
 .register-divider {
   display: flex;
   align-items: center;
-  gap: $spacing-3;
-  margin-block: $spacing-6;
+  gap: $spacing-2;
+  margin-block: $spacing-3;
 }
 
 .register-divider__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, $divider-color 20%, $divider-color 80%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $divider-color 20%,
+    $divider-color 80%,
+    transparent
+  );
 }
 
 .register-divider__label {
   flex-shrink: 0;
-  padding: $spacing-1 $spacing-3;
+  padding: $spacing-1 $spacing-2;
   border-radius: $radius-full;
   background-color: $secondary-light;
   border: 1px solid $border-color;
@@ -493,16 +738,13 @@
   color: $text-muted;
 }
 
-// -----------------------------------------------------------------------------
-// OAuth Google
-// -----------------------------------------------------------------------------
 .register-oauth {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-3;
+  gap: $spacing-2;
   width: 100%;
-  min-height: $spacing-12;
+  min-height: 2.75rem;
   border-radius: $radius-medium;
   border-color: $border-color;
   background-color: $surface-color;
@@ -514,21 +756,23 @@
     background-color $transition-fast,
     border-color $transition-fast,
     box-shadow $transition-base,
-    transform $transition-fast;
+    transform $transition-fast,
+    opacity $transition-fast;
 
   &:hover {
     background-color: $neutral-50;
     border-color: $neutral-300;
     box-shadow: $shadow-md;
-  }
-
-  &:active {
-    transform: translateY(1px);
-    box-shadow: $shadow-sm;
+    transform: translateY(-1px);
   }
 
   &:focus-visible {
     box-shadow: $shadow-focus;
+  }
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.6;
   }
 }
 
@@ -536,25 +780,29 @@
   width: $spacing-6;
   height: $spacing-6;
   flex-shrink: 0;
-  color: $secondary-color;
 }
 
-// -----------------------------------------------------------------------------
-// Sign-in + footer
-// -----------------------------------------------------------------------------
 .register-signin {
   @include typography(small);
-  margin-top: $spacing-6;
+  margin-top: $spacing-3;
   text-align: center;
   color: $text-secondary;
 }
 
-.register-footer {
-  margin-top: $spacing-8;
-  text-align: center;
+// -----------------------------------------------------------------------------
+// Mobile — allow natural scroll
+// -----------------------------------------------------------------------------
+@media (max-width: #{$breakpoint-md - 1px}) {
+  .register-page {
+    height: auto;
+    overflow: visible;
+  }
 
-  p {
-    @include typography(small);
-    color: $text-muted;
+  .register-rules {
+    grid-template-columns: 1fr;
+  }
+
+  .register-panel {
+    padding: $spacing-4 $spacing-3 $spacing-6;
   }
 }

@@ -1,18 +1,96 @@
 ////
-/// Notification snackbar — styles locaux
+/// Notification snackbar — toasts SaaS premium
 /// ---------------------------------------------------------------------------
-/// Rôle : apparence succès / erreur via Design Tokens (CSS variables globales).
+/// Rôle : succès / erreur / avertissement différenciés, animés, dismissibles.
+/// Tokens uniquement (CSS variables globales du design system).
 ////
 
+@keyframes tp-notification-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tp-notification-icon-pop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.tp-notification-panel {
+  max-width: min(26rem, calc(100vw - 2rem)) !important;
+  margin: var(--space-4) auto 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-lg) !important;
+  animation: tp-notification-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  .mdc-snackbar__surface,
+  .mat-mdc-snack-bar-label {
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 .tp-notification {
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
   min-width: 0;
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+}
+
+.tp-notification__accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.tp-notification__icon-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: 0.05rem;
+  border-radius: var(--radius-md);
+  animation: tp-notification-icon-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 
 .tp-notification__icon {
-  flex-shrink: 0;
   width: var(--font-size-h3);
   height: var(--font-size-h3);
   font-size: var(--font-size-h3);
@@ -21,35 +99,94 @@
 .tp-notification__message {
   flex: 1;
   min-width: 0;
+  padding-top: 0.2rem;
   font-family: var(--font-family-base);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
 }
 
-.tp-notification-panel {
-  border-radius: var(--radius-md) !important;
-  box-shadow: var(--shadow-md) !important;
+.tp-notification__close {
+  flex-shrink: 0;
+  width: 2rem !important;
+  height: 2rem !important;
+  padding: 0 !important;
+  color: var(--color-text-muted) !important;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+
+  mat-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    font-size: 1.125rem;
+  }
+
+  &:hover {
+    color: var(--color-text-primary) !important;
+    background-color: rgb(15 23 42 / 0.06) !important;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
 }
 
+// -----------------------------------------------------------------------------
+// Variants — surfaces claires + accents sémantiques
+// -----------------------------------------------------------------------------
 .tp-notification-panel--success {
-  --mdc-snackbar-container-color: var(--color-success);
-  --mdc-snackbar-supporting-text-color: var(--color-text-inverse);
-  --mat-snack-bar-button-color: var(--color-text-inverse);
+  --mdc-snackbar-container-color: var(--color-success-light);
+  --mdc-snackbar-supporting-text-color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-success) 28%, var(--color-border)) !important;
 
-  .tp-notification__icon,
-  .tp-notification__message {
-    color: var(--color-text-inverse);
+  .tp-notification__accent {
+    background-color: var(--color-success);
+  }
+
+  .tp-notification__icon-wrap {
+    background-color: color-mix(in srgb, var(--color-success) 14%, transparent);
+  }
+
+  .tp-notification__icon {
+    color: var(--color-success);
   }
 }
 
 .tp-notification-panel--error {
-  --mdc-snackbar-container-color: var(--color-error);
-  --mdc-snackbar-supporting-text-color: var(--color-text-inverse);
-  --mat-snack-bar-button-color: var(--color-text-inverse);
+  --mdc-snackbar-container-color: var(--color-error-light);
+  --mdc-snackbar-supporting-text-color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-error) 28%, var(--color-border)) !important;
 
-  .tp-notification__icon,
-  .tp-notification__message {
-    color: var(--color-text-inverse);
+  .tp-notification__accent {
+    background-color: var(--color-error);
+  }
+
+  .tp-notification__icon-wrap {
+    background-color: color-mix(in srgb, var(--color-error) 14%, transparent);
+  }
+
+  .tp-notification__icon {
+    color: var(--color-error);
+  }
+}
+
+.tp-notification-panel--warning {
+  --mdc-snackbar-container-color: var(--color-warning-light);
+  --mdc-snackbar-supporting-text-color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-warning) 28%, var(--color-border)) !important;
+
+  .tp-notification__accent {
+    background-color: var(--color-warning);
+  }
+
+  .tp-notification__icon-wrap {
+    background-color: color-mix(in srgb, var(--color-warning) 14%, transparent);
+  }
+
+  .tp-notification__icon {
+    color: var(--color-warning);
   }
 }

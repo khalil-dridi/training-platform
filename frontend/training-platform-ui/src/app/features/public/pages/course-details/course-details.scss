@@ -1,0 +1,559 @@
+@use '../../../../../styles/abstracts/variables' as *;
+
+@keyframes public-course-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.public-course-details {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: $spacing-6 $spacing-4 $spacing-12;
+  background-color: $surface-color;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6 $spacing-12;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8 $spacing-8 $spacing-16;
+  }
+}
+
+.public-course-details__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// -----------------------------------------------------------------------------
+// Loading skeleton
+// -----------------------------------------------------------------------------
+.public-course-details--loading {
+  .public-course-details__skeleton-back,
+  .public-course-details__skeleton-media,
+  .public-course-details__skeleton-line,
+  .public-course-details__skeleton-chips span,
+  .public-course-details__skeleton-sidebar {
+    border-radius: $radius-medium;
+    background: linear-gradient(
+      90deg,
+      $neutral-100 0%,
+      $neutral-50 45%,
+      $neutral-100 90%
+    );
+    background-size: 200% 100%;
+    animation: public-course-shimmer 1.4s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  .public-course-details__skeleton-back {
+    width: 140px;
+    height: 20px;
+    margin-bottom: $spacing-6;
+  }
+
+  .public-course-details__skeleton-media {
+    aspect-ratio: 16 / 9;
+    margin-bottom: $spacing-6;
+    border-radius: $radius-large;
+  }
+
+  .public-course-details__skeleton-line {
+    height: 16px;
+    margin-bottom: $spacing-3;
+
+    &--badge {
+      width: 88px;
+      height: 24px;
+      border-radius: $radius-full;
+    }
+
+    &--title {
+      width: min(100%, 420px);
+      height: 32px;
+    }
+
+    &--subtitle {
+      width: min(100%, 560px);
+      height: 18px;
+    }
+  }
+
+  .public-course-details__skeleton-chips {
+    display: flex;
+    gap: $spacing-3;
+    margin-top: $spacing-6;
+
+    span {
+      width: 120px;
+      height: 36px;
+      border-radius: $radius-full;
+    }
+  }
+
+  .public-course-details__skeleton-sidebar {
+    min-height: 320px;
+    border-radius: $radius-large;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Error state
+// -----------------------------------------------------------------------------
+.public-course-details--error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - #{$header-height} - #{$spacing-16});
+}
+
+.public-course-details__state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-4;
+  width: 100%;
+  max-width: 480px;
+  padding: $spacing-8 $spacing-6;
+  text-align: center;
+}
+
+.public-course-details__state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-full;
+  background-color: $error-light;
+  color: $error-color;
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+}
+
+.public-course-details__state-title {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.public-course-details__state-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.public-course-details__state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+  justify-content: center;
+  margin-top: $spacing-2;
+
+  a {
+    border-radius: $radius-medium;
+    font-weight: $font-weight-medium;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Back link
+// -----------------------------------------------------------------------------
+.public-course-details__back {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-6;
+  @include typography(small);
+  color: $text-link;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition:
+    color $transition-fast,
+    transform $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    color: $primary-hover;
+    transform: translateX(-2px);
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+.public-course-details__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-8;
+  align-items: start;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: $spacing-8;
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: $spacing-12;
+  }
+}
+
+.public-course-details__main {
+  min-width: 0;
+}
+
+// -----------------------------------------------------------------------------
+// Media hero
+// -----------------------------------------------------------------------------
+.public-course-details__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  margin-bottom: $spacing-6;
+  border-radius: $radius-large;
+  background: linear-gradient(135deg, $primary-light 0%, $neutral-100 100%);
+  box-shadow: $shadow-md;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.public-course-details__media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: rgba($primary-color, 0.45);
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.public-course-details__category {
+  position: absolute;
+  left: $spacing-4;
+  bottom: $spacing-4;
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  background-color: rgba($surface-color, 0.94);
+  backdrop-filter: blur(8px);
+  @include typography(small);
+  color: $primary-color;
+  font-weight: $font-weight-semibold;
+  box-shadow: $shadow-sm;
+}
+
+// -----------------------------------------------------------------------------
+// Header
+// -----------------------------------------------------------------------------
+.public-course-details__header {
+  margin-bottom: $spacing-6;
+}
+
+.public-course-details__level {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: $spacing-3;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  &--beginner {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--intermediate {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+
+  &--advanced {
+    background-color: $error-light;
+    color: $error-dark;
+  }
+}
+
+.public-course-details__title {
+  margin: 0 0 $spacing-3;
+  color: $neutral-900;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.public-course-details__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  line-height: $line-height-relaxed;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  max-width: 680px;
+}
+
+// -----------------------------------------------------------------------------
+// Highlights row
+// -----------------------------------------------------------------------------
+.public-course-details__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  list-style: none;
+  margin: 0 0 $spacing-8;
+  padding: 0;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-3;
+    border: 1px solid $border-color;
+    border-radius: $radius-full;
+    background-color: $neutral-50;
+    @include typography(small);
+    color: $text-secondary;
+    font-weight: $font-weight-medium;
+
+    mat-icon {
+      font-size: $font-size-small;
+      width: $font-size-small;
+      height: $font-size-small;
+      color: $primary-color;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Content sections
+// -----------------------------------------------------------------------------
+.public-course-details__section {
+  margin-bottom: $spacing-8;
+  padding-top: $spacing-6;
+  border-top: 1px solid $divider-color;
+}
+
+.public-course-details__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-4;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.public-course-details__description {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  white-space: pre-wrap;
+  line-height: $line-height-relaxed;
+}
+
+.public-course-details__instructor {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  background: linear-gradient(135deg, $primary-light 0%, $surface-color 55%);
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: rgba($primary-color, 0.2);
+  }
+}
+
+.public-course-details__instructor-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-full;
+  background-color: $surface-color;
+  color: $primary-color;
+  box-shadow: $shadow-sm;
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+}
+
+.public-course-details__instructor-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.public-course-details__instructor-name {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.public-course-details__instructor-hint {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+}
+
+// -----------------------------------------------------------------------------
+// Sticky enrollment sidebar
+// -----------------------------------------------------------------------------
+.public-course-details__sidebar {
+  min-width: 0;
+
+  @include respond-to(lg) {
+    position: sticky;
+    top: calc(#{$header-height} + #{$spacing-4});
+  }
+}
+
+.public-course-details__enroll-card {
+  padding: $spacing-6;
+  border-radius: $radius-large;
+  box-shadow: $shadow-lg;
+  border-color: rgba($primary-color, 0.12);
+}
+
+.public-course-details__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  margin-bottom: $spacing-6;
+  padding-bottom: $spacing-6;
+  border-bottom: 1px solid $divider-color;
+}
+
+.public-course-details__price {
+  @include typography(h2);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-bold;
+  letter-spacing: -0.02em;
+
+  &--free {
+    color: $success-color;
+  }
+}
+
+.public-course-details__price-note {
+  @include typography(small);
+  color: $text-muted;
+}
+
+.public-course-details__summary {
+  list-style: none;
+  margin: 0 0 $spacing-6;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    @include typography(small);
+    color: $text-secondary;
+
+    mat-icon {
+      flex-shrink: 0;
+      font-size: $font-size-body;
+      width: $font-size-body;
+      height: $font-size-body;
+      color: $primary-color;
+    }
+  }
+}
+
+.public-course-details__cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.public-course-details__cta {
+  width: 100%;
+  min-height: 44px;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    margin-right: $spacing-2;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &--secondary {
+    border-color: rgba($primary-color, 0.35);
+    color: $primary-color;
+    white-space: normal;
+    line-height: 1.35;
+    padding-block: $spacing-2;
+  }
+}
+
+.public-course-details__cta-hint {
+  @include typography(small);
+  margin: $spacing-4 0 0;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+  color: $text-muted;
+  line-height: $line-height-relaxed;
+  text-align: center;
+}

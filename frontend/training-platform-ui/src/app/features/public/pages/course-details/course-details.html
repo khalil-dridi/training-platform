@@ -1,0 +1,140 @@
+@if (isLoading) {
+  <div class="public-course-details public-course-details--loading" aria-busy="true" aria-live="polite">
+    <div class="public-course-details__skeleton-back" aria-hidden="true"></div>
+    <div class="public-course-details__layout">
+      <div class="public-course-details__main">
+        <div class="public-course-details__skeleton-media" aria-hidden="true"></div>
+        <div class="public-course-details__skeleton-line public-course-details__skeleton-line--badge" aria-hidden="true"></div>
+        <div class="public-course-details__skeleton-line public-course-details__skeleton-line--title" aria-hidden="true"></div>
+        <div class="public-course-details__skeleton-line public-course-details__skeleton-line--subtitle" aria-hidden="true"></div>
+        <div class="public-course-details__skeleton-chips" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <aside class="public-course-details__sidebar" aria-hidden="true">
+        <div class="public-course-details__skeleton-sidebar"></div>
+      </aside>
+    </div>
+    <p class="public-course-details__sr-only">Loading course...</p>
+  </div>
+} @else if (errorMessage) {
+  <div class="public-course-details public-course-details--error" aria-live="polite">
+    <div class="public-course-details__state-card ds-card ds-card--flat">
+      <span class="public-course-details__state-icon" aria-hidden="true">
+        <mat-icon>error_outline</mat-icon>
+      </span>
+      <h1 class="public-course-details__state-title">Unable to load course</h1>
+      <p class="public-course-details__state-text">{{ errorMessage }}</p>
+      <div class="public-course-details__state-actions">
+        <a mat-flat-button color="primary" routerLink="/" fragment="featured-courses">Browse Courses</a>
+        <a mat-stroked-button routerLink="/">Back to Home</a>
+      </div>
+    </div>
+  </div>
+} @else if (course) {
+  <article class="public-course-details">
+    <a class="public-course-details__back" routerLink="/" fragment="featured-courses">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to Courses
+    </a>
+
+    <div class="public-course-details__layout">
+      <div class="public-course-details__main">
+        <div class="public-course-details__media">
+          @if (course.thumbnailUrl) {
+            <img [src]="course.thumbnailUrl" [alt]="course.title" />
+          } @else {
+            <span class="public-course-details__media-placeholder" aria-hidden="true">
+              <mat-icon>menu_book</mat-icon>
+            </span>
+          }
+          <span class="public-course-details__category">{{ course.categoryName }}</span>
+        </div>
+
+        <header class="public-course-details__header">
+          <span class="public-course-details__level" [class]="levelBadgeClass(course.level)">
+            {{ formatLevel(course.level) }}
+          </span>
+          <h1 class="public-course-details__title">{{ course.title }}</h1>
+          <p class="public-course-details__subtitle">{{ course.shortDescription }}</p>
+        </header>
+
+        <ul class="public-course-details__highlights" aria-label="Course details">
+          <li>
+            <mat-icon aria-hidden="true">person</mat-icon>
+            <span>{{ course.trainerName }}</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="true">translate</mat-icon>
+            <span>{{ course.language }}</span>
+          </li>
+          <li>
+            <mat-icon aria-hidden="true">category</mat-icon>
+            <span>{{ course.categoryName }}</span>
+          </li>
+        </ul>
+
+        <section class="public-course-details__section" aria-labelledby="course-about-title">
+          <h2 id="course-about-title" class="public-course-details__section-title">About this course</h2>
+          <p class="public-course-details__description">{{ course.description }}</p>
+        </section>
+
+        <section class="public-course-details__instructor ds-card ds-card--flat" aria-labelledby="instructor-title">
+          <span class="public-course-details__instructor-avatar" aria-hidden="true">
+            <mat-icon>school</mat-icon>
+          </span>
+          <div class="public-course-details__instructor-body">
+            <h2 id="instructor-title" class="public-course-details__instructor-label">Instructor</h2>
+            <p class="public-course-details__instructor-name">{{ course.trainerName }}</p>
+            <p class="public-course-details__instructor-hint">Expert-led training on Training Platform</p>
+          </div>
+        </section>
+      </div>
+
+      <aside class="public-course-details__sidebar" aria-label="Enrollment">
+        <div class="public-course-details__enroll-card ds-card">
+          <div class="public-course-details__price-block">
+            @if (isFreeCourse()) {
+              <span class="public-course-details__price public-course-details__price--free">Free</span>
+              <span class="public-course-details__price-note">No payment required</span>
+            } @else {
+              <span class="public-course-details__price">
+                {{ course.price | currency: 'USD' : 'symbol' : '1.0-2' }}
+              </span>
+              <span class="public-course-details__price-note">One-time enrollment</span>
+            }
+          </div>
+
+          <ul class="public-course-details__summary">
+            <li>
+              <mat-icon aria-hidden="true">signal_cellular_alt</mat-icon>
+              <span>{{ formatLevel(course.level) }} level</span>
+            </li>
+            <li>
+              <mat-icon aria-hidden="true">translate</mat-icon>
+              <span>{{ course.language }}</span>
+            </li>
+            <li>
+              <mat-icon aria-hidden="true">category</mat-icon>
+              <span>{{ course.categoryName }}</span>
+            </li>
+          </ul>
+
+          <div class="public-course-details__cta-group">
+            <a mat-flat-button color="primary" class="public-course-details__cta" routerLink="/register">
+              <mat-icon aria-hidden="true">how_to_reg</mat-icon>
+              Sign Up to Enroll
+            </a>
+            <a mat-stroked-button class="public-course-details__cta public-course-details__cta--secondary" routerLink="/login">
+              Already have an account? Login
+            </a>
+          </div>
+
+          <p class="public-course-details__cta-hint">
+            Create a free account to enroll and start learning at your own pace.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </article>
+}

@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ConfirmationService } from '../../../../../shared/confirmation/confirmation.service';
 import { ChapterService } from '../../../services/chapter';
 import { ChapterResponse } from '../../models/chapter-response.model';
 import { CourseService } from '../../../services/course';
@@ -22,6 +23,7 @@ export class CourseContent implements OnInit {
   private readonly chapterService = inject(ChapterService);
   private readonly lessonService = inject(LessonService);
   private readonly courseService = inject(CourseService);
+  private readonly confirmation = inject(ConfirmationService);
 
   courseId!: number;
   course: CourseResponse | null = null;
@@ -93,42 +95,63 @@ export class CourseContent implements OnInit {
   }
 
   deleteChapter(id: number): void {
-    const confirmed = confirm('Are you sure you want to delete this chapter?');
+    const chapter = this.chapters.find((item) => item.id === id);
+    const title = chapter?.title ?? 'this chapter';
 
-    if (!confirmed) {
-      return;
-    }
-
-    this.chapterService.deleteChapter(id).subscribe({
-      next: () => {
-        this.chapters = this.chapters.filter((chapter) => chapter.id !== id);
-        delete this.lessonsByChapter[id];
-        this.expandedChapters.delete(id);
-      },
-      error: (error) => {
-        console.error('Failed to delete chapter', error);
-      },
-    });
+    this.confirmation
+      .confirm({
+        title: 'Delete this chapter?',
+        message: `Delete "${title}" and all of its lessons? This action cannot be undone.`,
+        confirmLabel: 'Delete chapter',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'delete_forever',
+        action: () => this.chapterService.deleteChapter(id),
+        successMessage: `Chapter "${title}" deleted successfully.`,
+        errorFallback: 'Failed to delete chapter.',
+      })
+      .subscribe({
+        next: () => {
+          this.chapters = this.chapters.filter((item) => item.id !== id);
+          delete this.lessonsByChapter[id];
+          this.expandedChapters.delete(id);
+        },
+      });
   }
 
   deleteLesson(id: number): void {
-    const confirmed = confirm('Are you sure you want to delete this lesson?');
+    let lessonTitle = 'this lesson';
 
-    if (!confirmed) {
-      return;
+    for (const chapterId of Object.keys(this.lessonsByChapter)) {
+      const lesson = this.lessonsByChapter[Number(chapterId)]?.find(
+        (item) => item.id === id
+      );
+      if (lesson) {
+        lessonTitle = lesson.title;
+        break;
+      }
     }
 
-    this.lessonService.deleteLesson(id).subscribe({
-      next: () => {
-        for (const chapterId in this.lessonsByChapter) {
-          this.lessonsByChapter[chapterId] = this.lessonsByChapter[chapterId].filter(
-            (lesson) => lesson.id !== id
-          );
-        }
-      },
-      error: (error) => {
-        console.error('Failed to delete lesson', error);
-      },
-    });
+    this.confirmation
+      .confirm({
+        title: 'Delete this lesson?',
+        message: `Delete "${lessonTitle}" permanently? Learners will lose access to this content.`,
+        confirmLabel: 'Delete lesson',
+        cancelLabel: 'Cancel',
+        tone: 'danger',
+        icon: 'delete_forever',
+        action: () => this.lessonService.deleteLesson(id),
+        successMessage: `Lesson "${lessonTitle}" deleted successfully.`,
+        errorFallback: 'Failed to delete lesson.',
+      })
+      .subscribe({
+        next: () => {
+          for (const chapterId in this.lessonsByChapter) {
+            this.lessonsByChapter[chapterId] = this.lessonsByChapter[chapterId].filter(
+              (lesson) => lesson.id !== id
+            );
+          }
+        },
+      });
   }
 }

@@ -1,0 +1,14 @@
+@use '../../../styles/abstracts/variables' as *;
+
+.public-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: $surface-color;
+}
+
+.public-layout__main {
+  flex: 1;
+  min-width: 0;
+}

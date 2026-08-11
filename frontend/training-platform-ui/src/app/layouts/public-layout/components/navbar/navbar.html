@@ -1,0 +1,112 @@
+<header
+  class="public-navbar"
+  [class.public-navbar--scrolled]="isScrolled()"
+  role="banner"
+>
+  <div class="public-navbar__inner">
+    <a class="public-navbar__brand" routerLink="/" (click)="closeMobileNav()">
+      <span class="public-navbar__logo" aria-hidden="true">
+        <mat-icon>school</mat-icon>
+      </span>
+      <span class="public-navbar__brand-text">Training Platform</span>
+    </a>
+
+    <nav class="public-navbar__nav" aria-label="Main navigation">
+      <a
+        class="public-navbar__link"
+        href="/"
+        routerLinkActive="public-navbar__link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="goToHome($event)"
+      >
+        <mat-icon aria-hidden="true">home</mat-icon>
+        Home
+      </a>
+      <a
+        class="public-navbar__link"
+        href="/#featured-courses"
+        (click)="goToCourses($event)"
+      >
+        <mat-icon aria-hidden="true">menu_book</mat-icon>
+        Courses
+      </a>
+    </nav>
+
+    <div class="public-navbar__actions">
+      <a mat-stroked-button class="public-navbar__login-btn" routerLink="/login">Login</a>
+      <a mat-flat-button color="primary" class="public-navbar__signup-btn" routerLink="/register">
+        Sign Up
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="public-navbar__mobile-toggle"
+      (click)="toggleMobileNav()"
+      [attr.aria-expanded]="isMobileOpen()"
+      aria-controls="public-navbar-mobile-menu"
+      aria-label="Open or close navigation menu"
+    >
+      <mat-icon aria-hidden="true">{{ isMobileOpen() ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+
+  @if (isMobileOpen()) {
+    <button
+      type="button"
+      class="public-navbar__backdrop"
+      (click)="closeMobileNav()"
+      aria-label="Close navigation menu"
+    ></button>
+  }
+
+  <aside
+    id="public-navbar-mobile-menu"
+    class="public-navbar__drawer"
+    [class.public-navbar__drawer--open]="isMobileOpen()"
+    aria-label="Mobile navigation"
+    [attr.aria-hidden]="!isMobileOpen()"
+  >
+    <div class="public-navbar__drawer-header">
+      <span class="public-navbar__drawer-title">Menu</span>
+      <button
+        type="button"
+        class="public-navbar__drawer-close"
+        (click)="closeMobileNav()"
+        aria-label="Close menu"
+      >
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    </div>
+
+    <nav class="public-navbar__drawer-nav">
+      <a
+        class="public-navbar__mobile-link"
+        href="/"
+        routerLinkActive="public-navbar__mobile-link--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="goToHome($event)"
+      >
+        <mat-icon aria-hidden="true">home</mat-icon>
+        Home
+      </a>
+      <a
+        class="public-navbar__mobile-link"
+        href="/#featured-courses"
+        (click)="goToCourses($event)"
+      >
+        <mat-icon aria-hidden="true">menu_book</mat-icon>
+        Courses
+      </a>
+    </nav>
+
+    <div class="public-navbar__drawer-actions">
+      <a mat-stroked-button class="public-navbar__drawer-btn" routerLink="/login" (click)="closeMobileNav()">
+        Login
+      </a>
+      <a mat-flat-button color="primary" class="public-navbar__drawer-btn" routerLink="/register" (click)="closeMobileNav()">
+        Sign Up
+      </a>
+    </div>
+  </aside>
+</header>
