@@ -1,0 +1,81 @@
+@use '../../../../../styles/abstracts/variables' as *;
+@use '../../../trainer/pages/courses/course-mgmt-shared';
+
+.learner-profile__grid {
+  display: grid;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+}
+
+.learner-profile__avatar-card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.learner-profile__avatar-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: $radius-full;
+  background-color: $primary-light;
+  @include typography(h2);
+  font-weight: $font-weight-bold;
+  color: $primary-color;
+}
+
+.course-mgmt-upload__preview--avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: $radius-full;
+  object-fit: cover;
+}
+
+.learner-profile__avatar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.learner-profile__account-meta {
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+}
+
+.learner-profile__meta-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.learner-profile__meta-value {
+  @include typography(body);
+  margin: 0 0 $spacing-3;
+  color: $text-primary;
+  font-weight: $font-weight-medium;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.learner-profile__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-4;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.learner-profile__password-card {
+  margin-top: 0;
+}

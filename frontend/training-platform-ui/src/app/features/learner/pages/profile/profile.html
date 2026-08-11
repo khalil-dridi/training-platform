@@ -1,0 +1,191 @@
+<div class="course-mgmt course-form-page learner-profile">
+  <header class="course-mgmt__header">
+    <div class="course-form-page__title-row">
+      <div class="course-form-page__intro">
+        <h1 class="course-mgmt__title">My Profile</h1>
+        <p class="course-mgmt__subtitle">Manage your account information and security settings.</p>
+      </div>
+    </div>
+  </header>
+
+  @if (user) {
+    <div class="learner-profile__grid">
+      <section class="course-mgmt__card ds-card ds-card--flat learner-profile__avatar-card">
+        <div class="course-mgmt-upload">
+          <span class="course-mgmt-upload__label">Profile Photo</span>
+
+          @if (avatarPreviewUrl) {
+            <img
+              class="course-mgmt-upload__preview course-mgmt-upload__preview--avatar"
+              [src]="avatarPreviewUrl"
+              [alt]="displayName(user)"
+            />
+          } @else {
+            <span class="learner-profile__avatar-fallback" aria-hidden="true">
+              {{ userInitials(user) }}
+            </span>
+          }
+
+          <label class="course-mgmt-upload__zone" for="avatar">
+            <mat-icon aria-hidden="true">photo_camera</mat-icon>
+            <p class="course-mgmt-upload__hint">Click to upload a new photo</p>
+            <p class="course-mgmt-upload__hint">PNG, JPG or WebP</p>
+            <input
+              class="course-mgmt-upload__input"
+              id="avatar"
+              type="file"
+              accept="image/*"
+              (change)="onAvatarSelected($event)"
+            />
+          </label>
+
+          @if (selectedAvatar) {
+            <p class="course-mgmt-upload__filename">{{ selectedAvatar.name }}</p>
+          }
+
+          <div class="learner-profile__avatar-actions">
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="uploadAvatar()"
+              [disabled]="!selectedAvatar || avatarUploading"
+            >
+              Upload Photo
+            </button>
+
+            @if (user.avatarUrl) {
+              <button
+                mat-stroked-button
+                type="button"
+                (click)="deleteAvatar()"
+                [disabled]="avatarUploading"
+              >
+                Remove Photo
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="learner-profile__account-meta">
+          <p class="learner-profile__meta-label">Email</p>
+          <p class="learner-profile__meta-value">{{ user.email }}</p>
+          <p class="learner-profile__meta-label">Role</p>
+          <p class="learner-profile__meta-value">{{ displayRole(user) }}</p>
+        </div>
+      </section>
+
+      <section class="course-mgmt__card ds-card ds-card--flat">
+        <h2 class="learner-profile__section-title">Personal Information</h2>
+
+        <form class="course-mgmt-form" [formGroup]="profileForm" (ngSubmit)="updateProfile()" novalidate>
+          <div class="course-mgmt-form__main">
+            <div class="course-mgmt-form__row">
+              <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+                <mat-label>First Name</mat-label>
+                <input matInput id="firstName" type="text" formControlName="firstName" required />
+                <mat-icon matPrefix aria-hidden="true">person</mat-icon>
+                @if (
+                  profileForm.controls.firstName.touched &&
+                  profileForm.controls.firstName.hasError('required')
+                ) {
+                  <mat-error>First name is required.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+                <mat-label>Last Name</mat-label>
+                <input matInput id="lastName" type="text" formControlName="lastName" required />
+                <mat-icon matPrefix aria-hidden="true">person_outline</mat-icon>
+                @if (
+                  profileForm.controls.lastName.touched &&
+                  profileForm.controls.lastName.hasError('required')
+                ) {
+                  <mat-error>Last name is required.</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Phone</mat-label>
+              <input matInput id="phone" type="text" formControlName="phone" />
+              <mat-icon matPrefix aria-hidden="true">phone</mat-icon>
+              @if (profileForm.controls.phone.touched && profileForm.controls.phone.invalid) {
+                <mat-error>Phone number must contain exactly 8 digits.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="course-mgmt-form__actions">
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              class="course-mgmt-form__submit"
+              [disabled]="profileSaving"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="course-mgmt__card ds-card ds-card--flat learner-profile__password-card">
+      <h2 class="learner-profile__section-title">Change Password</h2>
+
+      <form class="course-mgmt-form" [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+        <div class="course-mgmt-form__main">
+          <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+            <mat-label>Current Password</mat-label>
+            <input matInput id="currentPassword" type="password" formControlName="currentPassword" required />
+            <mat-icon matPrefix aria-hidden="true">lock</mat-icon>
+            @if (
+              passwordForm.controls.currentPassword.touched &&
+              passwordForm.controls.currentPassword.hasError('required')
+            ) {
+              <mat-error>Current password is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="course-mgmt-form__row">
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>New Password</mat-label>
+              <input matInput id="newPassword" type="password" formControlName="newPassword" required />
+              <mat-icon matPrefix aria-hidden="true">lock_outline</mat-icon>
+              @if (
+                passwordForm.controls.newPassword.touched &&
+                passwordForm.controls.newPassword.hasError('minlength')
+              ) {
+                <mat-error>Password must be at least 8 characters.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput id="confirmPassword" type="password" formControlName="confirmPassword" required />
+              <mat-icon matPrefix aria-hidden="true">lock_reset</mat-icon>
+              @if (passwordForm.controls.confirmPassword.touched && passwordsMismatch()) {
+                <mat-error>Passwords do not match.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="course-mgmt-form__actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="course-mgmt-form__submit"
+            [disabled]="passwordForm.invalid || passwordsMismatch() || passwordSaving"
+          >
+            Change Password
+          </button>
+        </div>
+      </form>
+    </section>
+  } @else {
+    <div class="course-form-page__loading" aria-busy="true">Loading profile...</div>
+  }
+</div>
