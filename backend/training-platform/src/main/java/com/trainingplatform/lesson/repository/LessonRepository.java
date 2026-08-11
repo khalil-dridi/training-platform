@@ -24,4 +24,11 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 """)
     long countByTrainer(@Param("trainer") User trainer);
 
+    long countByChapterCourseId(Long courseId);
+
+    long countByChapterCourseIdAndIdIn(
+            Long courseId,
+            List<Long> lessonIds
+    );
+
 }

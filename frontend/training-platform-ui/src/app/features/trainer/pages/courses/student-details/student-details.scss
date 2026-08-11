@@ -1,0 +1,317 @@
+////
+/// Trainer student details — dialog / page styles
+////
+
+@use '../../../../../../styles/abstracts/variables' as *;
+
+.trainer-student-details-dialog .mat-mdc-dialog-surface {
+  padding: 0;
+  border-radius: $radius-medium;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+}
+
+.trainer-student-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: $surface-color;
+}
+
+.trainer-student-details__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-3;
+  padding: $spacing-4 $spacing-4 $spacing-3;
+  border-bottom: 1px solid $border-color;
+  background-color: $neutral-50;
+
+  @include respond-to(md) {
+    padding: $spacing-6 $spacing-6 $spacing-4;
+  }
+}
+
+.trainer-student-details__header-text {
+  min-width: 0;
+}
+
+.trainer-student-details__title {
+  @include typography(h3);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.trainer-student-details__subtitle {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.trainer-student-details__close {
+  flex-shrink: 0;
+  color: $text-muted;
+
+  &:hover {
+    color: $text-primary;
+    background-color: $neutral-100;
+  }
+}
+
+.trainer-student-details__body {
+  padding: $spacing-4;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.trainer-student-details__profile {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+}
+
+.trainer-student-details__avatar {
+  flex-shrink: 0;
+  width: $spacing-16;
+  height: $spacing-16;
+  border-radius: $radius-full;
+  object-fit: cover;
+
+  &--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-light;
+    @include typography(h3);
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+  }
+}
+
+.trainer-student-details__profile-text {
+  min-width: 0;
+}
+
+.trainer-student-details__name {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.trainer-student-details__email {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+  word-break: break-word;
+}
+
+.trainer-student-details__course {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+}
+
+.trainer-student-details__course-header {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+}
+
+.trainer-student-details__course-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.trainer-student-details__course-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.trainer-student-details__course-title {
+  @include typography(body);
+  margin: 0;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.trainer-student-details__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.trainer-student-details__progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-2;
+}
+
+.trainer-student-details__progress-label {
+  @include typography(small);
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.trainer-student-details__progress-value {
+  @include typography(body);
+  font-weight: $font-weight-bold;
+  color: $primary-color;
+}
+
+.trainer-student-details__progress-bar {
+  height: $spacing-2;
+  border-radius: $radius-full;
+  background-color: $neutral-200;
+  overflow: hidden;
+}
+
+.trainer-student-details__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: $radius-full;
+  background-color: $primary-color;
+  transition: width $transition-base;
+}
+
+.trainer-student-details__status {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+
+  &--completed {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--in-progress {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+}
+
+.trainer-student-details__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-3;
+  margin: 0;
+}
+
+.trainer-student-details__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  padding: $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+
+  dt {
+    @include typography(small);
+    margin: 0;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
+  }
+
+  dd {
+    @include typography(body);
+    margin: 0;
+    color: $text-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.trainer-student-details__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: $spacing-3 $spacing-4 $spacing-4;
+  border-top: 1px solid $border-color;
+  background-color: $neutral-50;
+
+  @include respond-to(md) {
+    padding: $spacing-4 $spacing-6 $spacing-6;
+  }
+}
+
+.trainer-student-details__loading,
+.trainer-student-details__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+.trainer-student-details__error mat-icon {
+  color: $error-color;
+}
+
+// Full-page route fallback
+.trainer-student-details-host--page {
+  display: block;
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  .trainer-student-details {
+    max-width: 560px;
+    margin: 0 auto;
+    border: 1px solid $border-color;
+    border-radius: $radius-medium;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+  }
+}

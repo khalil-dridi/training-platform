@@ -2,8 +2,11 @@ package com.trainingplatform.enrollment.controller;
 
 import com.trainingplatform.common.dto.response.ApiResponse;
 import com.trainingplatform.enrollment.dto.response.EnrollmentResponse;
+import com.trainingplatform.enrollment.dto.response.StudentEnrollmentResponse;
+import com.trainingplatform.enrollment.dto.response.TrainerStudentResponse;
 import com.trainingplatform.enrollment.dto.resquest.UpdateProgressRequest;
 import com.trainingplatform.enrollment.service.EnrollmentService;
+import com.trainingplatform.user.dto.response.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +121,46 @@ public class EnrollmentController {
                                         courseId,
                                         request
                                 )
+                        )
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('TRAINER')")
+    @GetMapping("/course/{courseId}/student/{learnerId}")
+    public ResponseEntity<ApiResponse<StudentEnrollmentResponse>> getStudentEnrollment(
+            Authentication authentication,
+            @PathVariable Long courseId,
+            @PathVariable Long learnerId
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<StudentEnrollmentResponse>builder()
+                        .success(true)
+                        .message("Student enrollment retrieved successfully.")
+                        .data(
+                                enrollmentService.getStudentEnrollment(
+                                        authentication,
+                                        courseId,
+                                        learnerId
+                                )
+                        )
+                        .build()
+        );
+    }
+
+    @PreAuthorize("hasRole('TRAINER')")
+    @GetMapping("/my-students")
+    public ResponseEntity<ApiResponse<List<TrainerStudentResponse>>> getMyStudents(
+            Authentication authentication
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<TrainerStudentResponse>>builder()
+                        .success(true)
+                        .message("My students retrieved successfully.")
+                        .data(
+                                enrollmentService.getMyStudents(authentication)
                         )
                         .build()
         );

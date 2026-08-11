@@ -1,0 +1,109 @@
+@use '../../admin-list-shared';
+@use '../../../../../../styles/abstracts/variables' as *;
+@use '../../../../trainer/pages/courses/course-mgmt-shared';
+
+.admin-user-details__badge {
+  flex-shrink: 0;
+}
+
+.admin-user-details__grid {
+  display: grid;
+  gap: $spacing-4;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+}
+
+.admin-user-details__profile,
+.admin-user-details__info {
+  padding: $spacing-6;
+}
+
+.admin-user-details__profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $spacing-4;
+}
+
+.admin-user-details__avatar {
+  width: $spacing-16;
+  height: $spacing-16;
+  border-radius: $radius-full;
+  object-fit: cover;
+
+  &--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-light;
+    @include typography(h3);
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+  }
+}
+
+.admin-user-details__profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-2;
+}
+
+.admin-user-details__name {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-user-details__email {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.admin-user-details__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-4;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-user-details__fields {
+  display: grid;
+  gap: $spacing-4;
+  margin: 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.admin-user-details__field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  padding: $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+
+  dt {
+    @include typography(small);
+    margin: 0;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
+  }
+
+  dd {
+    @include typography(body);
+    margin: 0;
+    color: $text-primary;
+    font-weight: $font-weight-medium;
+    word-break: break-word;
+  }
+}

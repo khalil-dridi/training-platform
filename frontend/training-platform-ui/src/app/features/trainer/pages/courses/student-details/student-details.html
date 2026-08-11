@@ -1,0 +1,120 @@
+<div class="trainer-student-details">
+  <header class="trainer-student-details__header">
+    <div class="trainer-student-details__header-text">
+      <h2 class="trainer-student-details__title" id="student-details-title">Student Details</h2>
+      <p class="trainer-student-details__subtitle">Enrollment progress and account information</p>
+    </div>
+
+    @if (isDialog()) {
+      <button
+        mat-icon-button
+        type="button"
+        class="trainer-student-details__close"
+        (click)="close()"
+        aria-label="Close student details"
+      >
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    }
+  </header>
+
+  @if (loading) {
+    <div class="trainer-student-details__loading" aria-busy="true">
+      <mat-icon aria-hidden="true">hourglass_top</mat-icon>
+      <p>Loading student details...</p>
+    </div>
+  } @else if (error) {
+    <div class="trainer-student-details__error">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>
+      <p>Failed to load student details. Please try again.</p>
+      @if (isDialog()) {
+        <button mat-stroked-button type="button" (click)="close()">Close</button>
+      }
+    </div>
+  } @else if (student) {
+    <div class="trainer-student-details__body">
+      <section class="trainer-student-details__profile" aria-label="Student profile">
+        @if (student.avatarUrl) {
+          <img
+            class="trainer-student-details__avatar"
+            [src]="student.avatarUrl"
+            [alt]="student.learnerName"
+            width="72"
+            height="72"
+          />
+        } @else {
+          <span class="trainer-student-details__avatar trainer-student-details__avatar--fallback" aria-hidden="true">
+            {{ studentInitials(student) }}
+          </span>
+        }
+
+        <div class="trainer-student-details__profile-text">
+          <h3 class="trainer-student-details__name">{{ student.learnerName }}</h3>
+          <p class="trainer-student-details__email">{{ student.learnerEmail }}</p>
+        </div>
+      </section>
+
+      <section class="trainer-student-details__course" aria-label="Course enrollment">
+        <div class="trainer-student-details__course-header">
+          <span class="trainer-student-details__course-icon" aria-hidden="true">
+            <mat-icon>menu_book</mat-icon>
+          </span>
+          <div>
+            <p class="trainer-student-details__course-label">Course</p>
+            <p class="trainer-student-details__course-title">{{ student.courseTitle }}</p>
+          </div>
+        </div>
+
+        <div class="trainer-student-details__progress-block">
+          <div class="trainer-student-details__progress-top">
+            <span class="trainer-student-details__progress-label">Progress</span>
+            <span class="trainer-student-details__progress-value">{{ student.progress }}%</span>
+          </div>
+
+          <div
+            class="trainer-student-details__progress-bar"
+            role="progressbar"
+            [attr.aria-valuenow]="student.progress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-label]="student.courseTitle + ' progress'"
+          >
+            <span class="trainer-student-details__progress-fill" [style.width.%]="student.progress"></span>
+          </div>
+        </div>
+
+        <span
+          class="trainer-student-details__status"
+          [class.trainer-student-details__status--completed]="student.completed"
+          [class.trainer-student-details__status--in-progress]="!student.completed"
+        >
+          {{ student.completed ? 'Completed' : 'In progress' }}
+        </span>
+      </section>
+
+      <dl class="trainer-student-details__meta">
+        <div class="trainer-student-details__meta-item">
+          <dt>Enrolled</dt>
+          <dd>{{ student.enrolledAt | date: 'mediumDate' }}</dd>
+        </div>
+
+        <div class="trainer-student-details__meta-item">
+          <dt>Completed</dt>
+          <dd>
+            @if (student.completedAt) {
+              {{ student.completedAt | date: 'mediumDate' }}
+            } @else {
+              —
+            }
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    @if (isDialog()) {
+      <footer class="trainer-student-details__footer">
+        <button mat-flat-button color="primary" type="button" (click)="close()">Close</button>
+      </footer>
+    }
+  }
+</div>

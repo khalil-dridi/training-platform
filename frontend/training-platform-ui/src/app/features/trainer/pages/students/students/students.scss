@@ -1,0 +1,387 @@
+////
+/// Trainer students list — local styles
+/// ---------------------------------------------------------------------------
+/// Role: My Students page (learners + course progress).
+/// Design System tokens only.
+////
+
+@use '../../../../../../styles/abstracts/variables' as *;
+
+.trainer-students {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+}
+
+.trainer-students__header {
+  margin-bottom: $spacing-6;
+}
+
+.trainer-students__intro {
+  margin-bottom: $spacing-4;
+}
+
+.trainer-students__title {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.trainer-students__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.trainer-students__toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.trainer-students__search {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+
+  @include respond-to(md) {
+    max-width: 400px;
+  }
+}
+
+.trainer-students__search-icon {
+  flex-shrink: 0;
+  font-size: $font-size-body;
+  width: $font-size-body;
+  height: $font-size-body;
+  color: $text-muted;
+}
+
+.trainer-students__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  @include typography(body);
+  color: $text-primary;
+  outline: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.trainer-students__card {
+  padding: 0;
+  overflow: hidden;
+  border-color: $border-color;
+  box-shadow: $shadow-sm;
+}
+
+.trainer-students__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+.trainer-students__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.trainer-students__student {
+  padding: $spacing-4 $spacing-4 $spacing-3;
+  border-bottom: 1px solid $divider-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.trainer-students__student-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+}
+
+.trainer-students__avatar {
+  flex-shrink: 0;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-full;
+  object-fit: cover;
+
+  &--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-light;
+    @include typography(body);
+    font-weight: $font-weight-semibold;
+    color: $primary-color;
+  }
+}
+
+.trainer-students__student-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.trainer-students__student-name {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trainer-students__student-email {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trainer-students__course-count {
+  flex-shrink: 0;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  background-color: $info-light;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  color: $info-dark;
+  white-space: nowrap;
+}
+
+.trainer-students__no-courses {
+  @include typography(small);
+  margin: 0;
+  padding: $spacing-3 $spacing-4;
+  color: $text-muted;
+  border: 1px dashed $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+  text-align: center;
+}
+
+.trainer-students__courses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.trainer-students__course {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: $neutral-300;
+    box-shadow: $shadow-sm;
+  }
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-4;
+  }
+}
+
+.trainer-students__course-main {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  min-width: 0;
+  flex: 1;
+}
+
+.trainer-students__course-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.trainer-students__course-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.trainer-students__course-title {
+  @include typography(body);
+  margin: 0 0 $spacing-2;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+}
+
+.trainer-students__progress {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-1;
+}
+
+.trainer-students__progress-bar {
+  flex: 1;
+  height: $spacing-2;
+  border-radius: $radius-full;
+  background-color: $neutral-200;
+  overflow: hidden;
+}
+
+.trainer-students__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: $radius-full;
+  background-color: $primary-color;
+  transition: width $transition-base;
+}
+
+.trainer-students__progress-value {
+  @include typography(small);
+  flex-shrink: 0;
+  min-width: 2.5rem;
+  font-weight: $font-weight-semibold;
+  color: $text-secondary;
+  text-align: right;
+}
+
+.trainer-students__course-meta {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.trainer-students__course-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: $spacing-2;
+  flex-shrink: 0;
+
+  @include respond-to(md) {
+    align-items: flex-end;
+  }
+}
+
+.trainer-students__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &--completed {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--in-progress {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+}
+
+.trainer-students__details-btn {
+  border-radius: $radius-medium;
+  white-space: nowrap;
+}
+
+.trainer-students__footer {
+  padding: $spacing-3 $spacing-4;
+  border-top: 1px solid $border-color;
+  background-color: $neutral-50;
+
+  @include respond-to(md) {
+    padding: $spacing-3 $spacing-6;
+  }
+}
+
+.trainer-students__footer-text {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}

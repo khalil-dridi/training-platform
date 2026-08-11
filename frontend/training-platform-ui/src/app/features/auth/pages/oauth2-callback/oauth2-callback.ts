@@ -19,7 +19,7 @@ export class OAuth2Callback implements OnInit {
     const token = this.route.snapshot.queryParamMap.get('token');
 
     if (!token) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/learn/dashboard']);
       return;
     }
 

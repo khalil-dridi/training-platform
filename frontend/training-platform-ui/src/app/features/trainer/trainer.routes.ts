@@ -12,6 +12,9 @@ import { CreateChapter } from './pages/courses/course-content/create-chapter/cre
 import { EditChapter } from './pages/courses/course-content/edit-chapter/edit-chapter';
 import { CreateLesson } from './pages/courses/course-content/create-lesson/create-lesson';
 import { EditLesson } from './pages/courses/course-content/edit-lesson/edit-lesson';
+import { CourseStudents } from './pages/courses/course-students/course-students';
+import { StudentDetails } from './pages/courses/student-details/student-details';
+import { Students } from './pages/students/students/students';
 
 export const TRAINER_ROUTES: Routes = [
   {
@@ -61,6 +64,18 @@ export const TRAINER_ROUTES: Routes = [
 {
   path: 'courses/:courseId/content/chapter/:chapterId/edit-lesson/:id',
   component: EditLesson,
+},
+{
+  path: 'courses/:courseId/students',
+  component: CourseStudents,
+},
+{
+  path: 'courses/:courseId/students/:learnerId',
+  component: StudentDetails,
+},
+{
+  path: 'students',
+  component: Students,
 },
         ],
   },

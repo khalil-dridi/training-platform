@@ -1,88 +1,156 @@
-<h1>Create Course</h1>
+<div class="course-mgmt course-form-page">
+  <header class="course-mgmt__header">
+    <a class="course-mgmt__breadcrumb" routerLink="/trainer/courses">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to My Courses
+    </a>
 
-<form [formGroup]="courseForm" (ngSubmit)="createCourse()">
+    <div class="course-form-page__title-row">
+      <div class="course-form-page__intro">
+        <h1 class="course-mgmt__title">Create Course</h1>
+        <p class="course-mgmt__subtitle">Fill in the details below to create a new course.</p>
+      </div>
+    </div>
+  </header>
 
-  <div>
-    <label for="title">Title</label>
-    <input
-      id="title"
-      type="text"
-      formControlName="title"
-    />
-  </div>
+  <section class="course-mgmt__card ds-card ds-card--flat">
+    <form class="course-mgmt-form" [formGroup]="courseForm" (ngSubmit)="createCourse()" novalidate>
+      <div class="course-mgmt-form__grid">
+        <div class="course-mgmt-form__main">
+          <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+            <mat-label>Title</mat-label>
+            <input matInput id="title" type="text" formControlName="title" required />
+            <mat-icon matPrefix aria-hidden="true">title</mat-icon>
+            @if (courseForm.controls.title.touched && courseForm.controls.title.hasError('required')) {
+              <mat-error>Title is required.</mat-error>
+            } @else if (courseForm.controls.title.touched && courseForm.controls.title.hasError('maxlength')) {
+              <mat-error>Title must not exceed 200 characters.</mat-error>
+            }
+          </mat-form-field>
 
-  <div>
-    <label for="shortDescription">Short Description</label>
-    <input
-      id="shortDescription"
-      type="text"
-      formControlName="shortDescription"
-    />
-  </div>
+          <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+            <mat-label>Short Description</mat-label>
+            <input matInput id="shortDescription" type="text" formControlName="shortDescription" required />
+            <mat-icon matPrefix aria-hidden="true">short_text</mat-icon>
+            @if (
+              courseForm.controls.shortDescription.touched &&
+              courseForm.controls.shortDescription.hasError('required')
+            ) {
+              <mat-error>Short description is required.</mat-error>
+            } @else if (
+              courseForm.controls.shortDescription.touched &&
+              courseForm.controls.shortDescription.hasError('maxlength')
+            ) {
+              <mat-error>Short description must not exceed 300 characters.</mat-error>
+            }
+          </mat-form-field>
 
-  <div>
-    <label for="description">Description</label>
-    <textarea
-      id="description"
-      formControlName="description"
-    ></textarea>
-  </div>
+          <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+            <mat-label>Description</mat-label>
+            <textarea matInput id="description" formControlName="description" rows="5" required></textarea>
+            <mat-icon matPrefix aria-hidden="true">description</mat-icon>
+            @if (
+              courseForm.controls.description.touched && courseForm.controls.description.hasError('required')
+            ) {
+              <mat-error>Description is required.</mat-error>
+            }
+          </mat-form-field>
 
-  <div>
-    <label for="price">Price</label>
-    <input
-      id="price"
-      type="number"
-      formControlName="price"
-    />
-  </div>
+          <div class="course-mgmt-form__row">
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Category</mat-label>
+              <mat-select id="categoryId" formControlName="categoryId" required>
+                <mat-option [value]="0">Select category</mat-option>
+                @for (category of categories; track category.id) {
+                  <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-icon matPrefix aria-hidden="true">category</mat-icon>
+              @if (
+                courseForm.controls.categoryId.touched && courseForm.controls.categoryId.hasError('min')
+              ) {
+                <mat-error>Please select a category.</mat-error>
+              }
+            </mat-form-field>
 
-  <div>
-    <label for="level">Level</label>
-    <select id="level" formControlName="level">
-      <option value="">Select level</option>
-      <option value="BEGINNER">Beginner</option>
-      <option value="INTERMEDIATE">Intermediate</option>
-      <option value="ADVANCED">Advanced</option>
-    </select>
-  </div>
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Level</mat-label>
+              <mat-select id="level" formControlName="level" required>
+                <mat-option value="BEGINNER">Beginner</mat-option>
+                <mat-option value="INTERMEDIATE">Intermediate</mat-option>
+                <mat-option value="ADVANCED">Advanced</mat-option>
+              </mat-select>
+              <mat-icon matPrefix aria-hidden="true">signal_cellular_alt</mat-icon>
+            </mat-form-field>
+          </div>
 
-  <div>
-    <label for="language">Language</label>
-    <input
-      id="language"
-      type="text"
-      formControlName="language"
-    />
-  </div>
+          <div class="course-mgmt-form__row">
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Language</mat-label>
+              <input matInput id="language" type="text" formControlName="language" required />
+              <mat-icon matPrefix aria-hidden="true">language</mat-icon>
+              @if (
+                courseForm.controls.language.touched && courseForm.controls.language.hasError('required')
+              ) {
+                <mat-error>Language is required.</mat-error>
+              }
+            </mat-form-field>
 
-  <div>
-    <label for="categoryId">Category</label>
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Price</mat-label>
+              <input matInput id="price" type="number" formControlName="price" min="0" required />
+              <mat-icon matPrefix aria-hidden="true">payments</mat-icon>
+              @if (courseForm.controls.price.touched && courseForm.controls.price.hasError('min')) {
+                <mat-error>Price must be zero or greater.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
 
-    <select id="categoryId" formControlName="categoryId">
-  <option [value]="0">Select category</option>
+        <aside class="course-mgmt-form__aside">
+          <div class="course-mgmt-upload">
+            <span class="course-mgmt-upload__label">Thumbnail</span>
 
-  @for (category of categories; track category.id) {
-    <option [value]="category.id">
-      {{ category.name }}
-    </option>
-  }
-</select>
-  </div>
+            @if (thumbnailPreviewUrl) {
+              <img
+                class="course-mgmt-upload__preview"
+                [src]="thumbnailPreviewUrl"
+                alt="Course thumbnail preview"
+              />
+            }
 
-  <div>
-    <label for="thumbnail">Thumbnail</label>
+            <label class="course-mgmt-upload__zone" for="thumbnail">
+              <mat-icon aria-hidden="true">cloud_upload</mat-icon>
+              <p class="course-mgmt-upload__hint">Click to upload or drag and drop</p>
+              <p class="course-mgmt-upload__hint">PNG, JPG up to 10MB</p>
+              <input
+                class="course-mgmt-upload__input"
+                id="thumbnail"
+                type="file"
+                accept="image/*"
+                (change)="onThumbnailSelected($event)"
+              />
+            </label>
 
-    <input
-      id="thumbnail"
-      type="file"
-      accept="image/*"
-      (change)="onThumbnailSelected($event)"
-    />
-  </div>
+            @if (selectedThumbnail) {
+              <p class="course-mgmt-upload__filename">{{ selectedThumbnail.name }}</p>
+            }
 
-  <button type="submit">
-    Create Course
-  </button>
+            @if (thumbnailTouched && !selectedThumbnail) {
+              <p class="course-mgmt-upload__error">Thumbnail is required.</p>
+            }
+          </div>
+        </aside>
+      </div>
 
-</form>
+      <div class="course-mgmt-form__actions">
+        <button mat-stroked-button type="button" class="course-mgmt-form__cancel" (click)="cancel()">
+          Cancel
+        </button>
+        <button mat-flat-button color="primary" type="submit" class="course-mgmt-form__submit">
+          Create Course
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

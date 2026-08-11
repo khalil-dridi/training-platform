@@ -1,26 +1,58 @@
-@if (currentUserService.user(); as user) {
+<header class="admin-navbar" role="banner">
+  <div class="admin-navbar__start">
+    <button
+      type="button"
+      class="admin-navbar__menu-btn"
+      (click)="onMenuClick()"
+      aria-label="Toggle navigation menu"
+    >
+      <mat-icon aria-hidden="true">menu</mat-icon>
+    </button>
 
-  <a routerLink="/admin/profile">
+    <h1 class="admin-navbar__title">{{ pageTitle() }}</h1>
+  </div>
 
-    @if (user.avatarUrl) {
-      <img
-        [src]="user.avatarUrl"
-        [alt]="user.firstName + ' ' + user.lastName"
-        width="40"
-        height="40"
-      />
-    }
+  <div class="admin-navbar__end">
+    <button
+      type="button"
+      class="admin-navbar__notification-btn"
+      aria-label="Notifications"
+    >
+      <mat-icon aria-hidden="true">notifications_none</mat-icon>
+    </button>
 
-    <span>
-      {{ user.firstName }} {{ user.lastName }}
-    </span>
+    <a
+      class="admin-navbar__profile"
+      routerLink="/admin/profile"
+      aria-label="Open admin profile"
+    >
+      @if (currentUserService.user(); as user) {
+        @if (user.avatarUrl) {
+          <img
+            class="admin-navbar__avatar"
+            [src]="user.avatarUrl"
+            [alt]="displayName(user)"
+            width="36"
+            height="36"
+          />
+        } @else {
+          <span class="admin-navbar__avatar admin-navbar__avatar--fallback" aria-hidden="true">
+            {{ userInitials(user) }}
+          </span>
+        }
 
-  </a>
-  <button
-  type="button"
-  (click)="logout()"
->
-  Logout
-</button>
+        <span class="admin-navbar__profile-text">
+          <span class="admin-navbar__name">{{ displayName(user) }}</span>
+          <span class="admin-navbar__role">{{ displayRole(user) }}</span>
+        </span>
+      } @else {
+        <span class="admin-navbar__avatar admin-navbar__avatar--fallback" aria-hidden="true">AD</span>
 
-}
+        <span class="admin-navbar__profile-text">
+          <span class="admin-navbar__name">Admin User</span>
+          <span class="admin-navbar__role">Admin</span>
+        </span>
+      }
+    </a>
+  </div>
+</header>

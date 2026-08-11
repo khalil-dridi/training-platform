@@ -4,29 +4,44 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { CategoryService } from '../../../services/category';
 import { CategoryResponse } from '../../../../admin/models/category-response.model';
 import { CourseService } from '../../../services/course';
-import { Router } from '@angular/router';
 import { CourseLevel } from '../../models/course-level.model';
 import { CreateCourseRequest } from '../../models/create-course-request.model';
 
 @Component({
   selector: 'app-create-course',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './create-course.html',
   styleUrl: './create-course.scss',
 })
 export class CreateCourse implements OnInit {
-
   private readonly fb = inject(FormBuilder);
   private readonly categoryService = inject(CategoryService);
   private readonly courseService = inject(CourseService);
   private readonly router = inject(Router);
 
   categories: CategoryResponse[] = [];
+  selectedThumbnail: File | null = null;
+  thumbnailPreviewUrl: string | null = null;
+  thumbnailTouched = false;
 
   courseForm = this.fb.nonNullable.group({
     title: ['', [
@@ -62,8 +77,6 @@ export class CreateCourse implements OnInit {
     ]],
   });
 
-  selectedThumbnail: File | null = null;
-
   ngOnInit(): void {
     this.loadCategories();
   }
@@ -87,9 +100,22 @@ export class CreateCourse implements OnInit {
     }
 
     this.selectedThumbnail = input.files[0];
+    this.thumbnailTouched = true;
+
+    if (this.thumbnailPreviewUrl) {
+      URL.revokeObjectURL(this.thumbnailPreviewUrl);
+    }
+
+    this.thumbnailPreviewUrl = URL.createObjectURL(this.selectedThumbnail);
+  }
+
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses']);
   }
 
   createCourse(): void {
+    this.thumbnailTouched = true;
+
     if (this.courseForm.invalid || !this.selectedThumbnail) {
       this.courseForm.markAllAsTouched();
       return;

@@ -1,0 +1,503 @@
+////
+/// Admin dashboard — local styles
+/// ---------------------------------------------------------------------------
+/// Role: admin home page (platform stats, user breakdown, requests).
+/// Design System tokens only.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+.admin-dashboard {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+
+  &--loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 240px;
+  }
+}
+
+.admin-dashboard__loading-text {
+  @include typography(body);
+  color: $text-muted;
+}
+
+.admin-dashboard__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.admin-dashboard__intro {
+  min-width: 0;
+}
+
+.admin-dashboard__welcome {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-dashboard__wave {
+  display: inline-block;
+}
+
+.admin-dashboard__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.admin-dashboard__action-btn {
+  flex-shrink: 0;
+  min-height: $spacing-8;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.admin-dashboard__stats {
+  display: grid;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.admin-dashboard__stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $neutral-300;
+  }
+}
+
+.admin-dashboard__stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &--users {
+    background-color: $info-light;
+    color: $info-color;
+  }
+
+  &--courses {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+
+  &--enrollments {
+    background-color: $success-light;
+    color: $success-color;
+  }
+
+  &--categories {
+    background-color: $warning-light;
+    color: $warning-color;
+  }
+}
+
+.admin-dashboard__stat-content {
+  min-width: 0;
+}
+
+.admin-dashboard__stat-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.admin-dashboard__stat-value {
+  @include typography(h2);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+.admin-dashboard__stat-meta {
+  @include typography(small);
+  margin: $spacing-1 0 0;
+  color: $text-secondary;
+}
+
+.admin-dashboard__panels {
+  display: grid;
+  gap: $spacing-4;
+  margin-bottom: $spacing-4;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.admin-dashboard__panel,
+.admin-dashboard__requests {
+  padding: $spacing-4;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.admin-dashboard__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+}
+
+.admin-dashboard__panel-title {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-dashboard__panel-link {
+  @include typography(small);
+  color: $text-link;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+    text-underline-offset: $spacing-1;
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+.admin-dashboard__breakdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.admin-dashboard__breakdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: $neutral-300;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.admin-dashboard__breakdown-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+}
+
+.admin-dashboard__breakdown-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &--learners {
+    background-color: $info-light;
+    color: $info-color;
+  }
+
+  &--trainers {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+
+  &--admins {
+    background-color: $neutral-100;
+    color: $text-secondary;
+  }
+}
+
+.admin-dashboard__breakdown-label {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+}
+
+.admin-dashboard__breakdown-meta {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.admin-dashboard__breakdown-value {
+  @include typography(h3);
+  flex-shrink: 0;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}
+
+.admin-dashboard__overview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.admin-dashboard__donut {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  flex-shrink: 0;
+}
+
+.admin-dashboard__donut svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.admin-dashboard__donut-ring {
+  fill: transparent;
+  stroke: $neutral-200;
+  stroke-width: 3.2;
+}
+
+.admin-dashboard__donut-segment {
+  fill: transparent;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+
+  &--published {
+    stroke: $primary-color;
+  }
+
+  &--draft {
+    stroke: $warning-color;
+  }
+}
+
+.admin-dashboard__donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  pointer-events: none;
+}
+
+.admin-dashboard__donut-value {
+  @include typography(h2);
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  line-height: $line-height-tight;
+}
+
+.admin-dashboard__donut-label {
+  @include typography(small);
+  color: $text-muted;
+}
+
+.admin-dashboard__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-2 0;
+    border-bottom: 1px solid $divider-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.admin-dashboard__legend-dot {
+  width: $spacing-2;
+  height: $spacing-2;
+  border-radius: $radius-full;
+
+  &--published {
+    background-color: $primary-color;
+  }
+
+  &--draft {
+    background-color: $warning-color;
+  }
+
+  &--enrollments {
+    background-color: $success-color;
+  }
+}
+
+.admin-dashboard__legend-label {
+  @include typography(small);
+  color: $text-secondary;
+}
+
+.admin-dashboard__legend-value {
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.admin-dashboard__requests-grid {
+  display: grid;
+  gap: $spacing-3;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.admin-dashboard__request-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-4;
+  border-radius: $radius-medium;
+  border: 1px solid $border-color;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+
+  &--pending {
+    background-color: $warning-light;
+    border-color: transparent;
+
+    mat-icon {
+      color: $warning-dark;
+    }
+  }
+
+  &--approved {
+    background-color: $success-light;
+    border-color: transparent;
+
+    mat-icon {
+      color: $success-dark;
+    }
+  }
+
+  &--rejected {
+    background-color: $neutral-50;
+    border-color: $border-color;
+
+    mat-icon {
+      color: $text-muted;
+    }
+  }
+}
+
+.admin-dashboard__request-label {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.admin-dashboard__request-value {
+  @include typography(h3);
+  margin: 0;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}

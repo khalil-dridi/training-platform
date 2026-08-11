@@ -1,40 +1,104 @@
-<aside>
+<button
+  type="button"
+  class="admin-sidebar__menu-trigger"
+  (click)="toggleMobileNav()"
+  [attr.aria-expanded]="isMobileOpen()"
+  aria-controls="admin-sidebar-nav"
+  aria-label="Open or close navigation menu"
+>
+  <mat-icon aria-hidden="true">{{ isMobileOpen() ? 'close' : 'menu' }}</mat-icon>
+</button>
 
-  <div class="logo">
-    <h2>Training Platform</h2>
-  </div>
+@if (isMobileOpen()) {
+  <div
+    class="admin-sidebar__backdrop"
+    (click)="closeMobileNav()"
+    aria-hidden="true"
+  ></div>
+}
 
-  <nav>
+<aside
+  class="admin-sidebar"
+  [class.admin-sidebar--open]="isMobileOpen()"
+  aria-label="Admin navigation"
+>
+  <header class="admin-sidebar__brand">
+    <span class="admin-sidebar__logo" aria-hidden="true">
+      <mat-icon>admin_panel_settings</mat-icon>
+    </span>
+    <div class="admin-sidebar__brand-text">
+      <span class="admin-sidebar__brand-line">Training</span>
+      <span class="admin-sidebar__brand-line">Platform</span>
+    </div>
+  </header>
 
-    <a routerLink="/admin/dashboard" routerLinkActive="active">
-      Dashboard
+  <nav id="admin-sidebar-nav" class="admin-sidebar__nav" aria-label="Main navigation">
+    <a
+      class="admin-sidebar__link"
+      routerLink="/admin/dashboard"
+      routerLinkActive="admin-sidebar__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Dashboard"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">space_dashboard</mat-icon>
+      <span class="admin-sidebar__label">Dashboard</span>
     </a>
 
-    <a routerLink="/admin/categories" routerLinkActive="active">
-      Categories
+    <a
+      class="admin-sidebar__link"
+      routerLink="/admin/categories"
+      routerLinkActive="admin-sidebar__link--active"
+      aria-label="Categories"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">category</mat-icon>
+      <span class="admin-sidebar__label">Categories</span>
     </a>
 
-    <a routerLink="/admin/users" routerLinkActive="active">
-      Users
+    <a
+      class="admin-sidebar__link"
+      routerLink="/admin/users"
+      routerLinkActive="admin-sidebar__link--active"
+      aria-label="Users"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">groups</mat-icon>
+      <span class="admin-sidebar__label">Users</span>
     </a>
 
-    <a routerLink="/admin/instructor-requests" routerLinkActive="active">
-      Instructor Requests
+    <a
+      class="admin-sidebar__link"
+      routerLink="/admin/instructor-requests"
+      routerLinkActive="admin-sidebar__link--active"
+      aria-label="Instructor Requests"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">how_to_reg</mat-icon>
+      <span class="admin-sidebar__label">Instructor Requests</span>
     </a>
 
+    <a
+      class="admin-sidebar__link"
+      routerLink="/admin/profile"
+      routerLinkActive="admin-sidebar__link--active"
+      aria-label="Profile"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">person_outline</mat-icon>
+      <span class="admin-sidebar__label">Profile</span>
+    </a>
   </nav>
 
-  <div class="bottom">
-
-    <a routerLink="/admin/profile" routerLinkActive="active">
-      Profile
-    </a>
-    
-
-    <button>
-      Logout
+  <footer class="admin-sidebar__footer">
+    <button
+      type="button"
+      class="admin-sidebar__link admin-sidebar__link--logout"
+      (click)="logout()"
+      aria-label="Logout"
+    >
+      <mat-icon aria-hidden="true">logout</mat-icon>
+      <span class="admin-sidebar__label">Logout</span>
     </button>
-
-  </div>
-
+  </footer>
 </aside>

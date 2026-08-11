@@ -4,7 +4,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { LessonService } from '../../../../services/lesson';
 import { LessonResponse } from '../../../models/lesson-response.model';
@@ -13,7 +18,15 @@ import { UpdateLessonRequest } from '../../../models/update-lesson-request.model
 @Component({
   selector: 'app-edit-lesson',
   standalone: true,
-  imports: [ReactiveFormsModule ],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+  ],
   templateUrl: './edit-lesson.html',
   styleUrl: './edit-lesson.scss',
 })
@@ -117,6 +130,10 @@ export class EditLesson implements OnInit {
 
     this.selectedVideo = input.files[0];
   }
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses', this.courseId, 'content']);
+  }
+
   updateLesson(): void {
   if (this.lessonForm.invalid) {
     this.lessonForm.markAllAsTouched();

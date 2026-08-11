@@ -1,48 +1,262 @@
-<h2>Admin Dashboard</h2>
-
 @if (dashboard) {
+  <div class="admin-dashboard">
+    <header class="admin-dashboard__header">
+      <div class="admin-dashboard__intro">
+        <h1 class="admin-dashboard__welcome">
+          Welcome back, {{ adminFirstName() }}
+          <span class="admin-dashboard__wave" aria-hidden="true">👋</span>
+        </h1>
+        <p class="admin-dashboard__subtitle">
+          Here's an overview of your training platform today.
+        </p>
+      </div>
 
-  <div>
-    <h3>Users</h3>
+      @if (dashboard.pendingInstructorRequests > 0) {
+        <a
+          mat-flat-button
+          color="primary"
+          class="admin-dashboard__action-btn"
+          routerLink="/admin/instructor-requests"
+        >
+          <mat-icon aria-hidden="true">how_to_reg</mat-icon>
+          Review Requests ({{ dashboard.pendingInstructorRequests }})
+        </a>
+      } @else {
+        <a
+          mat-stroked-button
+          class="admin-dashboard__action-btn"
+          routerLink="/admin/users"
+        >
+          <mat-icon aria-hidden="true">groups</mat-icon>
+          Manage Users
+        </a>
+      }
+    </header>
 
-    <p>Total Users: {{ dashboard.totalUsers }}</p>
-    <p>Learners: {{ dashboard.totalLearners }}</p>
-    <p>Trainers: {{ dashboard.totalTrainers }}</p>
-    <p>Admins: {{ dashboard.totalAdmins }}</p>
+    <section class="admin-dashboard__stats" aria-label="Platform statistics">
+      <article class="admin-dashboard__stat-card ds-card ds-card--flat">
+        <div class="admin-dashboard__stat-icon admin-dashboard__stat-icon--users">
+          <mat-icon aria-hidden="true">groups</mat-icon>
+        </div>
+        <div class="admin-dashboard__stat-content">
+          <p class="admin-dashboard__stat-label">Total Users</p>
+          <p class="admin-dashboard__stat-value">{{ dashboard.totalUsers }}</p>
+          <p class="admin-dashboard__stat-meta">
+            {{ dashboard.totalLearners }} learners · {{ dashboard.totalTrainers }} trainers
+          </p>
+        </div>
+      </article>
+
+      <article class="admin-dashboard__stat-card ds-card ds-card--flat">
+        <div class="admin-dashboard__stat-icon admin-dashboard__stat-icon--courses">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+        </div>
+        <div class="admin-dashboard__stat-content">
+          <p class="admin-dashboard__stat-label">Courses</p>
+          <p class="admin-dashboard__stat-value">{{ dashboard.totalCourses }}</p>
+          <p class="admin-dashboard__stat-meta">
+            {{ dashboard.publishedCourses }} published · {{ dashboard.draftCourses }} draft
+          </p>
+        </div>
+      </article>
+
+      <article class="admin-dashboard__stat-card ds-card ds-card--flat">
+        <div class="admin-dashboard__stat-icon admin-dashboard__stat-icon--enrollments">
+          <mat-icon aria-hidden="true">school</mat-icon>
+        </div>
+        <div class="admin-dashboard__stat-content">
+          <p class="admin-dashboard__stat-label">Enrollments</p>
+          <p class="admin-dashboard__stat-value">{{ dashboard.totalEnrollments }}</p>
+          <p class="admin-dashboard__stat-meta">Active student enrollments</p>
+        </div>
+      </article>
+
+      <article class="admin-dashboard__stat-card ds-card ds-card--flat">
+        <div class="admin-dashboard__stat-icon admin-dashboard__stat-icon--categories">
+          <mat-icon aria-hidden="true">category</mat-icon>
+        </div>
+        <div class="admin-dashboard__stat-content">
+          <p class="admin-dashboard__stat-label">Categories</p>
+          <p class="admin-dashboard__stat-value">{{ dashboard.totalCategories }}</p>
+          <p class="admin-dashboard__stat-meta">Course categories</p>
+        </div>
+      </article>
+    </section>
+
+    <div class="admin-dashboard__panels">
+      <section class="admin-dashboard__panel ds-card ds-card--flat" aria-labelledby="user-breakdown-title">
+        <div class="admin-dashboard__panel-header">
+          <h2 id="user-breakdown-title" class="admin-dashboard__panel-title">User Breakdown</h2>
+          <a class="admin-dashboard__panel-link" routerLink="/admin/users">View all</a>
+        </div>
+
+        <ul class="admin-dashboard__breakdown">
+          <li class="admin-dashboard__breakdown-item">
+            <div class="admin-dashboard__breakdown-info">
+              <span class="admin-dashboard__breakdown-icon admin-dashboard__breakdown-icon--learners">
+                <mat-icon aria-hidden="true">person</mat-icon>
+              </span>
+              <div>
+                <p class="admin-dashboard__breakdown-label">Learners</p>
+                <p class="admin-dashboard__breakdown-meta">
+                  {{ rolePercent(dashboard.totalLearners) }}% of users
+                </p>
+              </div>
+            </div>
+            <span class="admin-dashboard__breakdown-value">{{ dashboard.totalLearners }}</span>
+          </li>
+
+          <li class="admin-dashboard__breakdown-item">
+            <div class="admin-dashboard__breakdown-info">
+              <span class="admin-dashboard__breakdown-icon admin-dashboard__breakdown-icon--trainers">
+                <mat-icon aria-hidden="true">co_present</mat-icon>
+              </span>
+              <div>
+                <p class="admin-dashboard__breakdown-label">Trainers</p>
+                <p class="admin-dashboard__breakdown-meta">
+                  {{ rolePercent(dashboard.totalTrainers) }}% of users
+                </p>
+              </div>
+            </div>
+            <span class="admin-dashboard__breakdown-value">{{ dashboard.totalTrainers }}</span>
+          </li>
+
+          <li class="admin-dashboard__breakdown-item">
+            <div class="admin-dashboard__breakdown-info">
+              <span class="admin-dashboard__breakdown-icon admin-dashboard__breakdown-icon--admins">
+                <mat-icon aria-hidden="true">admin_panel_settings</mat-icon>
+              </span>
+              <div>
+                <p class="admin-dashboard__breakdown-label">Admins</p>
+                <p class="admin-dashboard__breakdown-meta">
+                  {{ rolePercent(dashboard.totalAdmins) }}% of users
+                </p>
+              </div>
+            </div>
+            <span class="admin-dashboard__breakdown-value">{{ dashboard.totalAdmins }}</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="admin-dashboard__panel ds-card ds-card--flat" aria-labelledby="platform-overview-title">
+        <div class="admin-dashboard__panel-header">
+          <h2 id="platform-overview-title" class="admin-dashboard__panel-title">Platform Overview</h2>
+        </div>
+
+        <div class="admin-dashboard__overview">
+          <div
+            class="admin-dashboard__donut"
+            role="img"
+            [attr.aria-label]="
+              'Course status: ' +
+              dashboard.publishedCourses +
+              ' published, ' +
+              dashboard.draftCourses +
+              ' draft out of ' +
+              dashboard.totalCourses +
+              ' total courses'
+            "
+          >
+            <svg viewBox="0 0 42 42" aria-hidden="true" focusable="false">
+              <circle class="admin-dashboard__donut-ring" cx="21" cy="21" r="15.915"></circle>
+
+              @if (dashboard.totalCourses > 0) {
+                <circle
+                  class="admin-dashboard__donut-segment admin-dashboard__donut-segment--published"
+                  cx="21"
+                  cy="21"
+                  r="15.915"
+                  [attr.stroke-dasharray]="publishedPercent() + ', 100'"
+                  [attr.stroke-dashoffset]="publishedDashOffset()"
+                ></circle>
+
+                <circle
+                  class="admin-dashboard__donut-segment admin-dashboard__donut-segment--draft"
+                  cx="21"
+                  cy="21"
+                  r="15.915"
+                  [attr.stroke-dasharray]="draftPercent() + ', 100'"
+                  [attr.stroke-dashoffset]="draftDashOffset()"
+                ></circle>
+              }
+            </svg>
+
+            <div class="admin-dashboard__donut-center">
+              <span class="admin-dashboard__donut-value">{{ dashboard.totalCourses }}</span>
+              <span class="admin-dashboard__donut-label">Courses</span>
+            </div>
+          </div>
+
+          <ul class="admin-dashboard__legend">
+            <li>
+              <span
+                class="admin-dashboard__legend-dot admin-dashboard__legend-dot--published"
+                aria-hidden="true"
+              ></span>
+              <span class="admin-dashboard__legend-label">Published</span>
+              <span class="admin-dashboard__legend-value">{{ dashboard.publishedCourses }}</span>
+            </li>
+            <li>
+              <span
+                class="admin-dashboard__legend-dot admin-dashboard__legend-dot--draft"
+                aria-hidden="true"
+              ></span>
+              <span class="admin-dashboard__legend-label">Draft</span>
+              <span class="admin-dashboard__legend-value">{{ dashboard.draftCourses }}</span>
+            </li>
+            <li>
+              <span
+                class="admin-dashboard__legend-dot admin-dashboard__legend-dot--enrollments"
+                aria-hidden="true"
+              ></span>
+              <span class="admin-dashboard__legend-label">Enrollments</span>
+              <span class="admin-dashboard__legend-value">{{ dashboard.totalEnrollments }}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section
+      class="admin-dashboard__requests ds-card ds-card--flat"
+      aria-labelledby="instructor-requests-title"
+    >
+      <div class="admin-dashboard__panel-header">
+        <h2 id="instructor-requests-title" class="admin-dashboard__panel-title">
+          Instructor Requests
+        </h2>
+        <a class="admin-dashboard__panel-link" routerLink="/admin/instructor-requests">Manage</a>
+      </div>
+
+      <div class="admin-dashboard__requests-grid">
+        <article class="admin-dashboard__request-card admin-dashboard__request-card--pending">
+          <mat-icon aria-hidden="true">hourglass_top</mat-icon>
+          <div>
+            <p class="admin-dashboard__request-label">Pending</p>
+            <p class="admin-dashboard__request-value">{{ dashboard.pendingInstructorRequests }}</p>
+          </div>
+        </article>
+
+        <article class="admin-dashboard__request-card admin-dashboard__request-card--approved">
+          <mat-icon aria-hidden="true">check_circle_outline</mat-icon>
+          <div>
+            <p class="admin-dashboard__request-label">Approved</p>
+            <p class="admin-dashboard__request-value">{{ dashboard.approvedInstructorRequests }}</p>
+          </div>
+        </article>
+
+        <article class="admin-dashboard__request-card admin-dashboard__request-card--rejected">
+          <mat-icon aria-hidden="true">highlight_off</mat-icon>
+          <div>
+            <p class="admin-dashboard__request-label">Rejected</p>
+            <p class="admin-dashboard__request-value">{{ dashboard.rejectedInstructorRequests }}</p>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
-
-  <div>
-    <h3>Courses & Categories</h3>
-
-    <p>Categories: {{ dashboard.totalCategories }}</p>
-    <p>Total Courses: {{ dashboard.totalCourses }}</p>
-    <p>Published Courses: {{ dashboard.publishedCourses }}</p>
-    <p>Draft Courses: {{ dashboard.draftCourses }}</p>
+} @else {
+  <div class="admin-dashboard admin-dashboard--loading" aria-busy="true" aria-live="polite">
+    <p class="admin-dashboard__loading-text">Loading dashboard...</p>
   </div>
-
-  <div>
-    <h3>Enrollments</h3>
-
-    <p>Total Enrollments: {{ dashboard.totalEnrollments }}</p>
-  </div>
-
-  <div>
-    <h3>Instructor Requests</h3>
-
-    <p>
-      Pending:
-      {{ dashboard.pendingInstructorRequests }}
-    </p>
-
-    <p>
-      Approved:
-      {{ dashboard.approvedInstructorRequests }}
-    </p>
-
-    <p>
-      Rejected:
-      {{ dashboard.rejectedInstructorRequests }}
-    </p>
-  </div>
-
 }

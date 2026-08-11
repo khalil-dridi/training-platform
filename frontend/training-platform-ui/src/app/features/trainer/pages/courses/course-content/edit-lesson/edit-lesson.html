@@ -1,99 +1,113 @@
-<h1>Edit Lesson</h1>
+<div class="course-mgmt course-form-page">
+  <header class="course-mgmt__header">
+    <a
+      class="course-mgmt__breadcrumb"
+      [routerLink]="['/trainer/courses', courseId, 'content']"
+    >
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to Course Content
+    </a>
 
-@if (lesson) {
-
-  <form
-  [formGroup]="lessonForm"
-  (ngSubmit)="updateLesson()"
->
-
-    <div>
-      <label for="title">
-        Title
-      </label>
-
-      <input
-        id="title"
-        type="text"
-        formControlName="title"
-      />
+    <div class="course-form-page__title-row">
+      <div class="course-form-page__intro">
+        <h1 class="course-mgmt__title">Edit Lesson</h1>
+        <p class="course-mgmt__subtitle">Update lesson details or replace the video.</p>
+      </div>
     </div>
+  </header>
 
-    <div>
-      <label for="description">
-        Description
-      </label>
+  @if (lesson) {
+    <section class="course-mgmt__card ds-card ds-card--flat">
+      <form class="course-mgmt-form" [formGroup]="lessonForm" (ngSubmit)="updateLesson()" novalidate>
+        <div class="course-mgmt-form__grid">
+          <div class="course-mgmt-form__main">
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Title</mat-label>
+              <input matInput id="title" type="text" formControlName="title" required />
+              <mat-icon matPrefix aria-hidden="true">title</mat-icon>
+              @if (lessonForm.controls.title.touched && lessonForm.controls.title.hasError('required')) {
+                <mat-error>Title is required.</mat-error>
+              } @else if (lessonForm.controls.title.touched && lessonForm.controls.title.hasError('maxlength')) {
+                <mat-error>Title must not exceed 200 characters.</mat-error>
+              }
+            </mat-form-field>
 
-      <textarea
-        id="description"
-        formControlName="description"
-      ></textarea>
-    </div>
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Description</mat-label>
+              <textarea matInput id="description" formControlName="description" rows="5"></textarea>
+              <mat-icon matPrefix aria-hidden="true">description</mat-icon>
+              @if (
+                lessonForm.controls.description.touched &&
+                lessonForm.controls.description.hasError('maxlength')
+              ) {
+                <mat-error>Description must not exceed 1000 characters.</mat-error>
+              }
+            </mat-form-field>
 
-    <div>
-      <label for="duration">
-        Duration
-      </label>
+            <div class="course-mgmt-form__row">
+              <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+                <mat-label>Duration (minutes)</mat-label>
+                <input matInput id="duration" type="number" min="1" formControlName="duration" required />
+                <mat-icon matPrefix aria-hidden="true">schedule</mat-icon>
+                @if (lessonForm.controls.duration.touched && lessonForm.controls.duration.hasError('min')) {
+                  <mat-error>Duration must be at least 1 minute.</mat-error>
+                }
+              </mat-form-field>
 
-      <input
-        id="duration"
-        type="number"
-        min="1"
-        formControlName="duration"
-      />
-    </div>
+              <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+                <mat-label>Position</mat-label>
+                <input matInput id="position" type="number" min="1" formControlName="position" required />
+                <mat-icon matPrefix aria-hidden="true">format_list_numbered</mat-icon>
+                @if (lessonForm.controls.position.touched && lessonForm.controls.position.hasError('min')) {
+                  <mat-error>Position must be at least 1.</mat-error>
+                }
+              </mat-form-field>
+            </div>
 
-    <div>
-      <label for="preview">
-        Preview
-      </label>
+            <mat-checkbox formControlName="preview" color="primary">
+              Allow preview (free access)
+            </mat-checkbox>
+          </div>
 
-      <input
-        id="preview"
-        type="checkbox"
-        formControlName="preview"
-      />
-    </div>
+          <aside class="course-mgmt-form__aside">
+            <div class="course-mgmt-upload">
+              <span class="course-mgmt-upload__label">Video</span>
 
-    <div>
-      <label for="position">
-        Position
-      </label>
+              <div class="course-mgmt-upload__video-preview">
+                <video [src]="lesson.videoUrl" controls width="100%"></video>
+              </div>
 
-      <input
-        id="position"
-        type="number"
-        min="1"
-        formControlName="position"
-      />
-    </div>
+              <label class="course-mgmt-upload__zone" for="video">
+                <mat-icon aria-hidden="true">videocam</mat-icon>
+                <p class="course-mgmt-upload__hint">Click to upload or drag and drop</p>
+                <p class="course-mgmt-upload__hint">MP4, WebM or other video formats</p>
+                <input
+                  class="course-mgmt-upload__input"
+                  id="video"
+                  type="file"
+                  accept="video/*"
+                  (change)="onVideoSelected($event)"
+                />
+              </label>
 
-    <div>
-      <p>Current video:</p>
+              @if (selectedVideo) {
+                <p class="course-mgmt-upload__filename">{{ selectedVideo.name }}</p>
+              }
+            </div>
+          </aside>
+        </div>
 
-      <video
-        [src]="lesson.videoUrl"
-        controls
-        width="400"
-      ></video>
-    </div>
-
-    <div>
-      <label for="video">
-        Replace video
-      </label>
-
-      <input
-        id="video"
-        type="file"
-        accept="video/*"
-        (change)="onVideoSelected($event)"
-      />
-    </div>
-    <button type="submit">
-  Update Lesson
-</button>
-
-  </form>
-
-}
+        <div class="course-mgmt-form__actions">
+          <button mat-stroked-button type="button" class="course-mgmt-form__cancel" (click)="cancel()">
+            Cancel
+          </button>
+          <button mat-flat-button color="primary" type="submit" class="course-mgmt-form__submit">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </section>
+  } @else {
+    <div class="course-form-page__loading" aria-busy="true">Loading lesson...</div>
+  }
+</div>

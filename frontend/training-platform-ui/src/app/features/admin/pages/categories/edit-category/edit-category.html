@@ -1,39 +1,90 @@
-<h2>Edit Category</h2>
+<div class="course-mgmt course-form-page">
+  <header class="course-mgmt__header">
+    <a class="course-mgmt__breadcrumb" routerLink="/admin/categories">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to Categories
+    </a>
 
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <div class="course-form-page__title-row">
+      <div class="course-form-page__intro">
+        <h1 class="course-mgmt__title">Edit Category</h1>
+        <p class="course-mgmt__subtitle">Update category details or replace the image.</p>
+      </div>
+    </div>
+  </header>
 
-  <div>
-    <label for="name">Name</label>
+  @if (category) {
+    <section class="course-mgmt__card ds-card ds-card--flat">
+      <form class="course-mgmt-form" [formGroup]="categoryForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="course-mgmt-form__grid">
+          <div class="course-mgmt-form__main">
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Name</mat-label>
+              <input matInput id="name" type="text" formControlName="name" required />
+              <mat-icon matPrefix aria-hidden="true">label</mat-icon>
+              @if (categoryForm.controls.name.touched && categoryForm.controls.name.hasError('required')) {
+                <mat-error>Name is required.</mat-error>
+              } @else if (categoryForm.controls.name.touched && categoryForm.controls.name.hasError('maxlength')) {
+                <mat-error>Name must not exceed 100 characters.</mat-error>
+              }
+            </mat-form-field>
 
-    <input
-      id="name"
-      type="text"
-      formControlName="name"
-    />
-  </div>
+            <mat-form-field appearance="outline" class="course-mgmt-form__field" subscriptSizing="dynamic">
+              <mat-label>Description</mat-label>
+              <textarea matInput id="description" formControlName="description" rows="5"></textarea>
+              <mat-icon matPrefix aria-hidden="true">description</mat-icon>
+              @if (
+                categoryForm.controls.description.touched &&
+                categoryForm.controls.description.hasError('maxlength')
+              ) {
+                <mat-error>Description must not exceed 500 characters.</mat-error>
+              }
+            </mat-form-field>
+          </div>
 
-  <div>
-    <label for="description">Description</label>
+          <aside class="course-mgmt-form__aside">
+            <div class="course-mgmt-upload">
+              <span class="course-mgmt-upload__label">Category Image</span>
 
-    <textarea
-      id="description"
-      formControlName="description"
-    ></textarea>
-  </div>
+              @if (imagePreviewUrl) {
+                <img
+                  class="course-mgmt-upload__preview"
+                  [src]="imagePreviewUrl"
+                  alt="Category image preview"
+                />
+              }
 
-  <div>
-    <label for="image">Image</label>
+              <label class="course-mgmt-upload__zone" for="image">
+                <mat-icon aria-hidden="true">image</mat-icon>
+                <p class="course-mgmt-upload__hint">Click to upload or drag and drop</p>
+                <p class="course-mgmt-upload__hint">PNG, JPG or WebP</p>
+                <input
+                  class="course-mgmt-upload__input"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  (change)="onImageSelected($event)"
+                />
+              </label>
 
-    <input
-      id="image"
-      type="file"
-      accept="image/*"
-      (change)="onImageSelected($event)"
-    />
-  </div>
+              @if (selectedImage) {
+                <p class="course-mgmt-upload__filename">{{ selectedImage.name }}</p>
+              }
+            </div>
+          </aside>
+        </div>
 
-  <button type="submit">
-    Update Category
-  </button>
-
-</form>
+        <div class="course-mgmt-form__actions">
+          <button mat-stroked-button type="button" class="course-mgmt-form__cancel" (click)="cancel()">
+            Cancel
+          </button>
+          <button mat-flat-button color="primary" type="submit" class="course-mgmt-form__submit">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </section>
+  } @else {
+    <div class="course-form-page__loading" aria-busy="true">Loading category...</div>
+  }
+</div>

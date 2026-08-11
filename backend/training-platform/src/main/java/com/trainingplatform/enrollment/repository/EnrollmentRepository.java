@@ -48,5 +48,28 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     Double averageProgressByLearner(
             @Param("learner") User learner
     );
+    Optional<Enrollment> findByCourseAndLearner(
+            Course course,
+            User learner
+    );
+
+    @Query("""
+    SELECT DISTINCT e.learner
+    FROM Enrollment e
+    WHERE e.course.trainer = :trainer
+""")
+    List<User> findDistinctLearnersByTrainer(
+            @Param("trainer") User trainer
+    );
+
+    @Query("""
+    SELECT e
+    FROM Enrollment e
+    WHERE e.course.trainer = :trainer
+    ORDER BY e.learner.id, e.course.id
+""")
+    List<Enrollment> findAllByTrainer(
+            @Param("trainer") User trainer
+    );
 
 }

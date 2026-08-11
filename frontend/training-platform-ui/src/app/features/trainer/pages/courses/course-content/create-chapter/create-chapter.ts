@@ -4,7 +4,11 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { ChapterService } from '../../../../services/chapter';
 import { CreateChapterRequest } from '../../../models/create-chapter-request.model';
@@ -12,7 +16,14 @@ import { CreateChapterRequest } from '../../../models/create-chapter-request.mod
 @Component({
   selector: 'app-create-chapter',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './create-chapter.html',
   styleUrl: './create-chapter.scss',
 })
@@ -44,6 +55,10 @@ export class CreateChapter implements OnInit {
     this.courseId = Number(
       this.route.snapshot.paramMap.get('courseId')
     );
+  }
+
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses', this.courseId, 'content']);
   }
 
   createChapter(): void {

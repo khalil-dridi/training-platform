@@ -1,0 +1,687 @@
+////
+/// Course Management — styles partagés
+/// ---------------------------------------------------------------------------
+/// Rôle : shell, formulaires, uploads, badges, actions communs au module courses.
+////
+
+@use '../../../../../styles/abstracts/variables' as *;
+
+// -----------------------------------------------------------------------------
+// Page shell
+// -----------------------------------------------------------------------------
+.course-mgmt {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+}
+
+.course-mgmt__header {
+  margin-bottom: $spacing-6;
+}
+
+.course-mgmt__breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin-bottom: $spacing-3;
+  @include typography(small);
+  color: $text-muted;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+.course-mgmt__title {
+  @include typography(h2);
+  margin: 0 0 $spacing-2;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.course-mgmt__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  max-width: 60ch;
+}
+
+// -----------------------------------------------------------------------------
+// Course form page (create / edit)
+// -----------------------------------------------------------------------------
+.course-form-page__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-3;
+  margin-bottom: $spacing-4;
+}
+
+.course-form-page__intro {
+  min-width: 0;
+}
+
+.course-form-page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+}
+
+.course-form-page__toolbar-link {
+  border-radius: $radius-medium;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.course-form-page__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  @include typography(body);
+  color: $text-muted;
+}
+
+// -----------------------------------------------------------------------------
+// Card container
+// -----------------------------------------------------------------------------
+.course-mgmt__card {
+  padding: $spacing-4;
+  border-color: $border-color;
+  box-shadow: $shadow-sm;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Form layout
+// -----------------------------------------------------------------------------
+.course-mgmt-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-6;
+}
+
+.course-mgmt-form__grid {
+  display: grid;
+  gap: $spacing-4;
+
+  @include respond-to(lg) {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: $spacing-6;
+    align-items: start;
+  }
+}
+
+.course-mgmt-form__main,
+.course-mgmt-form__aside {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  min-width: 0;
+}
+
+.course-mgmt-form__field {
+  width: 100%;
+
+  .mat-mdc-form-field-icon-prefix {
+    color: $text-muted;
+  }
+
+  &:focus-within .mat-mdc-form-field-icon-prefix {
+    color: $primary-color;
+  }
+}
+
+.course-mgmt-form__row {
+  display: grid;
+  gap: $spacing-4;
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.course-mgmt-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-3;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+}
+
+.course-mgmt-form__cancel {
+  min-height: $spacing-8;
+  border-radius: $radius-medium;
+  color: $text-secondary;
+}
+
+.course-mgmt-form__submit {
+  min-height: $spacing-8;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+  box-shadow: $shadow-sm;
+}
+
+// -----------------------------------------------------------------------------
+// Upload zones
+// -----------------------------------------------------------------------------
+.course-mgmt-upload {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.course-mgmt-upload__label {
+  @include typography(small);
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+}
+
+.course-mgmt-upload__zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  min-height: 160px;
+  padding: $spacing-6 $spacing-4;
+  border: 2px dashed $border-color;
+  border-radius: $radius-large;
+  background-color: $neutral-50;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color $transition-fast,
+    background-color $transition-fast;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $primary-color;
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    background-color: $primary-light;
+  }
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+}
+
+.course-mgmt-upload__hint {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.course-mgmt-upload__filename {
+  @include typography(small);
+  margin: 0;
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  word-break: break-all;
+}
+
+.course-mgmt-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.course-mgmt-upload__preview {
+  width: 100%;
+  max-width: 280px;
+  border-radius: $radius-medium;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  background-color: $neutral-100;
+}
+
+.course-mgmt-upload__error {
+  @include typography(small);
+  margin: 0;
+  color: $error-color;
+}
+
+// -----------------------------------------------------------------------------
+// Status badges
+// -----------------------------------------------------------------------------
+.course-mgmt-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &--published {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--draft {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+
+  &--preview {
+    background-color: $info-light;
+    color: $info-dark;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Icon actions
+// -----------------------------------------------------------------------------
+.course-mgmt-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+}
+
+.course-mgmt-action-btn {
+  color: $text-muted;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+
+  &:hover {
+    color: $primary-color;
+    background-color: $primary-light;
+  }
+
+  &--publish:hover {
+    color: $success-color;
+    background-color: $success-light;
+  }
+
+  &--delete:hover {
+    color: $error-color;
+    background-color: $error-light;
+  }
+
+  &:focus-visible {
+    box-shadow: $shadow-focus;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Empty state
+// -----------------------------------------------------------------------------
+.course-mgmt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+    max-width: 36ch;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Course content page
+// -----------------------------------------------------------------------------
+.course-content__eyebrow {
+  @include typography(small);
+  margin: 0 0 $spacing-1;
+  color: $primary-color;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+}
+
+.course-content__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  margin-bottom: $spacing-4;
+  border-color: $border-color;
+  box-shadow: $shadow-sm;
+
+  @include respond-to(md) {
+    padding: $spacing-4 $spacing-6;
+  }
+}
+
+.course-content__thumb {
+  flex-shrink: 0;
+  width: $spacing-16;
+  height: $spacing-16;
+  border-radius: $radius-medium;
+  object-fit: cover;
+  background-color: $neutral-100;
+}
+
+.course-content__meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  min-width: 0;
+}
+
+.course-content__meta-desc {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.course-content__panel {
+  padding: $spacing-4;
+  border-color: $border-color;
+  box-shadow: $shadow-sm;
+
+  @include respond-to(md) {
+    padding: $spacing-6;
+  }
+}
+
+.course-content__panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  margin-bottom: $spacing-6;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.course-content__section-title {
+  @include typography(h3);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.course-content__section-subtitle {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.course-content__add-chapter,
+.course-content__add-lesson {
+  flex-shrink: 0;
+  border-radius: $radius-medium;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.course-content__add-chapter {
+  box-shadow: $shadow-sm;
+}
+
+.course-content__chapters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+}
+
+.course-content__chapter {
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  overflow: hidden;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: $neutral-300;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.course-content__chapter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  padding: $spacing-3 $spacing-4;
+  background-color: $neutral-50;
+  border-bottom: 1px solid $divider-color;
+}
+
+.course-content__chapter-toggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: $text-primary;
+
+  mat-icon {
+    flex-shrink: 0;
+    color: $text-muted;
+  }
+
+  &:hover {
+    color: $primary-color;
+
+    mat-icon {
+      color: $primary-color;
+    }
+  }
+
+  &:focus-visible {
+    border-radius: $radius-small;
+    box-shadow: $shadow-focus;
+    outline: none;
+  }
+}
+
+.course-content__chapter-index {
+  @include typography(small);
+  flex-shrink: 0;
+  font-weight: $font-weight-semibold;
+  color: $primary-color;
+}
+
+.course-content__chapter-title {
+  @include typography(body);
+  flex: 1;
+  min-width: 0;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.course-content__chapter-count {
+  @include typography(small);
+  flex-shrink: 0;
+  color: $text-muted;
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    display: none;
+  }
+}
+
+.course-content__chapter-desc {
+  @include typography(small);
+  margin: 0;
+  padding: $spacing-3 $spacing-4 0;
+  color: $text-secondary;
+}
+
+.course-content__lessons {
+  padding: $spacing-3 $spacing-4 $spacing-4;
+}
+
+.course-content__lesson-list {
+  list-style: none;
+  margin: 0 0 $spacing-3;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+}
+
+.course-content__lesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  margin-left: $spacing-6;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $surface-color;
+  }
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.course-content__lesson-info {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  min-width: 0;
+  flex: 1;
+}
+
+.course-content__lesson-icon {
+  flex-shrink: 0;
+  color: $primary-color;
+  font-size: $font-size-body;
+  width: $font-size-body;
+  height: $font-size-body;
+}
+
+.course-content__lesson-text {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  min-width: 0;
+}
+
+.course-content__lesson-title {
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+}
+
+.course-content__lesson-meta {
+  @include typography(small);
+  color: $text-muted;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex-wrap: wrap;
+}
+
+.course-content__no-lessons {
+  @include typography(small);
+  margin: 0 0 $spacing-3;
+  padding-left: $spacing-6;
+  color: $text-muted;
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    padding-left: 0;
+  }
+}
+
+.course-content__add-lesson {
+  margin-left: $spacing-6;
+
+  @media (max-width: #{$breakpoint-md - 1px}) {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.course-mgmt-upload__video-preview {
+  width: 100%;
+  border-radius: $radius-medium;
+  overflow: hidden;
+  background-color: $neutral-900;
+
+  video {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+  }
+}

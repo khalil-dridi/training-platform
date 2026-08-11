@@ -1,22 +1,98 @@
-@if (user) {
-  <h2>User Details</h2>
+<div class="course-mgmt course-form-page admin-user-details">
+  <header class="course-mgmt__header">
+    <a class="course-mgmt__breadcrumb" routerLink="/admin/users">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to Users
+    </a>
 
-  @if (user.avatarUrl) {
-    <img
-      [src]="user.avatarUrl"
-      [alt]="user.firstName + ' ' + user.lastName"
-      width="150"
-    />
+    @if (user) {
+      <div class="course-form-page__title-row">
+        <div class="course-form-page__intro">
+          <h1 class="course-mgmt__title">{{ displayName(user) }}</h1>
+          <p class="course-mgmt__subtitle">User profile and account information.</p>
+        </div>
+
+        <span class="admin-user-details__badge admin-list__badge" [ngClass]="roleBadgeClass(user.role)">
+          {{ formatRole(user.role) }}
+        </span>
+      </div>
+    } @else {
+      <div class="course-form-page__title-row">
+        <div class="course-form-page__intro">
+          <h1 class="course-mgmt__title">User Details</h1>
+          <p class="course-mgmt__subtitle">User profile and account information.</p>
+        </div>
+      </div>
+    }
+  </header>
+
+  @if (user) {
+    <div class="admin-user-details__grid">
+      <section class="admin-user-details__profile ds-card ds-card--flat">
+        @if (user.avatarUrl) {
+          <img
+            class="admin-user-details__avatar"
+            [src]="user.avatarUrl"
+            [alt]="displayName(user)"
+            width="96"
+            height="96"
+          />
+        } @else {
+          <span class="admin-user-details__avatar admin-user-details__avatar--fallback" aria-hidden="true">
+            {{ userInitials(user) }}
+          </span>
+        }
+
+        <div class="admin-user-details__profile-text">
+          <h2 class="admin-user-details__name">{{ displayName(user) }}</h2>
+          <p class="admin-user-details__email">{{ user.email }}</p>
+          <span
+            class="admin-list__badge"
+            [class.admin-list__badge--enabled]="user.enabled"
+            [class.admin-list__badge--disabled]="!user.enabled"
+          >
+            {{ user.enabled ? 'Active account' : 'Disabled account' }}
+          </span>
+        </div>
+      </section>
+
+      <section class="admin-user-details__info ds-card ds-card--flat" aria-labelledby="user-info-title">
+        <h2 id="user-info-title" class="admin-user-details__section-title">Account Information</h2>
+
+        <dl class="admin-user-details__fields">
+          <div class="admin-user-details__field">
+            <dt>User ID</dt>
+            <dd>{{ user.id }}</dd>
+          </div>
+
+          <div class="admin-user-details__field">
+            <dt>First Name</dt>
+            <dd>{{ user.firstName }}</dd>
+          </div>
+
+          <div class="admin-user-details__field">
+            <dt>Last Name</dt>
+            <dd>{{ user.lastName }}</dd>
+          </div>
+
+          <div class="admin-user-details__field">
+            <dt>Email</dt>
+            <dd>{{ user.email }}</dd>
+          </div>
+
+          <div class="admin-user-details__field">
+            <dt>Phone</dt>
+            <dd>{{ user.phone || '—' }}</dd>
+          </div>
+
+          <div class="admin-user-details__field">
+            <dt>Role</dt>
+            <dd>{{ formatRole(user.role) }}</dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  } @else {
+    <div class="course-form-page__loading" aria-busy="true">Loading user...</div>
   }
-
-  <p>ID : {{ user.id }}</p>
-  <p>First Name : {{ user.firstName }}</p>
-  <p>Last Name : {{ user.lastName }}</p>
-  <p>Email : {{ user.email }}</p>
-  <p>Phone : {{ user.phone }}</p>
-  <p>Role : {{ user.role }}</p>
-  <p>Enabled : {{ user.enabled }}</p>
-}
-<button routerLink="/admin/users">
-  Back to Users
-</button>
+</div>

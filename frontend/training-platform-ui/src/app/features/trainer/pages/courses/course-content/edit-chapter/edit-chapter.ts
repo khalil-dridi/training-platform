@@ -4,7 +4,11 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { ChapterService } from '../../../../services/chapter';
 import { ChapterResponse } from '../../../models/chapter-response.model';
@@ -13,7 +17,14 @@ import { UpdateChapterRequest } from '../../../models/update-chapter-request.mod
 @Component({
   selector: 'app-edit-chapter',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './edit-chapter.html',
   styleUrl: './edit-chapter.scss',
 })
@@ -88,6 +99,10 @@ export class EditChapter implements OnInit {
         },
       });
   }
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses', this.courseId, 'content']);
+  }
+
   updateChapter(): void {
   if (this.chapterForm.invalid) {
     this.chapterForm.markAllAsTouched();

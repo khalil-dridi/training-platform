@@ -1,20 +1,217 @@
 @if (dashboard) {
+  <div class="trainer-dashboard">
+    <header class="trainer-dashboard__header">
+      <div class="trainer-dashboard__intro">
+        <h1 class="trainer-dashboard__welcome">
+          Welcome back, {{ trainerFirstName() }}
+          <span class="trainer-dashboard__wave" aria-hidden="true">👋</span>
+        </h1>
+        <p class="trainer-dashboard__subtitle">
+          Here's what's happening with your courses today.
+        </p>
+      </div>
 
-  <h1>Trainer Dashboard</h1>
+      <a
+        mat-flat-button
+        color="primary"
+        class="trainer-dashboard__create-btn"
+        routerLink="/trainer/courses/create"
+      >
+        <mat-icon aria-hidden="true">add</mat-icon>
+        Create Course
+      </a>
+    </header>
 
-  <h2>Courses</h2>
+    <section class="trainer-dashboard__stats" aria-label="Dashboard statistics">
+      <article class="trainer-dashboard__stat-card ds-card ds-card--flat">
+        <div class="trainer-dashboard__stat-icon trainer-dashboard__stat-icon--courses">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+        </div>
+        <div class="trainer-dashboard__stat-content">
+          <p class="trainer-dashboard__stat-label">Courses</p>
+          <p class="trainer-dashboard__stat-value">{{ dashboard.totalCourses }}</p>
+          <p class="trainer-dashboard__stat-meta">
+            {{ dashboard.publishedCourses }} published · {{ dashboard.draftCourses }} draft
+          </p>
+        </div>
+      </article>
 
-  <p>Total Courses: {{ dashboard.totalCourses }}</p>
-  <p>Published Courses: {{ dashboard.publishedCourses }}</p>
-  <p>Draft Courses: {{ dashboard.draftCourses }}</p>
+      <article class="trainer-dashboard__stat-card ds-card ds-card--flat">
+        <div class="trainer-dashboard__stat-icon trainer-dashboard__stat-icon--students">
+          <mat-icon aria-hidden="true">groups</mat-icon>
+        </div>
+        <div class="trainer-dashboard__stat-content">
+          <p class="trainer-dashboard__stat-label">Students</p>
+          <p class="trainer-dashboard__stat-value">{{ dashboard.totalStudents }}</p>
+          <p class="trainer-dashboard__stat-meta">Total enrolled</p>
+        </div>
+      </article>
 
-  <h2>Content</h2>
+      <article class="trainer-dashboard__stat-card ds-card ds-card--flat">
+        <div class="trainer-dashboard__stat-icon trainer-dashboard__stat-icon--chapters">
+          <mat-icon aria-hidden="true">library_books</mat-icon>
+        </div>
+        <div class="trainer-dashboard__stat-content">
+          <p class="trainer-dashboard__stat-label">Chapters</p>
+          <p class="trainer-dashboard__stat-value">{{ dashboard.totalChapters }}</p>
+          <p class="trainer-dashboard__stat-meta">Across all courses</p>
+        </div>
+      </article>
 
-  <p>Total Chapters: {{ dashboard.totalChapters }}</p>
-  <p>Total Lessons: {{ dashboard.totalLessons }}</p>
+      <article class="trainer-dashboard__stat-card ds-card ds-card--flat">
+        <div class="trainer-dashboard__stat-icon trainer-dashboard__stat-icon--lessons">
+          <mat-icon aria-hidden="true">play_circle_outline</mat-icon>
+        </div>
+        <div class="trainer-dashboard__stat-content">
+          <p class="trainer-dashboard__stat-label">Lessons</p>
+          <p class="trainer-dashboard__stat-value">{{ dashboard.totalLessons }}</p>
+          <p class="trainer-dashboard__stat-meta">Learning content</p>
+        </div>
+      </article>
+    </section>
 
-  <h2>Students</h2>
+    <div class="trainer-dashboard__panels">
+      <section class="trainer-dashboard__panel ds-card ds-card--flat" aria-labelledby="recent-courses-title">
+        <div class="trainer-dashboard__panel-header">
+          <h2 id="recent-courses-title" class="trainer-dashboard__panel-title">Recent Courses</h2>
+          <a class="trainer-dashboard__panel-link" routerLink="/trainer/courses">View all</a>
+        </div>
 
-  <p>Total Students: {{ dashboard.totalStudents }}</p>
+        @if (recentCourses.length === 0) {
+          <div class="trainer-dashboard__empty">
+            <mat-icon aria-hidden="true">menu_book</mat-icon>
+            <p>No courses yet. Create your first course to get started.</p>
+          </div>
+        } @else {
+          <ul class="trainer-dashboard__course-list">
+            @for (course of recentCourses; track course.id) {
+              <li class="trainer-dashboard__course-item">
+                <div class="trainer-dashboard__course-media">
+                  @if (course.thumbnailUrl) {
+                    <img
+                      [src]="course.thumbnailUrl"
+                      [alt]="course.title"
+                      width="56"
+                      height="56"
+                    />
+                  } @else {
+                    <span class="trainer-dashboard__course-placeholder" aria-hidden="true">
+                      <mat-icon>image</mat-icon>
+                    </span>
+                  }
+                </div>
 
+                <div class="trainer-dashboard__course-info">
+                  <p class="trainer-dashboard__course-title">{{ course.title }}</p>
+                  <p class="trainer-dashboard__course-meta">
+                    {{ course.categoryName }} · Updated {{ course.updatedAt | date: 'mediumDate' }}
+                  </p>
+                </div>
+
+                <span
+                  class="trainer-dashboard__status"
+                  [class.trainer-dashboard__status--published]="course.status === 'PUBLISHED'"
+                  [class.trainer-dashboard__status--draft]="course.status === 'DRAFT'"
+                >
+                  {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section
+        class="trainer-dashboard__panel ds-card ds-card--flat"
+        aria-labelledby="students-progress-title"
+      >
+        <div class="trainer-dashboard__panel-header">
+          <h2 id="students-progress-title" class="trainer-dashboard__panel-title">
+            Students Progress
+          </h2>
+        </div>
+
+        <div class="trainer-dashboard__progress">
+          <div
+            class="trainer-dashboard__donut"
+            role="img"
+            [attr.aria-label]="
+              'Course status overview: ' +
+              dashboard.publishedCourses +
+              ' published, ' +
+              dashboard.draftCourses +
+              ' draft, ' +
+              dashboard.totalStudents +
+              ' students enrolled'
+            "
+          >
+            <svg viewBox="0 0 42 42" aria-hidden="true" focusable="false">
+              <circle
+                class="trainer-dashboard__donut-ring"
+                cx="21"
+                cy="21"
+                r="15.915"
+              ></circle>
+
+              @if (dashboard.totalCourses > 0) {
+                <circle
+                  class="trainer-dashboard__donut-segment trainer-dashboard__donut-segment--published"
+                  cx="21"
+                  cy="21"
+                  r="15.915"
+                  [attr.stroke-dasharray]="publishedPercent() + ', 100'"
+                  [attr.stroke-dashoffset]="publishedDashOffset()"
+                ></circle>
+
+                <circle
+                  class="trainer-dashboard__donut-segment trainer-dashboard__donut-segment--draft"
+                  cx="21"
+                  cy="21"
+                  r="15.915"
+                  [attr.stroke-dasharray]="draftPercent() + ', 100'"
+                  [attr.stroke-dashoffset]="draftDashOffset()"
+                ></circle>
+              }
+            </svg>
+
+            <div class="trainer-dashboard__donut-center">
+              <span class="trainer-dashboard__donut-value">{{ dashboard.totalStudents }}</span>
+              <span class="trainer-dashboard__donut-label">Students</span>
+            </div>
+          </div>
+
+          <ul class="trainer-dashboard__legend">
+            <li>
+              <span
+                class="trainer-dashboard__legend-dot trainer-dashboard__legend-dot--published"
+                aria-hidden="true"
+              ></span>
+              <span class="trainer-dashboard__legend-label">Published courses</span>
+              <span class="trainer-dashboard__legend-value">{{ dashboard.publishedCourses }}</span>
+            </li>
+            <li>
+              <span
+                class="trainer-dashboard__legend-dot trainer-dashboard__legend-dot--draft"
+                aria-hidden="true"
+              ></span>
+              <span class="trainer-dashboard__legend-label">Draft courses</span>
+              <span class="trainer-dashboard__legend-value">{{ dashboard.draftCourses }}</span>
+            </li>
+            <li>
+              <span
+                class="trainer-dashboard__legend-dot trainer-dashboard__legend-dot--students"
+                aria-hidden="true"
+              ></span>
+              <span class="trainer-dashboard__legend-label">Total students</span>
+              <span class="trainer-dashboard__legend-value">{{ dashboard.totalStudents }}</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+} @else {
+  <div class="trainer-dashboard trainer-dashboard--loading" aria-busy="true" aria-live="polite">
+    <p class="trainer-dashboard__loading-text">Loading dashboard...</p>
+  </div>
 }

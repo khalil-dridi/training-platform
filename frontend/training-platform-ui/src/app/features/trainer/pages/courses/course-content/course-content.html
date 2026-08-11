@@ -1,121 +1,216 @@
-<h1>Course Content</h1>
+<div class="course-mgmt course-form-page course-content">
+  <header class="course-mgmt__header">
+    <a class="course-mgmt__breadcrumb" routerLink="/trainer/courses">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to My Courses
+    </a>
 
-<p>Course ID: {{ courseId }}</p>
-
-<button
-  type="button"
-  [routerLink]="[
-    '/trainer/courses',
-    courseId,
-    'content',
-    'create-chapter'
-  ]"
->
-  + Add Chapter
-</button>
-
-@if (chapters.length === 0) {
-
-  <p>No chapters found.</p>
-
-} @else {
-
-  @for (chapter of chapters; track chapter.id) {
-
-    <div>
-
-      <h2>
-        {{ chapter.position }}. {{ chapter.title }}
-      </h2>
-
-      @if (chapter.description) {
-        <p>
-          {{ chapter.description }}
-        </p>
-      }
-
-      <button
-        type="button"
-        [routerLink]="[
-          '/trainer/courses',
-          courseId,
-          'content',
-          'edit-chapter',
-          chapter.id
-        ]"
-      >
-        Edit
-      </button>
-
-      <button
-        type="button"
-        (click)="deleteChapter(chapter.id)"
-      >
-        Delete
-      </button>
-
-      <h3>Lessons</h3>
-      
-
-      @if (lessonsByChapter[chapter.id]?.length) {
-
-        @for (
-          lesson of lessonsByChapter[chapter.id];
-          track lesson.id
-        ) {
-
-          <div>
-  <p>
-    {{ lesson.position }}.
-    {{ lesson.title }}
-  </p>
-
-  <button
-    type="button"
-    [routerLink]="[
-      '/trainer/courses',
-      courseId,
-      'content',
-      'chapter',
-      chapter.id,
-      'edit-lesson',
-      lesson.id
-    ]"
-  >
-    Edit
-  </button>
-
-  <button
-    type="button"
-    (click)="deleteLesson(lesson.id)"
-  >
-    Delete
-  </button>
-</div>
-
+    <div class="course-form-page__title-row">
+      <div class="course-form-page__intro">
+        <p class="course-content__eyebrow">Course Management</p>
+        <h1 class="course-mgmt__title">{{ course?.title ?? 'Course Content' }}</h1>
+        @if (course) {
+          <p class="course-mgmt__subtitle">
+            {{ course.categoryName }} · {{ course.level }} · {{ course.language }}
+          </p>
+        } @else {
+          <p class="course-mgmt__subtitle">Organize your course into chapters and lessons.</p>
         }
+      </div>
 
-      } @else {
-
-        <p>No lessons found.</p>
-
+      @if (course) {
+        <span
+          class="course-mgmt-badge"
+          [class.course-mgmt-badge--published]="course.status === 'PUBLISHED'"
+          [class.course-mgmt-badge--draft]="course.status === 'DRAFT'"
+        >
+          {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
+        </span>
       }
-      <button
-  type="button"
-  [routerLink]="[
-    '/trainer/courses',
-    courseId,
-    'content',
-    'chapter',
-    chapter.id,
-    'create-lesson'
-  ]"
->
-  + Add Lesson
-</button>
-
     </div>
 
-  }
+    @if (course) {
+      <div class="course-form-page__toolbar">
+        <a
+          mat-stroked-button
+          class="course-form-page__toolbar-link"
+          [routerLink]="['/trainer/courses/edit', courseId]"
+        >
+          <mat-icon aria-hidden="true">edit</mat-icon>
+          Edit Course Info
+        </a>
+      </div>
 
-}
+      <div class="course-content__meta ds-card ds-card--flat">
+        @if (course.thumbnailUrl) {
+          <img
+            class="course-content__thumb"
+            [src]="course.thumbnailUrl"
+            [alt]="course.title"
+            width="72"
+            height="72"
+          />
+        }
+        <div class="course-content__meta-text">
+          <p class="course-content__meta-desc">{{ course.shortDescription }}</p>
+        </div>
+      </div>
+    }
+  </header>
+
+  <section class="course-content__panel ds-card ds-card--flat" aria-labelledby="course-content-title">
+    <div class="course-content__panel-header">
+      <div>
+        <h2 id="course-content-title" class="course-content__section-title">Course Content</h2>
+        <p class="course-content__section-subtitle">Organize your course into chapters and lessons.</p>
+      </div>
+
+      <a
+        mat-flat-button
+        color="primary"
+        class="course-content__add-chapter"
+        [routerLink]="['/trainer/courses', courseId, 'content', 'create-chapter']"
+      >
+        <mat-icon aria-hidden="true">add</mat-icon>
+        Add Chapter
+      </a>
+    </div>
+
+    @if (chapters.length === 0) {
+      <div class="course-mgmt-empty">
+        <mat-icon aria-hidden="true">library_books</mat-icon>
+        <p>No chapters yet. Add your first chapter to start building course content.</p>
+        <a
+          mat-flat-button
+          color="primary"
+          [routerLink]="['/trainer/courses', courseId, 'content', 'create-chapter']"
+        >
+          <mat-icon aria-hidden="true">add</mat-icon>
+          Add Chapter
+        </a>
+      </div>
+    } @else {
+      <ul class="course-content__chapters">
+        @for (chapter of chapters; track chapter.id) {
+          <li class="course-content__chapter">
+            <div class="course-content__chapter-header">
+              <button
+                type="button"
+                class="course-content__chapter-toggle"
+                (click)="toggleChapter(chapter.id)"
+                [attr.aria-expanded]="isChapterExpanded(chapter.id)"
+                [attr.aria-controls]="'chapter-lessons-' + chapter.id"
+              >
+                <mat-icon aria-hidden="true">
+                  {{ isChapterExpanded(chapter.id) ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+                <span class="course-content__chapter-index">Chapter {{ chapter.position }}</span>
+                <span class="course-content__chapter-title">{{ chapter.title }}</span>
+                <span class="course-content__chapter-count">{{ lessonCount(chapter.id) }} lessons</span>
+              </button>
+
+              <div class="course-mgmt-actions">
+                <a
+                  mat-icon-button
+                  class="course-mgmt-action-btn"
+                  [routerLink]="['/trainer/courses', courseId, 'content', 'edit-chapter', chapter.id]"
+                  aria-label="Edit chapter {{ chapter.title }}"
+                >
+                  <mat-icon aria-hidden="true">edit</mat-icon>
+                </a>
+                <button
+                  mat-icon-button
+                  type="button"
+                  class="course-mgmt-action-btn course-mgmt-action-btn--delete"
+                  (click)="deleteChapter(chapter.id)"
+                  aria-label="Delete chapter {{ chapter.title }}"
+                >
+                  <mat-icon aria-hidden="true">delete_outline</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            @if (chapter.description) {
+              <p class="course-content__chapter-desc">{{ chapter.description }}</p>
+            }
+
+            @if (isChapterExpanded(chapter.id)) {
+              <div class="course-content__lessons" [id]="'chapter-lessons-' + chapter.id">
+                @if (lessonsByChapter[chapter.id]?.length) {
+                  <ul class="course-content__lesson-list">
+                    @for (lesson of lessonsByChapter[chapter.id]; track lesson.id) {
+                      <li class="course-content__lesson">
+                        <div class="course-content__lesson-info">
+                          <mat-icon class="course-content__lesson-icon" aria-hidden="true">
+                            play_circle_outline
+                          </mat-icon>
+                          <div class="course-content__lesson-text">
+                            <span class="course-content__lesson-title">
+                              {{ lesson.position }}. {{ lesson.title }}
+                            </span>
+                            <span class="course-content__lesson-meta">
+                              {{ lesson.duration }} min
+                              @if (lesson.preview) {
+                                · <span class="course-mgmt-badge course-mgmt-badge--preview">Preview</span>
+                              }
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="course-mgmt-actions">
+                          <a
+                            mat-icon-button
+                            class="course-mgmt-action-btn"
+                            [routerLink]="[
+                              '/trainer/courses',
+                              courseId,
+                              'content',
+                              'chapter',
+                              chapter.id,
+                              'edit-lesson',
+                              lesson.id
+                            ]"
+                            aria-label="Edit lesson {{ lesson.title }}"
+                          >
+                            <mat-icon aria-hidden="true">edit</mat-icon>
+                          </a>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            class="course-mgmt-action-btn course-mgmt-action-btn--delete"
+                            (click)="deleteLesson(lesson.id)"
+                            aria-label="Delete lesson {{ lesson.title }}"
+                          >
+                            <mat-icon aria-hidden="true">delete_outline</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                } @else {
+                  <p class="course-content__no-lessons">No lessons in this chapter yet.</p>
+                }
+
+                <a
+                  mat-stroked-button
+                  class="course-content__add-lesson"
+                  [routerLink]="[
+                    '/trainer/courses',
+                    courseId,
+                    'content',
+                    'chapter',
+                    chapter.id,
+                    'create-lesson'
+                  ]"
+                >
+                  <mat-icon aria-hidden="true">add</mat-icon>
+                  Add Lesson
+                </a>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>

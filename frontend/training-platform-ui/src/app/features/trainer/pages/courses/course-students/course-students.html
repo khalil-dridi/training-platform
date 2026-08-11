@@ -1,0 +1,182 @@
+<div class="course-students">
+  <header class="course-students__header">
+    <a class="course-students__breadcrumb" routerLink="/trainer/courses">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Back to My Courses
+    </a>
+
+    <div class="course-students__intro">
+      <h1 class="course-students__title">{{ courseTitle() }}</h1>
+      <p class="course-students__subtitle">
+        @if (!loading && enrollments.length > 0) {
+          {{ enrollments.length }} students enrolled in this course.
+        } @else {
+          View and track student progress for this course.
+        }
+      </p>
+    </div>
+
+    <div class="course-students__toolbar">
+      <div class="course-students__search">
+        <mat-icon class="course-students__search-icon" aria-hidden="true">search</mat-icon>
+        <input
+          class="course-students__search-input"
+          type="search"
+          placeholder="Search by student name..."
+          [value]="searchQuery"
+          (input)="onSearchInput($event)"
+          aria-label="Search students"
+        />
+      </div>
+    </div>
+  </header>
+
+  <section class="course-students__card ds-card ds-card--flat" aria-label="Course students list">
+    @if (loading) {
+      <div class="course-students__empty" aria-busy="true">
+        <p>Loading students...</p>
+      </div>
+    } @else if (enrollments.length === 0) {
+      <div class="course-students__empty">
+        <mat-icon aria-hidden="true">groups</mat-icon>
+        <p>No students enrolled in this course yet.</p>
+        <a mat-stroked-button routerLink="/trainer/courses">Back to My Courses</a>
+      </div>
+    } @else if (filteredEnrollments.length === 0) {
+      <div class="course-students__empty">
+        <mat-icon aria-hidden="true">search_off</mat-icon>
+        <p>No students match your search.</p>
+      </div>
+    } @else {
+      <div class="course-students__table-wrap">
+        <table class="course-students__table">
+          <thead>
+            <tr>
+              <th scope="col">Student</th>
+              <th scope="col">Progress</th>
+              <th scope="col">Status</th>
+              <th scope="col">Enrolled</th>
+              <th scope="col"><span class="course-students__sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (enrollment of filteredEnrollments; track enrollment.id) {
+              <tr class="course-students__row">
+                <td class="course-students__cell">
+                  <div class="course-students__student">
+                    <span class="course-students__avatar" aria-hidden="true">
+                      {{ learnerInitials(enrollment) }}
+                    </span>
+                    <span class="course-students__student-name">{{ enrollment.learnerName }}</span>
+                  </div>
+                </td>
+
+                <td class="course-students__cell" data-label="Progress">
+                  <div class="course-students__progress">
+                    <div
+                      class="course-students__progress-bar"
+                      role="progressbar"
+                      [attr.aria-valuenow]="enrollment.progress"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      [attr.aria-label]="enrollment.learnerName + ' progress'"
+                    >
+                      <span
+                        class="course-students__progress-fill"
+                        [style.width.%]="enrollment.progress"
+                      ></span>
+                    </div>
+                    <span class="course-students__progress-value">{{ enrollment.progress }}%</span>
+                  </div>
+                </td>
+
+                <td class="course-students__cell" data-label="Status">
+                  <span
+                    class="course-students__status"
+                    [class.course-students__status--completed]="enrollment.completed"
+                    [class.course-students__status--in-progress]="!enrollment.completed"
+                  >
+                    {{ enrollment.completed ? 'Completed' : 'In progress' }}
+                  </span>
+                </td>
+
+                <td class="course-students__cell" data-label="Enrolled">
+                  <span class="course-students__date">{{ enrollment.enrolledAt | date: 'mediumDate' }}</span>
+                </td>
+
+                <td class="course-students__cell course-students__cell--actions" data-label="Actions">
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    class="course-students__details-btn"
+                    (click)="openStudentDetails(enrollment.learnerId)"
+                  >
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="course-students__mobile-list">
+        @for (enrollment of filteredEnrollments; track enrollment.id) {
+          <li class="course-students__mobile-card">
+            <div class="course-students__mobile-header">
+              <span class="course-students__avatar" aria-hidden="true">
+                {{ learnerInitials(enrollment) }}
+              </span>
+
+              <div class="course-students__mobile-info">
+                <span class="course-students__student-name">{{ enrollment.learnerName }}</span>
+                <span class="course-students__date">
+                  Enrolled {{ enrollment.enrolledAt | date: 'mediumDate' }}
+                </span>
+              </div>
+
+              <span
+                class="course-students__status"
+                [class.course-students__status--completed]="enrollment.completed"
+                [class.course-students__status--in-progress]="!enrollment.completed"
+              >
+                {{ enrollment.completed ? 'Completed' : 'In progress' }}
+              </span>
+            </div>
+
+            <div class="course-students__progress course-students__progress--mobile">
+              <div
+                class="course-students__progress-bar"
+                role="progressbar"
+                [attr.aria-valuenow]="enrollment.progress"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <span
+                  class="course-students__progress-fill"
+                  [style.width.%]="enrollment.progress"
+                ></span>
+              </div>
+              <span class="course-students__progress-value">{{ enrollment.progress }}%</span>
+            </div>
+
+            <button
+              mat-stroked-button
+              type="button"
+              class="course-students__details-btn"
+              (click)="openStudentDetails(enrollment.learnerId)"
+            >
+              View Details
+            </button>
+          </li>
+        }
+      </ul>
+
+      <footer class="course-students__footer">
+        <p class="course-students__footer-text">
+          Showing {{ filteredEnrollments.length }} of {{ enrollments.length }} students
+        </p>
+      </footer>
+    }
+  </section>
+</div>

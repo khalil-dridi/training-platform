@@ -4,7 +4,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 import { LessonService } from '../../../../services/lesson';
 import { CreateLessonRequest } from '../../../models/create-lesson-request.model';
@@ -12,19 +17,28 @@ import { CreateLessonRequest } from '../../../models/create-lesson-request.model
 @Component({
   selector: 'app-create-lesson',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+  ],
   templateUrl: './create-lesson.html',
   styleUrl: './create-lesson.scss',
 })
 export class CreateLesson implements OnInit {
-
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly lessonService = inject(LessonService);
   private readonly router = inject(Router);
-  chapterId!: number;
 
+  chapterId!: number;
+  courseId!: number;
   selectedVideo: File | null = null;
+  videoTouched = false;
 
   lessonForm = this.fb.nonNullable.group({
     title: ['', [
@@ -52,9 +66,8 @@ export class CreateLesson implements OnInit {
   });
 
   ngOnInit(): void {
-    this.chapterId = Number(
-      this.route.snapshot.paramMap.get('chapterId')
-    );
+    this.chapterId = Number(this.route.snapshot.paramMap.get('chapterId'));
+    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
   }
 
   onVideoSelected(event: Event): void {
@@ -65,13 +78,17 @@ export class CreateLesson implements OnInit {
     }
 
     this.selectedVideo = input.files[0];
+    this.videoTouched = true;
+  }
+
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses', this.courseId, 'content']);
   }
 
   createLesson(): void {
-    if (
-      this.lessonForm.invalid ||
-      !this.selectedVideo
-    ) {
+    this.videoTouched = true;
+
+    if (this.lessonForm.invalid || !this.selectedVideo) {
       this.lessonForm.markAllAsTouched();
       return;
     }
@@ -86,16 +103,8 @@ export class CreateLesson implements OnInit {
       this.selectedVideo
     ).subscribe({
       next: () => {
-  const courseId = Number(
-    this.route.snapshot.paramMap.get('courseId')
-  );
-
-  this.router.navigate([
-    '/trainer/courses',
-    courseId,
-    'content'
-  ]);
-},
+        void this.router.navigate(['/trainer/courses', this.courseId, 'content']);
+      },
       error: (error) => {
         console.error(
           'Failed to create lesson',

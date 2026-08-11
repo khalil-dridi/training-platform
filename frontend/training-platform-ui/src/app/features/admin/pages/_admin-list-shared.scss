@@ -1,0 +1,513 @@
+////
+/// Admin list pages — shared styles
+/// ---------------------------------------------------------------------------
+/// Role: list/table layouts for admin pages (categories, users, requests).
+////
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.admin-list {
+  padding: $spacing-6 $spacing-4;
+  background-color: $background-color;
+  min-height: 100%;
+
+  @include respond-to(md) {
+    padding: $spacing-8 $spacing-6;
+  }
+
+  @include respond-to(lg) {
+    padding: $spacing-8;
+  }
+}
+
+.admin-list__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.admin-list__header {
+  margin-bottom: $spacing-6;
+}
+
+.admin-list__title-row {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  margin-bottom: $spacing-4;
+}
+
+.admin-list__title {
+  @include typography(h2);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-list__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+}
+
+.admin-list__toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-4;
+  }
+}
+
+.admin-list__toolbar-start {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  flex: 1;
+  min-width: 0;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.admin-list__search {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+
+  @include respond-to(md) {
+    max-width: 360px;
+  }
+}
+
+.admin-list__search-icon {
+  flex-shrink: 0;
+  font-size: $font-size-body;
+  width: $font-size-body;
+  height: $font-size-body;
+  color: $text-muted;
+}
+
+.admin-list__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  @include typography(body);
+  color: $text-primary;
+  outline: none;
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+.admin-list__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
+.admin-list__filter-btn {
+  min-height: $spacing-8;
+  border-radius: $radius-full;
+  font-weight: $font-weight-medium;
+
+  &--active {
+    background-color: $primary-light;
+    color: $primary-color;
+    border-color: transparent;
+  }
+}
+
+.admin-list__primary-btn {
+  flex-shrink: 0;
+  min-height: $spacing-8;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+  box-shadow: $shadow-sm;
+  white-space: nowrap;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.admin-list__card {
+  padding: 0;
+  overflow: hidden;
+  border-color: $border-color;
+  box-shadow: $shadow-sm;
+}
+
+.admin-list__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $text-muted;
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+.admin-list__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-12 $spacing-4;
+  @include typography(body);
+  color: $text-muted;
+}
+
+.admin-list__table-wrap {
+  display: none;
+  overflow-x: auto;
+
+  @include respond-to(md) {
+    display: block;
+  }
+}
+
+.admin-list__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+
+  thead {
+    background-color: $neutral-50;
+    border-bottom: 1px solid $border-color;
+
+    th {
+      @include typography(small);
+      padding: $spacing-3 $spacing-4;
+      font-weight: $font-weight-semibold;
+      color: $text-secondary;
+      text-align: left;
+      white-space: nowrap;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $divider-color;
+    transition: background-color $transition-fast;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: $neutral-50;
+    }
+  }
+}
+
+.admin-list__cell {
+  @include typography(small);
+  padding: $spacing-4;
+  color: $text-primary;
+  vertical-align: middle;
+
+  &--actions {
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.admin-list__item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+}
+
+.admin-list__thumb {
+  flex-shrink: 0;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-medium;
+  object-fit: cover;
+  background-color: $neutral-100;
+
+  &--placeholder,
+  &--avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+    @include typography(small);
+    font-weight: $font-weight-semibold;
+
+    mat-icon {
+      font-size: $font-size-body;
+      width: $font-size-body;
+      height: $font-size-body;
+    }
+  }
+
+  &--avatar {
+    border-radius: $radius-full;
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+}
+
+.admin-list__item-text {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+  min-width: 0;
+}
+
+.admin-list__item-title {
+  @include typography(body);
+  font-weight: $font-weight-semibold;
+  color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-list__item-meta {
+  @include typography(small);
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-list__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  border-radius: $radius-full;
+  @include typography(small);
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+
+  &--learner {
+    background-color: $info-light;
+    color: $info-dark;
+  }
+
+  &--trainer {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+
+  &--admin {
+    background-color: $neutral-100;
+    color: $text-secondary;
+  }
+
+  &--enabled {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--disabled {
+    background-color: $neutral-100;
+    color: $text-muted;
+  }
+
+  &--pending {
+    background-color: $warning-light;
+    color: $warning-dark;
+  }
+
+  &--approved {
+    background-color: $success-light;
+    color: $success-dark;
+  }
+
+  &--rejected {
+    background-color: $neutral-100;
+    color: $text-muted;
+  }
+}
+
+.admin-list__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-1;
+}
+
+.admin-list__action-btn {
+  color: $text-muted;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+
+  &:hover {
+    color: $primary-color;
+    background-color: $primary-light;
+  }
+
+  &--approve:hover {
+    color: $success-color;
+    background-color: $success-light;
+  }
+
+  &--reject:hover,
+  &--delete:hover {
+    color: $error-color;
+    background-color: $error-light;
+  }
+
+  &:focus-visible {
+    box-shadow: $shadow-focus;
+  }
+}
+
+.admin-list__link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  @include typography(small);
+  color: $text-link;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
+}
+
+.admin-list__mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  list-style: none;
+  margin: 0;
+  padding: $spacing-4;
+
+  @include respond-to(md) {
+    display: none;
+  }
+}
+
+.admin-list__mobile-card {
+  padding: $spacing-4;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+}
+
+.admin-list__mobile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-3;
+  margin-bottom: $spacing-3;
+
+  .admin-list__item-text {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.admin-list__mobile-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-3;
+  margin: 0 0 $spacing-3;
+  padding: $spacing-3 0;
+  border-top: 1px solid $divider-color;
+  border-bottom: 1px solid $divider-color;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  dt {
+    @include typography(small);
+    margin: 0;
+    color: $text-muted;
+    font-weight: $font-weight-medium;
+  }
+
+  dd {
+    @include typography(small);
+    margin: 0;
+    color: $text-primary;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.admin-list__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  flex-wrap: wrap;
+  padding: $spacing-3 $spacing-4;
+  border-top: 1px solid $border-color;
+  background-color: $neutral-50;
+}
+
+.admin-list__pagination-info {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.admin-list__pagination-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+}

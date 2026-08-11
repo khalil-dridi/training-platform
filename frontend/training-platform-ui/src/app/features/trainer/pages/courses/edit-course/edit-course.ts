@@ -1,10 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { CourseService } from '../../../services/course';
 import { CourseLevel } from '../../../pages/models/course-level.model';
@@ -16,21 +21,29 @@ import { UpdateCourseRequest } from '../../models/update-course-request.model';
 @Component({
   selector: 'app-edit-course',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './edit-course.html',
   styleUrl: './edit-course.scss',
 })
 export class EditCourse implements OnInit {
-
   private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly courseService = inject(CourseService);
   private readonly categoryService = inject(CategoryService);
   private readonly router = inject(Router);
+
   categories: CategoryResponse[] = [];
   selectedThumbnail: File | null = null;
+  thumbnailPreviewUrl: string | null = null;
   course: CourseResponse | null = null;
-
   courseId!: number;
 
   courseForm = this.fb.nonNullable.group({
@@ -108,15 +121,26 @@ private loadCategories(): void {
     });
   }
   onThumbnailSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
 
-  if (!input.files || input.files.length === 0) {
-    return;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    this.selectedThumbnail = input.files[0];
+
+    if (this.thumbnailPreviewUrl) {
+      URL.revokeObjectURL(this.thumbnailPreviewUrl);
+    }
+
+    this.thumbnailPreviewUrl = URL.createObjectURL(this.selectedThumbnail);
   }
 
-  this.selectedThumbnail = input.files[0];
-}
-updateCourse(): void {
+  cancel(): void {
+    void this.router.navigate(['/trainer/courses']);
+  }
+
+  updateCourse(): void {
   if (this.courseForm.invalid) {
     this.courseForm.markAllAsTouched();
     return;

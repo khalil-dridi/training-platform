@@ -5,10 +5,14 @@ import com.trainingplatform.course.entity.Course;
 import com.trainingplatform.course.enums.CourseStatus;
 import com.trainingplatform.course.repository.CourseRepository;
 import com.trainingplatform.enrollment.dto.response.EnrollmentResponse;
+import com.trainingplatform.enrollment.dto.response.StudentCourseResponse;
+import com.trainingplatform.enrollment.dto.response.StudentEnrollmentResponse;
+import com.trainingplatform.enrollment.dto.response.TrainerStudentResponse;
 import com.trainingplatform.enrollment.dto.resquest.UpdateProgressRequest;
 import com.trainingplatform.enrollment.entity.Enrollment;
 import com.trainingplatform.enrollment.mapper.EnrollmentMapper;
 import com.trainingplatform.enrollment.repository.EnrollmentRepository;
+import com.trainingplatform.user.dto.response.UserResponse;
 import com.trainingplatform.user.entity.User;
 import com.trainingplatform.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -177,6 +183,129 @@ public class EnrollmentService {
         enrollmentRepository.save(enrollment);
 
         return enrollmentMapper.toResponse(enrollment);
+    }
+
+    @Transactional(readOnly = true)
+    public StudentEnrollmentResponse getStudentEnrollment(
+            Authentication authentication,
+            Long courseId,
+            Long learnerId
+    ) {
+
+        User trainer = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Course not found.")
+                );
+
+        // Vérifier que le course appartient bien au trainer connecté
+        if (!course.getTrainer().getId().equals(trainer.getId())) {
+            throw new IllegalStateException(
+                    "You are not allowed to access this course."
+            );
+        }
+
+        User learner = userRepository.findById(learnerId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Learner not found.")
+                );
+
+        Enrollment enrollment = enrollmentRepository
+                .findByLearnerAndCourse(learner, course)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Student is not enrolled in this course."
+                        )
+                );
+
+        return StudentEnrollmentResponse.builder()
+                .learnerId(learner.getId())
+                .learnerName(
+                        learner.getFirstName() + " " + learner.getLastName()
+                )
+                .learnerEmail(learner.getEmail())
+                .avatarUrl(learner.getAvatarUrl())
+                .courseId(course.getId())
+                .courseTitle(course.getTitle())
+                .progress(enrollment.getProgress())
+                .completed(enrollment.getCompleted())
+                .enrolledAt(enrollment.getEnrolledAt())
+                .completedAt(enrollment.getCompletedAt())
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TrainerStudentResponse> getMyStudents(
+            Authentication authentication
+    ) {
+
+        User trainer = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        List<Enrollment> enrollments =
+                enrollmentRepository.findAllByTrainer(trainer);
+
+        return enrollments.stream()
+                .collect(Collectors.groupingBy(
+                        enrollment -> enrollment.getLearner().getId(),
+                        LinkedHashMap::new,
+                        Collectors.toList()
+                ))
+                .values()
+                .stream()
+                .map(studentEnrollments -> {
+
+                    User learner =
+                            studentEnrollments.get(0).getLearner();
+
+                    List<StudentCourseResponse> courses =
+                            studentEnrollments.stream()
+                                    .map(enrollment ->
+                                            StudentCourseResponse.builder()
+                                                    .enrollmentId(
+                                                            enrollment.getId()
+                                                    )
+                                                    .courseId(
+                                                            enrollment.getCourse().getId()
+                                                    )
+                                                    .courseTitle(
+                                                            enrollment.getCourse().getTitle()
+                                                    )
+                                                    .progress(
+                                                            enrollment.getProgress()
+                                                    )
+                                                    .completed(
+                                                            enrollment.getCompleted()
+                                                    )
+                                                    .enrolledAt(
+                                                            enrollment.getEnrolledAt()
+                                                    )
+                                                    .completedAt(
+                                                            enrollment.getCompletedAt()
+                                                    )
+                                                    .build()
+                                    )
+                                    .toList();
+
+                    return TrainerStudentResponse.builder()
+                            .learnerId(learner.getId())
+                            .learnerName(
+                                    learner.getFirstName()
+                                            + " "
+                                            + learner.getLastName()
+                            )
+                            .learnerEmail(learner.getEmail())
+                            .avatarUrl(learner.getAvatarUrl())
+                            .courses(courses)
+                            .build();
+                })
+                .toList();
     }
 
 }
