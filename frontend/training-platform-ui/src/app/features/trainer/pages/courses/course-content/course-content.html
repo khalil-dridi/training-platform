@@ -1,0 +1,121 @@
+<h1>Course Content</h1>
+
+<p>Course ID: {{ courseId }}</p>
+
+<button
+  type="button"
+  [routerLink]="[
+    '/trainer/courses',
+    courseId,
+    'content',
+    'create-chapter'
+  ]"
+>
+  + Add Chapter
+</button>
+
+@if (chapters.length === 0) {
+
+  <p>No chapters found.</p>
+
+} @else {
+
+  @for (chapter of chapters; track chapter.id) {
+
+    <div>
+
+      <h2>
+        {{ chapter.position }}. {{ chapter.title }}
+      </h2>
+
+      @if (chapter.description) {
+        <p>
+          {{ chapter.description }}
+        </p>
+      }
+
+      <button
+        type="button"
+        [routerLink]="[
+          '/trainer/courses',
+          courseId,
+          'content',
+          'edit-chapter',
+          chapter.id
+        ]"
+      >
+        Edit
+      </button>
+
+      <button
+        type="button"
+        (click)="deleteChapter(chapter.id)"
+      >
+        Delete
+      </button>
+
+      <h3>Lessons</h3>
+      
+
+      @if (lessonsByChapter[chapter.id]?.length) {
+
+        @for (
+          lesson of lessonsByChapter[chapter.id];
+          track lesson.id
+        ) {
+
+          <div>
+  <p>
+    {{ lesson.position }}.
+    {{ lesson.title }}
+  </p>
+
+  <button
+    type="button"
+    [routerLink]="[
+      '/trainer/courses',
+      courseId,
+      'content',
+      'chapter',
+      chapter.id,
+      'edit-lesson',
+      lesson.id
+    ]"
+  >
+    Edit
+  </button>
+
+  <button
+    type="button"
+    (click)="deleteLesson(lesson.id)"
+  >
+    Delete
+  </button>
+</div>
+
+        }
+
+      } @else {
+
+        <p>No lessons found.</p>
+
+      }
+      <button
+  type="button"
+  [routerLink]="[
+    '/trainer/courses',
+    courseId,
+    'content',
+    'chapter',
+    chapter.id,
+    'create-lesson'
+  ]"
+>
+  + Add Lesson
+</button>
+
+    </div>
+
+  }
+
+}

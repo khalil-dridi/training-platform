@@ -1,0 +1,88 @@
+<h1>Create Course</h1>
+
+<form [formGroup]="courseForm" (ngSubmit)="createCourse()">
+
+  <div>
+    <label for="title">Title</label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+    />
+  </div>
+
+  <div>
+    <label for="shortDescription">Short Description</label>
+    <input
+      id="shortDescription"
+      type="text"
+      formControlName="shortDescription"
+    />
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="price">Price</label>
+    <input
+      id="price"
+      type="number"
+      formControlName="price"
+    />
+  </div>
+
+  <div>
+    <label for="level">Level</label>
+    <select id="level" formControlName="level">
+      <option value="">Select level</option>
+      <option value="BEGINNER">Beginner</option>
+      <option value="INTERMEDIATE">Intermediate</option>
+      <option value="ADVANCED">Advanced</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="language">Language</label>
+    <input
+      id="language"
+      type="text"
+      formControlName="language"
+    />
+  </div>
+
+  <div>
+    <label for="categoryId">Category</label>
+
+    <select id="categoryId" formControlName="categoryId">
+  <option [value]="0">Select category</option>
+
+  @for (category of categories; track category.id) {
+    <option [value]="category.id">
+      {{ category.name }}
+    </option>
+  }
+</select>
+  </div>
+
+  <div>
+    <label for="thumbnail">Thumbnail</label>
+
+    <input
+      id="thumbnail"
+      type="file"
+      accept="image/*"
+      (change)="onThumbnailSelected($event)"
+    />
+  </div>
+
+  <button type="submit">
+    Create Course
+  </button>
+
+</form>

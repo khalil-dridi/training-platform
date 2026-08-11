@@ -273,4 +273,29 @@ public class CourseService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public CourseResponse getMyCourseById(
+            Authentication authentication,
+            Long id
+    ) {
+
+        User trainer = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found.")
+                );
+
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Course not found.")
+                );
+
+        if (!course.getTrainer().getId().equals(trainer.getId())) {
+            throw new IllegalStateException(
+                    "You are not allowed to access this course."
+            );
+        }
+
+        return courseMapper.toResponse(course);
+    }
+
 }

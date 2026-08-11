@@ -1,0 +1,48 @@
+<h1>Create Chapter</h1>
+
+<form
+  [formGroup]="chapterForm"
+  (ngSubmit)="createChapter()"
+>
+
+  <div>
+    <label for="title">
+      Title
+    </label>
+
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+    />
+  </div>
+
+  <div>
+    <label for="description">
+      Description
+    </label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="position">
+      Position
+    </label>
+
+    <input
+      id="position"
+      type="number"
+      formControlName="position"
+      min="1"
+    />
+  </div>
+
+  <button type="submit">
+    Create Chapter
+  </button>
+
+</form>

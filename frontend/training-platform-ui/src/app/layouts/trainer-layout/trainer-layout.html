@@ -1,3 +1,15 @@
-<h1>Trainer Layout</h1>
+<div class="trainer-layout">
 
-<router-outlet />
+  <app-sidebar></app-sidebar>
+
+  <div class="content-area">
+
+    <app-navbar></app-navbar>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>

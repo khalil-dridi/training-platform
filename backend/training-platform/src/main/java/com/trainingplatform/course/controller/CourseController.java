@@ -168,4 +168,25 @@ public class CourseController {
                         .build()
         );
     }
+
+    @PreAuthorize("hasRole('TRAINER')")
+    @GetMapping("/me/{id}")
+    public ResponseEntity<ApiResponse<CourseResponse>> getMyCourseById(
+            Authentication authentication,
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.<CourseResponse>builder()
+                        .success(true)
+                        .message("Course retrieved successfully.")
+                        .data(
+                                courseService.getMyCourseById(
+                                        authentication,
+                                        id
+                                )
+                        )
+                        .build()
+        );
+    }
 }

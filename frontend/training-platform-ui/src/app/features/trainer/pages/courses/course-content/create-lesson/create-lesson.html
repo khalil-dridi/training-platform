@@ -1,0 +1,86 @@
+<h1>Create Lesson</h1>
+
+<form
+  [formGroup]="lessonForm"
+  (ngSubmit)="createLesson()"
+>
+
+  <div>
+    <label for="title">
+      Title
+    </label>
+
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+    />
+  </div>
+
+  <div>
+    <label for="description">
+      Description
+    </label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="duration">
+      Duration
+    </label>
+
+    <input
+      id="duration"
+      type="number"
+      min="1"
+      formControlName="duration"
+    />
+  </div>
+
+  <div>
+    <label for="preview">
+      Preview
+    </label>
+
+    <input
+      id="preview"
+      type="checkbox"
+      formControlName="preview"
+    />
+  </div>
+
+  <div>
+    <label for="position">
+      Position
+    </label>
+
+    <input
+      id="position"
+      type="number"
+      min="1"
+      formControlName="position"
+    />
+  </div>
+
+  <div>
+    <label for="video">
+      Video
+    </label>
+
+    <input
+      id="video"
+      type="file"
+      accept="video/*"
+      (change)="onVideoSelected($event)"
+    />
+  </div>
+
+  <button type="submit">
+    Create Lesson
+  </button>
+
+</form>

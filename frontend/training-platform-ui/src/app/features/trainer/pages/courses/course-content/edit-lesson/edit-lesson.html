@@ -1,0 +1,99 @@
+<h1>Edit Lesson</h1>
+
+@if (lesson) {
+
+  <form
+  [formGroup]="lessonForm"
+  (ngSubmit)="updateLesson()"
+>
+
+    <div>
+      <label for="title">
+        Title
+      </label>
+
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+      />
+    </div>
+
+    <div>
+      <label for="description">
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="duration">
+        Duration
+      </label>
+
+      <input
+        id="duration"
+        type="number"
+        min="1"
+        formControlName="duration"
+      />
+    </div>
+
+    <div>
+      <label for="preview">
+        Preview
+      </label>
+
+      <input
+        id="preview"
+        type="checkbox"
+        formControlName="preview"
+      />
+    </div>
+
+    <div>
+      <label for="position">
+        Position
+      </label>
+
+      <input
+        id="position"
+        type="number"
+        min="1"
+        formControlName="position"
+      />
+    </div>
+
+    <div>
+      <p>Current video:</p>
+
+      <video
+        [src]="lesson.videoUrl"
+        controls
+        width="400"
+      ></video>
+    </div>
+
+    <div>
+      <label for="video">
+        Replace video
+      </label>
+
+      <input
+        id="video"
+        type="file"
+        accept="video/*"
+        (change)="onVideoSelected($event)"
+      />
+    </div>
+    <button type="submit">
+  Update Lesson
+</button>
+
+  </form>
+
+}

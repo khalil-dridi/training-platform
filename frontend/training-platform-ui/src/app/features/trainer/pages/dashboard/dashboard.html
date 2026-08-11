@@ -1,1 +1,20 @@
-<p>dashboard works!</p>
+@if (dashboard) {
+
+  <h1>Trainer Dashboard</h1>
+
+  <h2>Courses</h2>
+
+  <p>Total Courses: {{ dashboard.totalCourses }}</p>
+  <p>Published Courses: {{ dashboard.publishedCourses }}</p>
+  <p>Draft Courses: {{ dashboard.draftCourses }}</p>
+
+  <h2>Content</h2>
+
+  <p>Total Chapters: {{ dashboard.totalChapters }}</p>
+  <p>Total Lessons: {{ dashboard.totalLessons }}</p>
+
+  <h2>Students</h2>
+
+  <p>Total Students: {{ dashboard.totalStudents }}</p>
+
+}
