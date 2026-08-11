@@ -1,10 +1,10 @@
-<div class="trainer-layout">
+<div class="trainer-layout" [class.trainer-layout--sidebar-collapsed]="sidebarCollapsed">
 
   <app-sidebar></app-sidebar>
 
   <div class="content-area">
 
-    <app-navbar></app-navbar>
+    <app-navbar (menuToggle)="onNavbarMenuToggle()"></app-navbar>
 
     <main>
       <router-outlet></router-outlet>

@@ -1,11 +1,27 @@
+@use '../../../styles/abstracts/variables' as *;
+
 .trainer-layout {
   display: flex;
   min-height: 100vh;
 }
 
 app-sidebar {
-  flex: 0 0 240px;
+  flex: 0 0 auto;
   min-height: 100vh;
+  transition:
+    flex-basis $transition-base,
+    width $transition-base;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.trainer-layout--sidebar-collapsed app-sidebar {
+  flex: 0 0 0;
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .content-area {
@@ -17,6 +33,7 @@ app-sidebar {
 
 app-navbar {
   display: block;
+  flex-shrink: 0;
 }
 
 main {

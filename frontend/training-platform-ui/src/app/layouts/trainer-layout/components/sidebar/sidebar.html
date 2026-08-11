@@ -1,24 +1,93 @@
-<nav>
+<button
+  type="button"
+  class="trainer-sidebar__menu-trigger"
+  (click)="toggleMobileNav()"
+  [attr.aria-expanded]="isMobileOpen()"
+  aria-controls="trainer-sidebar-nav"
+  aria-label="Ouvrir ou fermer le menu de navigation"
+>
+  <mat-icon aria-hidden="true">{{ isMobileOpen() ? 'close' : 'menu' }}</mat-icon>
+</button>
 
-  <a
-    routerLink="/trainer/dashboard"
-    routerLinkActive="active"
-  >
-    Dashboard
-  </a>
+@if (isMobileOpen()) {
+  <div
+    class="trainer-sidebar__backdrop"
+    (click)="closeMobileNav()"
+    aria-hidden="true"
+  ></div>
+}
 
-  <a
-    routerLink="/trainer/courses"
-    routerLinkActive="active"
-  >
-    My Courses
-  </a>
+<aside
+  class="trainer-sidebar"
+  [class.trainer-sidebar--open]="isMobileOpen()"
+  aria-label="Navigation formateur"
+>
+  <header class="trainer-sidebar__brand">
+    <span class="trainer-sidebar__logo" aria-hidden="true">
+      <mat-icon>school</mat-icon>
+    </span>
+    <div class="trainer-sidebar__brand-text">
+      <span class="trainer-sidebar__brand-line">Training</span>
+      <span class="trainer-sidebar__brand-line">Platform</span>
+    </div>
+  </header>
 
-  <a
-    routerLink="/trainer/profile"
-    routerLinkActive="active"
-  >
-    Profile
-  </a>
+  <nav id="trainer-sidebar-nav" class="trainer-sidebar__nav" aria-label="Navigation principale">
+    <a
+      class="trainer-sidebar__link"
+      routerLink="/trainer/dashboard"
+      routerLinkActive="trainer-sidebar__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Dashboard"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">space_dashboard</mat-icon>
+      <span class="trainer-sidebar__label">Dashboard</span>
+    </a>
 
-</nav>
+    <a
+      class="trainer-sidebar__link"
+      routerLink="/trainer/courses"
+      routerLinkActive="trainer-sidebar__link--active"
+      aria-label="My Courses"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">menu_book</mat-icon>
+      <span class="trainer-sidebar__label">My Courses</span>
+    </a>
+
+    <a
+      class="trainer-sidebar__link"
+      routerLink="/trainer/students"
+      routerLinkActive="trainer-sidebar__link--active"
+      aria-label="My Students"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">groups</mat-icon>
+      <span class="trainer-sidebar__label">My Students</span>
+    </a>
+
+    <a
+      class="trainer-sidebar__link"
+      routerLink="/trainer/profile"
+      routerLinkActive="trainer-sidebar__link--active"
+      aria-label="Profile"
+      (click)="closeMobileNav()"
+    >
+      <mat-icon aria-hidden="true">person_outline</mat-icon>
+      <span class="trainer-sidebar__label">Profile</span>
+    </a>
+  </nav>
+
+  <footer class="trainer-sidebar__footer">
+    <button
+      type="button"
+      class="trainer-sidebar__link trainer-sidebar__link--logout"
+      (click)="logout()"
+      aria-label="Logout"
+    >
+      <mat-icon aria-hidden="true">logout</mat-icon>
+      <span class="trainer-sidebar__label">Logout</span>
+    </button>
+  </footer>
+</aside>

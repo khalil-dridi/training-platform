@@ -1,20 +1,58 @@
-@if (currentUserService.user(); as user) {
+<header class="trainer-navbar" role="banner">
+  <div class="trainer-navbar__start">
+    <button
+      type="button"
+      class="trainer-navbar__menu-btn"
+      (click)="onMenuClick()"
+      aria-label="Toggle navigation menu"
+    >
+      <mat-icon aria-hidden="true">menu</mat-icon>
+    </button>
 
-  @if (user.avatarUrl) {
-    <img
-      [src]="user.avatarUrl"
-      [alt]="user.firstName + ' ' + user.lastName"
-      width="40"
-      height="40"
-    />
-  }
+    <h1 class="trainer-navbar__title">{{ pageTitle() }}</h1>
+  </div>
 
-  <span>
-    {{ user.firstName }} {{ user.lastName }}
-  </span>
+  <div class="trainer-navbar__end">
+    <button
+      type="button"
+      class="trainer-navbar__notification-btn"
+      aria-label="Notifications"
+    >
+      <mat-icon aria-hidden="true">notifications_none</mat-icon>
+    </button>
 
-  <button type="button">
-    Logout
-  </button>
+    <button
+      type="button"
+      class="trainer-navbar__profile"
+      aria-label="Open trainer profile"
+    >
+      @if (currentUserService.user(); as user) {
+        @if (user.avatarUrl) {
+          <img
+            class="trainer-navbar__avatar"
+            [src]="user.avatarUrl"
+            [alt]="displayName(user)"
+            width="36"
+            height="36"
+          />
+        } @else {
+          <span class="trainer-navbar__avatar trainer-navbar__avatar--fallback" aria-hidden="true">
+            {{ userInitials(user) }}
+          </span>
+        }
 
-}
+        <span class="trainer-navbar__profile-text">
+          <span class="trainer-navbar__name">{{ displayName(user) }}</span>
+          <span class="trainer-navbar__role">{{ displayRole(user) }}</span>
+        </span>
+      } @else {
+        <span class="trainer-navbar__avatar trainer-navbar__avatar--fallback" aria-hidden="true">JD</span>
+
+        <span class="trainer-navbar__profile-text">
+          <span class="trainer-navbar__name">John Doe</span>
+          <span class="trainer-navbar__role">Trainer</span>
+        </span>
+      }
+    </button>
+  </div>
+</header>
