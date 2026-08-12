@@ -24,13 +24,49 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 240px;
+    min-height: 320px;
+  }
+}
+
+.admin-dashboard__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-8;
+  border-radius: $radius-large;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-sm;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $primary-color;
+    animation: admin-dashboard-spin 1.4s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes admin-dashboard-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
 .admin-dashboard__loading-text {
   @include typography(body);
-  color: $text-muted;
+  margin: 0;
+  color: $text-secondary;
 }
 
 .admin-dashboard__header {

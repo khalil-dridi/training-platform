@@ -1,10 +1,13 @@
 package com.trainingplatform.category.entity;
 
 import com.trainingplatform.common.entity.BaseEntity;
+import com.trainingplatform.course.entity.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(
@@ -38,4 +41,11 @@ public class Category extends BaseEntity {
 
     @Column(length = 255)
     private String imagePublicId;
+
+    @OneToMany(
+            mappedBy = "category",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Course> courses;
 }

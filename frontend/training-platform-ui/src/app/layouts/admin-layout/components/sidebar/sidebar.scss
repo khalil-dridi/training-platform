@@ -1,20 +1,29 @@
 ////
 /// Admin sidebar — local styles
 /// ---------------------------------------------------------------------------
-/// Role: admin lateral navigation (desktop, compact tablet, mobile drawer).
+/// Role: admin lateral navigation (mobile drawer + fixed desktop sidebar).
 /// Design System tokens only.
 ////
 
 @use '../../../../../styles/abstracts/variables' as *;
 
-$admin-sidebar-width: 160px;
-$admin-sidebar-width-compact: 72px;
+$admin-sidebar-width: 248px;
 
 :host {
   display: block;
-  flex: 0 0 auto;
+  flex: 0 0 $admin-sidebar-width;
+  width: $admin-sidebar-width;
+  min-width: $admin-sidebar-width;
+  max-width: $admin-sidebar-width;
   min-height: 100vh;
   min-height: 100dvh;
+
+  @media (max-width: ($breakpoint-md - 1px)) {
+    flex: 0 0 0;
+    width: 0;
+    min-width: 0;
+    max-width: none;
+  }
 }
 
 .admin-sidebar__menu-trigger {
@@ -105,11 +114,9 @@ $admin-sidebar-width-compact: 72px;
     position: sticky;
     top: 0;
     transform: none;
-    width: $admin-sidebar-width-compact;
-  }
-
-  @include respond-to(lg) {
     width: $admin-sidebar-width;
+    min-width: $admin-sidebar-width;
+    max-width: $admin-sidebar-width;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -126,11 +133,6 @@ $admin-sidebar-width-compact: 72px;
   flex-shrink: 0;
 
   @include respond-to(md) {
-    justify-content: center;
-    padding-inline: $spacing-2;
-  }
-
-  @include respond-to(lg) {
     justify-content: flex-start;
     padding: $spacing-6 $spacing-4;
   }
@@ -159,14 +161,6 @@ $admin-sidebar-width-compact: 72px;
   flex-direction: column;
   gap: 0;
   min-width: 0;
-
-  @include respond-to(md) {
-    display: none;
-  }
-
-  @include respond-to(lg) {
-    display: flex;
-  }
 }
 
 .admin-sidebar__brand-line {
@@ -186,7 +180,7 @@ $admin-sidebar-width-compact: 72px;
   min-height: 0;
   overflow-y: auto;
 
-  @include respond-to(lg) {
+  @include respond-to(md) {
     padding: $spacing-4 $spacing-3;
   }
 }
@@ -254,43 +248,13 @@ $admin-sidebar-width-compact: 72px;
     }
   }
 
-  @include respond-to(md) {
-    justify-content: center;
-    padding-inline: $spacing-2;
-  }
-
-  @include respond-to(lg) {
-    justify-content: flex-start;
-    padding-inline: $spacing-3;
-  }
 }
 
 .admin-sidebar__label {
+  flex: 1;
+  min-width: 0;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @include respond-to(md) {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  @include respond-to(lg) {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-    white-space: nowrap;
-  }
+  line-height: $line-height-snug;
 }
 
 .admin-sidebar__footer {
@@ -298,7 +262,7 @@ $admin-sidebar-width-compact: 72px;
   padding: $spacing-3 $spacing-2;
   border-top: 1px solid $border-color;
 
-  @include respond-to(lg) {
+  @include respond-to(md) {
     padding: $spacing-4 $spacing-3;
   }
 }

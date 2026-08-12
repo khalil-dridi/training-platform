@@ -1,0 +1,74 @@
+<section
+  class="recommendation-list ds-card ds-card--flat"
+  aria-labelledby="recommended-courses-title"
+  aria-live="polite"
+>
+  <header class="recommendation-list__header">
+    <h2 id="recommended-courses-title" class="recommendation-list__title">Recommended for you</h2>
+    @if (viewState === 'error' || viewState === 'unavailable') {
+      <button
+        mat-stroked-button
+        type="button"
+        class="recommendation-list__retry"
+        (click)="loadRecommendations()"
+      >
+        Retry
+      </button>
+    }
+  </header>
+
+  @if (viewState === 'loading') {
+    <div class="recommendation-list__state recommendation-list__state--loading" aria-busy="true">
+      <p>Loading recommendations...</p>
+    </div>
+  } @else if (viewState === 'empty') {
+    <div class="recommendation-list__state recommendation-list__state--empty">
+      <mat-icon aria-hidden="true">recommend</mat-icon>
+      <p>No recommendations available yet. Browse courses to discover more.</p>
+      <a mat-stroked-button routerLink="/learner/courses">Browse Courses</a>
+    </div>
+  } @else if (viewState === 'error' || viewState === 'unavailable') {
+    <div class="recommendation-list__state recommendation-list__state--error">
+      <mat-icon aria-hidden="true">info</mat-icon>
+      <p>{{ errorMessage }}</p>
+    </div>
+  } @else {
+    <ul class="recommendation-list__grid">
+      @for (course of recommendations; track course.courseId) {
+        <li class="recommendation-list__card">
+          <div class="recommendation-list__body">
+            <h3 class="recommendation-list__course-title">{{ course.title }}</h3>
+
+            <ul class="recommendation-list__meta">
+              <li>
+                <mat-icon aria-hidden="true">category</mat-icon>
+                <span>{{ course.category }}</span>
+              </li>
+              <li>
+                <mat-icon aria-hidden="true">language</mat-icon>
+                <span>{{ course.language }}</span>
+              </li>
+              <li>
+                <mat-icon aria-hidden="true">signal_cellular_alt</mat-icon>
+                <span>{{ formatLevel(course.level) }}</span>
+              </li>
+              <li>
+                <mat-icon aria-hidden="true">payments</mat-icon>
+                <span>{{ course.price | currency: 'USD' : 'symbol' : '1.0-2' }}</span>
+              </li>
+            </ul>
+
+            <a
+              mat-flat-button
+              color="primary"
+              class="recommendation-list__view-btn"
+              [routerLink]="['/learner/courses', course.courseId]"
+            >
+              View Course
+            </a>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>

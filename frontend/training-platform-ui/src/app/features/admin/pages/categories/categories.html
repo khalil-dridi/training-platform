@@ -20,136 +20,83 @@
     </div>
   </header>
 
-  <section class="admin-list__card ds-card ds-card--flat" aria-label="Categories list">
-    @if (loading) {
-      <div class="admin-list__loading" aria-busy="true">Loading categories...</div>
-    } @else if (categories.length === 0) {
-      <div class="admin-list__empty">
-        <mat-icon aria-hidden="true">category</mat-icon>
-        <p>No categories yet. Create your first category to organize courses.</p>
-        <a mat-flat-button color="primary" routerLink="/admin/categories/create">
-          <mat-icon aria-hidden="true">add</mat-icon>
-          Create Category
-        </a>
-      </div>
-    } @else {
-      <div class="admin-list__table-wrap">
-        <table class="admin-list__table">
-          <thead>
-            <tr>
-              <th scope="col">Category</th>
-              <th scope="col">Description</th>
-              <th scope="col"><span class="admin-list__sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (category of categories; track category.id) {
-              <tr>
-                <td class="admin-list__cell">
-                  <div class="admin-list__item">
-                    @if (category.imageUrl) {
-                      <img
-                        class="admin-list__thumb"
-                        [src]="category.imageUrl"
-                        [alt]="category.name"
-                        width="48"
-                        height="48"
-                      />
-                    } @else {
-                      <span class="admin-list__thumb admin-list__thumb--placeholder" aria-hidden="true">
-                        <mat-icon>image</mat-icon>
-                      </span>
-                    }
-
-                    <div class="admin-list__item-text">
-                      <span class="admin-list__item-title">{{ category.name }}</span>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__item-meta">{{ category.description || '—' }}</span>
-                </td>
-
-                <td class="admin-list__cell admin-list__cell--actions">
-                  <div class="admin-list__actions">
-                    <a
-                      mat-icon-button
-                      class="admin-list__action-btn"
-                      [routerLink]="['/admin/categories/edit', category.id]"
-                      [attr.aria-label]="'Edit ' + category.name"
-                    >
-                      <mat-icon aria-hidden="true">edit</mat-icon>
-                    </a>
-
-                    <button
-                      mat-icon-button
-                      type="button"
-                      class="admin-list__action-btn admin-list__action-btn--delete"
-                      (click)="deleteCategory(category.id, category.name)"
-                      [attr.aria-label]="'Delete ' + category.name"
-                    >
-                      <mat-icon aria-hidden="true">delete_outline</mat-icon>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+  @if (loading) {
+    <div class="admin-categories__loading ds-card ds-card--flat" aria-busy="true" aria-live="polite">
+      <mat-icon aria-hidden="true">hourglass_empty</mat-icon>
+      <p>Loading categories...</p>
+    </div>
+  } @else if (categories.length === 0) {
+    <div class="admin-categories__empty ds-card ds-card--flat">
+      <span class="admin-categories__empty-icon" aria-hidden="true">
+        <mat-icon>category</mat-icon>
+      </span>
+      <h2 class="admin-categories__empty-title">No categories yet</h2>
+      <p class="admin-categories__empty-text">
+        Create your first category to organize courses on the platform.
+      </p>
+      <a mat-flat-button color="primary" routerLink="/admin/categories/create">
+        <mat-icon aria-hidden="true">add</mat-icon>
+        Create Category
+      </a>
+    </div>
+  } @else {
+    <ul class="admin-categories__grid" aria-label="Categories">
+      @for (category of categories; track category.id) {
+        <li class="admin-categories__card ds-card ds-card--flat">
+          <div class="admin-categories__media">
+            @if (category.imageUrl) {
+              <img
+                class="admin-categories__image"
+                [src]="category.imageUrl"
+                [alt]="category.name"
+                loading="lazy"
+              />
+            } @else {
+              <span class="admin-categories__image admin-categories__image--placeholder" aria-hidden="true">
+                <mat-icon>category</mat-icon>
+              </span>
             }
-          </tbody>
-        </table>
-      </div>
 
-      <ul class="admin-list__mobile-list">
-        @for (category of categories; track category.id) {
-          <li class="admin-list__mobile-card">
-            <div class="admin-list__mobile-header">
-              @if (category.imageUrl) {
-                <img
-                  class="admin-list__thumb"
-                  [src]="category.imageUrl"
-                  [alt]="category.name"
-                  width="48"
-                  height="48"
-                />
-              } @else {
-                <span class="admin-list__thumb admin-list__thumb--placeholder" aria-hidden="true">
-                  <mat-icon>image</mat-icon>
-                </span>
-              }
+            <span class="admin-categories__badge">
+              <mat-icon aria-hidden="true">folder</mat-icon>
+              Category
+            </span>
+          </div>
 
-              <div class="admin-list__item-text">
-                <span class="admin-list__item-title">{{ category.name }}</span>
-                <span class="admin-list__item-meta">{{ category.description || 'No description' }}</span>
-              </div>
-            </div>
+          <div class="admin-categories__body">
+            <h2 class="admin-categories__name">{{ category.name }}</h2>
+            <p class="admin-categories__description">
+              {{ category.description || 'No description provided.' }}
+            </p>
+          </div>
 
-            <div class="admin-list__actions">
-              <a
-                mat-icon-button
-                class="admin-list__action-btn"
-                [routerLink]="['/admin/categories/edit', category.id]"
-                [attr.aria-label]="'Edit ' + category.name"
-              >
-                <mat-icon aria-hidden="true">edit</mat-icon>
-              </a>
+          <footer class="admin-categories__footer">
+            <a
+              mat-stroked-button
+              class="admin-categories__action admin-categories__action--edit"
+              [routerLink]="['/admin/categories/edit', category.id]"
+            >
+              <mat-icon aria-hidden="true">edit</mat-icon>
+              Edit
+            </a>
 
-              <button
-                mat-icon-button
-                type="button"
-                class="admin-list__action-btn admin-list__action-btn--delete"
-                (click)="deleteCategory(category.id, category.name)"
-                [attr.aria-label]="'Delete ' + category.name"
-              >
-                <mat-icon aria-hidden="true">delete_outline</mat-icon>
-              </button>
-            </div>
-          </li>
-        }
-      </ul>
+            <button
+              mat-stroked-button
+              type="button"
+              class="admin-categories__action admin-categories__action--delete"
+              (click)="deleteCategory(category.id, category.name)"
+              [attr.aria-label]="'Delete ' + category.name"
+            >
+              <mat-icon aria-hidden="true">delete_outline</mat-icon>
+              Delete
+            </button>
+          </footer>
+        </li>
+      }
+    </ul>
 
-      <footer class="admin-list__footer">
-        <p class="admin-list__pagination-info">{{ categories.length }} categories</p>
-      </footer>
-    }
-  </section>
+    <footer class="admin-categories__summary">
+      <p>{{ categories.length }} {{ categories.length === 1 ? 'category' : 'categories' }}</p>
+    </footer>
+  }
 </div>

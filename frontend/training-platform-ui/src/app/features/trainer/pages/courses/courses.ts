@@ -1,11 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ConfirmationService } from '../../../../shared/confirmation/confirmation.service';
 import { CourseService } from '../../services/course';
 import { CourseResponse } from '../models/course-response.model';
+import {
+  CourseDetailDialog,
+  CourseDetailDialogData,
+} from './course-detail-dialog/course-detail-dialog';
 
 @Component({
   selector: 'app-courses',
@@ -16,10 +20,10 @@ import { CourseResponse } from '../models/course-response.model';
 })
 export class Courses implements OnInit {
   private readonly courseService = inject(CourseService);
-  private readonly confirmation = inject(ConfirmationService);
-  private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
 
   courses: CourseResponse[] = [];
+  readonly loading = signal(true);
   searchQuery = '';
 
   ngOnInit(): void {
@@ -27,66 +31,40 @@ export class Courses implements OnInit {
   }
 
   private loadCourses(): void {
+    this.loading.set(true);
+
     this.courseService.getMyCourses().subscribe({
       next: (response) => {
         this.courses = response.data;
+        this.loading.set(false);
       },
       error: (error) => {
         console.error('Failed to load courses', error);
+        this.loading.set(false);
       },
     });
   }
 
-  deleteCourse(id: number): void {
-    const course = this.courses.find((item) => item.id === id);
-    const title = course?.title ?? 'this course';
+  openCourseDetail(course: CourseResponse): void {
+    const data: CourseDetailDialogData = {
+      course,
+      onChanged: () => this.loadCourses(),
+    };
 
-    this.confirmation
-      .confirm({
-        title: 'Delete this course?',
-        message: `Delete "${title}" permanently? Chapters, lessons and enrollments linked to it may be affected. This cannot be undone.`,
-        confirmLabel: 'Delete course',
-        cancelLabel: 'Cancel',
-        tone: 'danger',
-        icon: 'delete_forever',
-        action: () => this.courseService.deleteCourse(id),
-        successMessage: `Course "${title}" deleted successfully.`,
-        errorFallback: 'Failed to delete course.',
-      })
-      .subscribe({
-        next: () => {
-          this.courses = this.courses.filter((item) => item.id !== id);
-        },
-      });
-  }
+    const dialogRef = this.dialog.open(CourseDetailDialog, {
+      data,
+      width: '36rem',
+      maxWidth: '95vw',
+      autoFocus: 'dialog',
+      restoreFocus: true,
+      panelClass: ['tp-course-detail-panel'],
+    });
 
-  publishCourse(id: number): void {
-    const course = this.courses.find((item) => item.id === id);
-    const title = course?.title ?? 'this course';
-
-    this.confirmation
-      .confirm({
-        title: 'Publish this course?',
-        message: `Publish "${title}" and make it visible to learners on the platform?`,
-        confirmLabel: 'Publish',
-        cancelLabel: 'Cancel',
-        tone: 'primary',
-        icon: 'publish',
-        action: () => this.courseService.publishCourse(id),
-        successMessage: `Course "${title}" published successfully.`,
-        errorFallback: 'Failed to publish course.',
-      })
-      .subscribe({
-        next: (response) => {
-          this.courses = this.courses.map((item) =>
-            item.id === id ? response.data : item
-          );
-        },
-      });
-  }
-
-  updateCourse(id: number): void {
-    this.router.navigate(['/trainer/courses/edit', id]);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.deleted) {
+        this.courses = this.courses.filter((item) => item.id !== result.id);
+      }
+    });
   }
 
   onSearchInput(event: Event): void {
@@ -108,26 +86,33 @@ export class Courses implements OnInit {
     );
   }
 
+  publishedCount(): number {
+    return this.courses.filter((course) => course.status === 'PUBLISHED').length;
+  }
+
+  draftCount(): number {
+    return this.courses.filter((course) => course.status === 'DRAFT').length;
+  }
+
   paginationLabel(): string {
     const total = this.filteredCourses.length;
     const overall = this.courses.length;
 
     if (overall === 0) {
-      return 'Showing 0 courses';
+      return 'No courses yet';
     }
 
     if (total === 0) {
-      return `Showing 0 of ${overall} courses`;
+      return `No matches among ${overall} courses`;
     }
 
-    return `Showing 1 to ${total} of ${overall} courses`;
+    return `${total} of ${overall} courses`;
   }
 
-  metricPlaceholder(): string {
-    return '—';
-  }
-
-  viewStudents(courseId: number): void {
-    this.router.navigate(['/trainer/courses', courseId, 'students']);
+  formatLevel(level: string): string {
+    if (level === 'BEGINNER') return 'Beginner';
+    if (level === 'INTERMEDIATE') return 'Intermediate';
+    if (level === 'ADVANCED') return 'Advanced';
+    return level;
   }
 }

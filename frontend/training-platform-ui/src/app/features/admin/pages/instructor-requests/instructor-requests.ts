@@ -68,6 +68,34 @@ export class InstructorRequests implements OnInit {
     };
   }
 
+  getCvViewUrl(cvUrl: string): string {
+    if (!cvUrl?.trim()) {
+      return '';
+    }
+
+    let url = cvUrl.trim();
+
+    if (url.includes('res.cloudinary.com') && url.includes('/raw/upload/')) {
+      url = url.replace('/raw/upload/', '/image/upload/');
+    }
+
+    url = url.replace(/\/fl_attachment(?::[^/]*)?\//, '/');
+
+    return url;
+  }
+
+  viewCv(cvUrl: string, event: Event): void {
+    event.preventDefault();
+
+    const viewUrl = this.getCvViewUrl(cvUrl);
+
+    if (!viewUrl) {
+      return;
+    }
+
+    window.open(viewUrl, '_blank', 'noopener,noreferrer');
+  }
+
   approveRequest(id: number): void {
     const request = this.requests.find((item) => item.id === id);
     const name = request ? this.displayName(request.user) : 'this applicant';

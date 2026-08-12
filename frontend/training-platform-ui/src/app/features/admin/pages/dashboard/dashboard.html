@@ -257,6 +257,9 @@
   </div>
 } @else {
   <div class="admin-dashboard admin-dashboard--loading" aria-busy="true" aria-live="polite">
-    <p class="admin-dashboard__loading-text">Loading dashboard...</p>
+    <div class="admin-dashboard__loading">
+      <mat-icon aria-hidden="true">sync</mat-icon>
+      <p class="admin-dashboard__loading-text">Loading dashboard...</p>
+    </div>
   </div>
 }

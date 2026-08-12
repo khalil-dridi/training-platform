@@ -1,9 +1,11 @@
 package com.trainingplatform.course.entity;
 
 import com.trainingplatform.category.entity.Category;
+import com.trainingplatform.chapter.entity.Chapter;
 import com.trainingplatform.common.entity.BaseEntity;
 import com.trainingplatform.course.enums.CourseLevel;
 import com.trainingplatform.course.enums.CourseStatus;
+import com.trainingplatform.enrollment.entity.Enrollment;
 import com.trainingplatform.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -12,6 +14,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
@@ -69,5 +72,19 @@ public class Course extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id", nullable = false)
     private User trainer;
+
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Chapter> chapters;
+
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Enrollment> enrollments;
 
 }

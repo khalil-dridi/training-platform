@@ -1,1 +1,57 @@
-<p>verify-email works!</p>
+<section class="verify-email-page" aria-labelledby="verify-email-title">
+  <div class="verify-email-page__card">
+    @switch (mode()) {
+      @case ('pending') {
+        <span class="verify-email-page__icon verify-email-page__icon--pending" aria-hidden="true">
+          <mat-icon>mark_email_unread</mat-icon>
+        </span>
+
+        <h1 id="verify-email-title" class="verify-email-page__title">Vérifiez votre email</h1>
+
+        <p class="verify-email-page__message">
+          Votre compte a été créé avec succès. Un email de confirmation a été envoyé à
+          <strong>{{ email }}</strong>.
+        </p>
+
+        <p class="verify-email-page__hint">
+          Cliquez sur le lien reçu pour activer votre compte, puis connectez-vous.
+        </p>
+
+        <a mat-flat-button color="primary" class="verify-email-page__action" routerLink="/login">
+          Aller à la connexion
+        </a>
+      }
+
+      @case ('verifying') {
+        <mat-spinner diameter="40" aria-hidden="true"></mat-spinner>
+        <h1 id="verify-email-title" class="verify-email-page__title">Vérification en cours...</h1>
+        <p class="verify-email-page__message">Activation de votre compte, veuillez patienter.</p>
+      }
+
+      @case ('success') {
+        <span class="verify-email-page__icon verify-email-page__icon--success" aria-hidden="true">
+          <mat-icon>check_circle</mat-icon>
+        </span>
+
+        <h1 id="verify-email-title" class="verify-email-page__title">Compte activé</h1>
+        <p class="verify-email-page__message">Redirection vers la page de connexion...</p>
+      }
+
+      @default {
+        <span class="verify-email-page__icon verify-email-page__icon--error" aria-hidden="true">
+          <mat-icon>error_outline</mat-icon>
+        </span>
+
+        <h1 id="verify-email-title" class="verify-email-page__title">Lien invalide</h1>
+        <p class="verify-email-page__message">
+          Ce lien de vérification est invalide ou a expiré.
+        </p>
+
+        <div class="verify-email-page__actions">
+          <a mat-flat-button color="primary" routerLink="/register">Créer un compte</a>
+          <a mat-stroked-button routerLink="/login">Se connecter</a>
+        </div>
+      }
+    }
+  </div>
+</section>

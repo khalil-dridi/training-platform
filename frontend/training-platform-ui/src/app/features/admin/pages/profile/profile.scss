@@ -1,5 +1,6 @@
 @use '../../../../../styles/abstracts/variables' as *;
 @use '../../../trainer/pages/courses/course-mgmt-shared';
+@use '../admin-form-enhancements';
 
 .admin-profile__grid {
   display: grid;
@@ -38,6 +39,8 @@
   margin: 0 auto;
   border-radius: $radius-full;
   object-fit: cover;
+  box-shadow: $shadow-sm;
+  border: 3px solid $surface-color;
 }
 
 .admin-profile__avatar-actions {
@@ -67,13 +70,6 @@
   &:last-child {
     margin-bottom: 0;
   }
-}
-
-.admin-profile__section-title {
-  @include typography(h3);
-  margin: 0 0 $spacing-4;
-  color: $text-primary;
-  font-weight: $font-weight-semibold;
 }
 
 .admin-profile__password-card {

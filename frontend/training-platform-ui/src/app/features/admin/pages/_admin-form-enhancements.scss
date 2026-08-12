@@ -1,0 +1,122 @@
+////
+/// Admin form pages — shared enhancements
+////
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.admin-form-page {
+  .course-mgmt__card {
+    border-color: rgba($primary-color, 0.1);
+    box-shadow: $shadow-md;
+    transition:
+      box-shadow $transition-base,
+      border-color $transition-base;
+
+    &:hover {
+      border-color: rgba($primary-color, 0.16);
+    }
+  }
+
+  .course-mgmt__breadcrumb {
+    padding: $spacing-2 $spacing-3;
+    border-radius: $radius-full;
+    background-color: $surface-color;
+    border: 1px solid $border-color;
+    font-weight: $font-weight-medium;
+
+    &:hover {
+      background-color: $primary-light;
+      border-color: rgba($primary-color, 0.2);
+    }
+  }
+
+  .course-mgmt__title {
+    letter-spacing: -0.02em;
+  }
+}
+
+.admin-form__section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.admin-form__section-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding-bottom: $spacing-3;
+  border-bottom: 1px solid $divider-color;
+}
+
+.admin-form__section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.admin-form__section-title {
+  @include typography(body);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.admin-form__section-subtitle {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.admin-form-page__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  min-height: 280px;
+  padding: $spacing-8;
+  border-radius: $radius-large;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-sm;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $primary-color;
+    animation: admin-form-spin 1.4s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
+}
+
+@keyframes admin-form-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

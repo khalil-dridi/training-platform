@@ -28,172 +28,94 @@
     </div>
   </header>
 
-  <section class="admin-list__card ds-card ds-card--flat" aria-label="Users list">
-    @if (loading) {
-      <div class="admin-list__loading" aria-busy="true">Loading users...</div>
-    } @else if (users.length === 0) {
-      <div class="admin-list__empty">
-        <mat-icon aria-hidden="true">groups</mat-icon>
-        @if (searchQuery) {
-          <p>No users match your search.</p>
-        } @else {
-          <p>No users found.</p>
-        }
-      </div>
-    } @else {
-      <div class="admin-list__table-wrap">
-        <table class="admin-list__table">
-          <thead>
-            <tr>
-              <th scope="col">User</th>
-              <th scope="col">Email</th>
-              <th scope="col">Role</th>
-              <th scope="col">Status</th>
-              <th scope="col"><span class="admin-list__sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (user of users; track user.id) {
-              <tr>
-                <td class="admin-list__cell">
-                  <div class="admin-list__item">
-                    @if (user.avatarUrl) {
-                      <img
-                        class="admin-list__thumb admin-list__thumb--avatar"
-                        [src]="user.avatarUrl"
-                        [alt]="displayName(user)"
-                        width="48"
-                        height="48"
-                      />
-                    } @else {
-                      <span class="admin-list__thumb admin-list__thumb--avatar" aria-hidden="true">
-                        {{ userInitials(user) }}
-                      </span>
-                    }
-
-                    <div class="admin-list__item-text">
-                      <span class="admin-list__item-title">{{ displayName(user) }}</span>
-                      @if (user.phone) {
-                        <span class="admin-list__item-meta">{{ user.phone }}</span>
-                      }
-                    </div>
-                  </div>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__item-meta">{{ user.email }}</span>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__badge" [ngClass]="roleBadgeClass(user.role)">
-                    {{ formatRole(user.role) }}
-                  </span>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span
-                    class="admin-list__badge"
-                    [class.admin-list__badge--enabled]="user.enabled"
-                    [class.admin-list__badge--disabled]="!user.enabled"
-                  >
-                    {{ user.enabled ? 'Active' : 'Disabled' }}
-                  </span>
-                </td>
-
-                <td class="admin-list__cell admin-list__cell--actions">
-                  <div class="admin-list__actions">
-                    <a
-                      mat-icon-button
-                      class="admin-list__action-btn"
-                      [routerLink]="['/admin/users', user.id]"
-                      [attr.aria-label]="'View details for ' + displayName(user)"
-                    >
-                      <mat-icon aria-hidden="true">visibility</mat-icon>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <ul class="admin-list__mobile-list">
-        @for (user of users; track user.id) {
-          <li class="admin-list__mobile-card">
-            <div class="admin-list__mobile-header">
-              @if (user.avatarUrl) {
-                <img
-                  class="admin-list__thumb admin-list__thumb--avatar"
-                  [src]="user.avatarUrl"
-                  [alt]="displayName(user)"
-                  width="48"
-                  height="48"
-                />
-              } @else {
-                <span class="admin-list__thumb admin-list__thumb--avatar" aria-hidden="true">
-                  {{ userInitials(user) }}
-                </span>
-              }
-
-              <div class="admin-list__item-text">
-                <span class="admin-list__item-title">{{ displayName(user) }}</span>
-                <span class="admin-list__item-meta">{{ user.email }}</span>
-              </div>
-
-              <span class="admin-list__badge" [ngClass]="roleBadgeClass(user.role)">
-                {{ formatRole(user.role) }}
+  @if (loading) {
+    <div class="admin-list__loading" aria-busy="true">Loading users...</div>
+  } @else if (users.length === 0) {
+    <div class="admin-list__empty ds-card ds-card--flat">
+      <mat-icon aria-hidden="true">groups</mat-icon>
+      @if (searchQuery) {
+        <p>No users match your search.</p>
+      } @else {
+        <p>No users found.</p>
+      }
+    </div>
+  } @else {
+    <ul class="admin-users__grid" aria-label="Users">
+      @for (user of users; track user.id) {
+        <li class="admin-users__card ds-card ds-card--flat">
+          <div class="admin-users__header">
+            @if (user.avatarUrl) {
+              <img
+                class="admin-users__avatar"
+                [src]="user.avatarUrl"
+                [alt]="displayName(user)"
+                loading="lazy"
+              />
+            } @else {
+              <span class="admin-users__avatar admin-users__avatar--fallback" aria-hidden="true">
+                {{ userInitials(user) }}
               </span>
+            }
+
+            <div class="admin-users__identity">
+              <h2 class="admin-users__name">{{ displayName(user) }}</h2>
+              <p class="admin-users__email">{{ user.email }}</p>
             </div>
+          </div>
 
-            <dl class="admin-list__mobile-meta">
-              <div>
-                <dt>Status</dt>
-                <dd>{{ user.enabled ? 'Active' : 'Disabled' }}</dd>
-              </div>
-              <div>
-                <dt>Phone</dt>
-                <dd>{{ user.phone || '—' }}</dd>
-              </div>
-            </dl>
+          <div class="admin-users__badges">
+            <span class="admin-list__badge" [ngClass]="roleBadgeClass(user.role)">
+              {{ formatRole(user.role) }}
+            </span>
+            <span
+              class="admin-list__badge"
+              [class.admin-list__badge--enabled]="user.enabled"
+              [class.admin-list__badge--disabled]="!user.enabled"
+            >
+              {{ user.enabled ? 'Active' : 'Disabled' }}
+            </span>
+          </div>
 
-            <div class="admin-list__actions">
-              <a
-                mat-stroked-button
-                [routerLink]="['/admin/users', user.id]"
-              >
-                View Details
-              </a>
-            </div>
-          </li>
-        }
-      </ul>
+          @if (user.phone) {
+            <p class="admin-users__phone">
+              <mat-icon aria-hidden="true">phone</mat-icon>
+              {{ user.phone }}
+            </p>
+          }
 
-      <footer class="admin-list__footer">
-        <p class="admin-list__pagination-info">
-          Page {{ currentPage + 1 }} of {{ totalPages || 1 }} · {{ totalElements }} users
-        </p>
+          <footer class="admin-users__footer">
+            <a
+              mat-flat-button
+              color="primary"
+              class="admin-users__view-btn"
+              [routerLink]="['/admin/users', user.id]"
+            >
+              <mat-icon aria-hidden="true">visibility</mat-icon>
+              View Details
+            </a>
+          </footer>
+        </li>
+      }
+    </ul>
 
-        <div class="admin-list__pagination-actions">
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="previousPage()"
-            [disabled]="currentPage === 0"
-          >
-            Previous
-          </button>
+    <footer class="admin-users__summary">
+      <p class="admin-users__pagination-info">
+        Page {{ currentPage + 1 }} of {{ totalPages || 1 }} · {{ totalElements }} users
+      </p>
 
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="nextPage()"
-            [disabled]="currentPage >= totalPages - 1"
-          >
-            Next
-          </button>
-        </div>
-      </footer>
-    }
-  </section>
+      <div class="admin-users__pagination-actions">
+        <button mat-stroked-button type="button" (click)="previousPage()" [disabled]="currentPage === 0">
+          Previous
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage >= totalPages - 1"
+        >
+          Next
+        </button>
+      </div>
+    </footer>
+  }
 </div>

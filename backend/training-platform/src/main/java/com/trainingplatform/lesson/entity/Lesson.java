@@ -2,11 +2,14 @@ package com.trainingplatform.lesson.entity;
 
 import com.trainingplatform.chapter.entity.Chapter;
 import com.trainingplatform.common.entity.BaseEntity;
+import com.trainingplatform.progress.entity.LessonProgress;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(
@@ -60,5 +63,12 @@ public class Lesson extends BaseEntity {
             foreignKey = @ForeignKey(name = "fk_lesson_chapter")
     )
     private Chapter chapter;
+
+    @OneToMany(
+            mappedBy = "lesson",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<LessonProgress> progress;
 
 }

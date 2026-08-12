@@ -1,0 +1,84 @@
+<div class="course-detail-dialog">
+  <header class="course-detail-dialog__header">
+    <button
+      mat-icon-button
+      type="button"
+      class="course-detail-dialog__close"
+      (click)="close()"
+      aria-label="Close course details"
+    >
+      <mat-icon aria-hidden="true">close</mat-icon>
+    </button>
+
+    <div class="course-detail-dialog__hero">
+      @if (course.thumbnailUrl) {
+        <img
+          class="course-detail-dialog__thumbnail"
+          [src]="course.thumbnailUrl"
+          [alt]="course.title"
+        />
+      } @else {
+        <span class="course-detail-dialog__thumbnail course-detail-dialog__thumbnail--placeholder" aria-hidden="true">
+          <mat-icon>menu_book</mat-icon>
+        </span>
+      }
+
+      <div class="course-detail-dialog__hero-content">
+        <span
+          class="course-detail-dialog__status"
+          [class.course-detail-dialog__status--published]="course.status === 'PUBLISHED'"
+          [class.course-detail-dialog__status--draft]="course.status === 'DRAFT'"
+        >
+          {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
+        </span>
+        <h2 class="course-detail-dialog__title">{{ course.title }}</h2>
+        <p class="course-detail-dialog__subtitle">{{ course.shortDescription }}</p>
+      </div>
+    </div>
+  </header>
+
+  <dl class="course-detail-dialog__meta">
+    <div>
+      <dt>Category</dt>
+      <dd>{{ course.categoryName }}</dd>
+    </div>
+    <div>
+      <dt>Level</dt>
+      <dd>{{ formatLevel(course.level) }}</dd>
+    </div>
+    <div>
+      <dt>Language</dt>
+      <dd>{{ course.language }}</dd>
+    </div>
+    <div>
+      <dt>Price</dt>
+      <dd>{{ course.price }} TND</dd>
+    </div>
+  </dl>
+
+  <p class="course-detail-dialog__description">{{ course.description }}</p>
+
+  <footer class="course-detail-dialog__actions">
+    <button mat-stroked-button type="button" (click)="viewStudents()">
+      <mat-icon aria-hidden="true">groups</mat-icon>
+      Students
+    </button>
+
+    <button mat-stroked-button type="button" (click)="editCourse()">
+      <mat-icon aria-hidden="true">edit</mat-icon>
+      Edit
+    </button>
+
+    @if (course.status === 'DRAFT') {
+      <button mat-flat-button color="primary" type="button" (click)="publishCourse()">
+        <mat-icon aria-hidden="true">publish</mat-icon>
+        Publish
+      </button>
+    }
+
+    <button mat-stroked-button type="button" class="course-detail-dialog__delete" (click)="deleteCourse()">
+      <mat-icon aria-hidden="true">delete_outline</mat-icon>
+      Delete
+    </button>
+  </footer>
+</div>

@@ -205,12 +205,12 @@ export class Register {
     this.authService.register(request as RegisterRequest).subscribe({
       next: () => {
         this.submitState = 'success';
-        this.notification.success(
-          'Compte créé avec succès. Vérifiez votre email pour activer votre compte.'
-        );
+
         window.setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 900);
+          void this.router.navigate(['/verify-email'], {
+            queryParams: { email: request.email },
+          });
+        }, 700);
       },
       error: (error: unknown) => {
         this.submitState = 'error';

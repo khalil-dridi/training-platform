@@ -1,6 +1,11 @@
 <div class="trainer-courses">
   <header class="trainer-courses__header">
-    <h1 class="trainer-courses__title">My Courses</h1>
+    <div class="trainer-courses__intro">
+      <h1 class="trainer-courses__title">My Courses</h1>
+      <p class="trainer-courses__subtitle">
+        Manage your course library, publish drafts, and track your content.
+      </p>
+    </div>
 
     <div class="trainer-courses__toolbar">
       <div class="trainer-courses__search">
@@ -25,238 +30,138 @@
         Create Course
       </a>
     </div>
+
+    @if (!loading() && courses.length > 0) {
+      <div class="trainer-courses__stats" aria-label="Course statistics">
+        <article class="trainer-courses__stat ds-card ds-card--flat">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+          <div>
+            <p class="trainer-courses__stat-label">Total</p>
+            <p class="trainer-courses__stat-value">{{ courses.length }}</p>
+          </div>
+        </article>
+
+        <article class="trainer-courses__stat ds-card ds-card--flat">
+          <mat-icon aria-hidden="true">check_circle</mat-icon>
+          <div>
+            <p class="trainer-courses__stat-label">Published</p>
+            <p class="trainer-courses__stat-value">{{ publishedCount() }}</p>
+          </div>
+        </article>
+
+        <article class="trainer-courses__stat ds-card ds-card--flat">
+          <mat-icon aria-hidden="true">edit_note</mat-icon>
+          <div>
+            <p class="trainer-courses__stat-label">Drafts</p>
+            <p class="trainer-courses__stat-value">{{ draftCount() }}</p>
+          </div>
+        </article>
+      </div>
+    }
   </header>
 
-  <section class="trainer-courses__card ds-card ds-card--flat" aria-label="Courses list">
-    @if (courses.length === 0) {
-      <div class="trainer-courses__empty">
-        <mat-icon aria-hidden="true">menu_book</mat-icon>
-        <p>No courses found.</p>
-        <a mat-flat-button color="primary" routerLink="/trainer/courses/create">
-          <mat-icon aria-hidden="true">add</mat-icon>
-          Create Course
-        </a>
-      </div>
-    } @else if (filteredCourses.length === 0) {
-      <div class="trainer-courses__empty">
-        <mat-icon aria-hidden="true">search_off</mat-icon>
-        <p>No courses match your search.</p>
-      </div>
-    } @else {
-      <!-- Desktop / tablet table -->
-      <div class="trainer-courses__table-wrap">
-        <table class="trainer-courses__table">
-          <thead>
-            <tr>
-              <th scope="col">Course</th>
-              <th scope="col">Category</th>
-              <th scope="col">Students</th>
-              <th scope="col">Chapters</th>
-              <th scope="col">Lessons</th>
-              <th scope="col">Status</th>
-              <th scope="col"><span class="trainer-courses__sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
+  @if (loading()) {
+    <div class="trainer-courses__loading" aria-busy="true" aria-live="polite">
+      <mat-icon aria-hidden="true">sync</mat-icon>
+      <p>Loading courses...</p>
+    </div>
+  } @else if (courses.length === 0) {
+    <div class="trainer-courses__empty ds-card ds-card--flat">
+      <span class="trainer-courses__empty-icon" aria-hidden="true">
+        <mat-icon>menu_book</mat-icon>
+      </span>
+      <h2 class="trainer-courses__empty-title">No courses yet</h2>
+      <p class="trainer-courses__empty-text">Create your first course to start teaching on the platform.</p>
+      <a mat-flat-button color="primary" routerLink="/trainer/courses/create">
+        <mat-icon aria-hidden="true">add</mat-icon>
+        Create Course
+      </a>
+    </div>
+  } @else {
+    <div class="trainer-courses__popup-shell">
+      <section
+        class="trainer-courses__popup ds-card"
+        role="dialog"
+        aria-labelledby="courses-popup-title"
+        aria-modal="true"
+      >
+        <header class="trainer-courses__popup-header">
+          <div class="trainer-courses__popup-heading">
+            <span class="trainer-courses__popup-icon" aria-hidden="true">
+              <mat-icon>library_books</mat-icon>
+            </span>
+            <div>
+              <h2 id="courses-popup-title" class="trainer-courses__popup-title">Course Library</h2>
+              <p class="trainer-courses__popup-subtitle">{{ paginationLabel() }}</p>
+            </div>
+          </div>
+          <p class="trainer-courses__popup-hint">Click a course to view details and actions</p>
+        </header>
+
+        @if (filteredCourses.length === 0) {
+          <div class="trainer-courses__popup-empty">
+            <mat-icon aria-hidden="true">search_off</mat-icon>
+            <p>No courses match your search.</p>
+          </div>
+        } @else {
+          <ul class="trainer-courses__grid" aria-label="Courses">
             @for (course of filteredCourses; track course.id) {
-              <tr class="trainer-courses__row">
-                <td class="trainer-courses__cell trainer-courses__cell--course">
-                  <div class="trainer-courses__course">
+              <li>
+                <button
+                  type="button"
+                  class="trainer-courses__card"
+                  (click)="openCourseDetail(course)"
+                  [attr.aria-label]="'Open details for ' + course.title"
+                >
+                  <div class="trainer-courses__card-media">
                     @if (course.thumbnailUrl) {
                       <img
-                        class="trainer-courses__thumbnail"
+                        class="trainer-courses__card-image"
                         [src]="course.thumbnailUrl"
-                        [alt]="course.title"
-                        width="48"
-                        height="48"
+                        [alt]=""
+                        loading="lazy"
                       />
                     } @else {
-                      <span class="trainer-courses__thumbnail trainer-courses__thumbnail--placeholder" aria-hidden="true">
+                      <span class="trainer-courses__card-image trainer-courses__card-image--placeholder" aria-hidden="true">
                         <mat-icon>image</mat-icon>
                       </span>
                     }
 
-                    <div class="trainer-courses__course-text">
-                      <span class="trainer-courses__course-title">{{ course.title }}</span>
-                      <span class="trainer-courses__course-desc">{{ course.shortDescription }}</span>
-                    </div>
+                    <span
+                      class="trainer-courses__status"
+                      [class.trainer-courses__status--published]="course.status === 'PUBLISHED'"
+                      [class.trainer-courses__status--draft]="course.status === 'DRAFT'"
+                    >
+                      {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
+                    </span>
                   </div>
-                </td>
 
-                <td class="trainer-courses__cell" data-label="Category">
-                  <span class="trainer-courses__category">{{ course.categoryName }}</span>
-                </td>
+                  <div class="trainer-courses__card-body">
+                    <h3 class="trainer-courses__card-title">{{ course.title }}</h3>
+                    <p class="trainer-courses__card-desc">{{ course.shortDescription }}</p>
+                  </div>
 
-                <td class="trainer-courses__cell trainer-courses__cell--numeric" data-label="Students">
-                  {{ metricPlaceholder() }}
-                </td>
+                  <dl class="trainer-courses__card-meta">
+                    <div>
+                      <dt>Category</dt>
+                      <dd>{{ course.categoryName }}</dd>
+                    </div>
+                    <div>
+                      <dt>Level</dt>
+                      <dd>{{ formatLevel(course.level) }}</dd>
+                    </div>
+                  </dl>
 
-                <td class="trainer-courses__cell trainer-courses__cell--numeric" data-label="Chapters">
-                  {{ metricPlaceholder() }}
-                </td>
-
-                <td class="trainer-courses__cell trainer-courses__cell--numeric" data-label="Lessons">
-                  {{ metricPlaceholder() }}
-                </td>
-
-                <td class="trainer-courses__cell" data-label="Status">
-                  <span
-                    class="trainer-courses__status"
-                    [class.trainer-courses__status--published]="course.status === 'PUBLISHED'"
-                    [class.trainer-courses__status--draft]="course.status === 'DRAFT'"
-                  >
-                    {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
+                  <span class="trainer-courses__card-action">
+                    View details
+                    <mat-icon aria-hidden="true">arrow_forward</mat-icon>
                   </span>
-                </td>
-
-                <td class="trainer-courses__cell trainer-courses__cell--actions" data-label="Actions">
-                  <div class="trainer-courses__actions">
-
-  <!-- Students -->
-  <button
-    mat-icon-button
-    type="button"
-    class="trainer-courses__action-btn"
-    (click)="viewStudents(course.id)"
-    aria-label="View students of {{ course.title }}"
-  >
-    <mat-icon aria-hidden="true">groups</mat-icon>
-  </button>
-
-  <!-- Edit -->
-  <button
-    mat-icon-button
-    type="button"
-    class="trainer-courses__action-btn"
-    (click)="updateCourse(course.id)"
-    aria-label="Edit {{ course.title }}"
-  >
-    <mat-icon aria-hidden="true">edit</mat-icon>
-  </button>
-
-  @if (course.status === 'DRAFT') {
-    <button
-      mat-icon-button
-      type="button"
-      class="trainer-courses__action-btn trainer-courses__action-btn--publish"
-      (click)="publishCourse(course.id)"
-      aria-label="Publish {{ course.title }}"
-    >
-      <mat-icon aria-hidden="true">publish</mat-icon>
-    </button>
-  }
-
-  <!-- Delete -->
-  <button
-    mat-icon-button
-    type="button"
-    class="trainer-courses__action-btn trainer-courses__action-btn--delete"
-    (click)="deleteCourse(course.id)"
-    aria-label="Delete {{ course.title }}"
-  >
-    <mat-icon aria-hidden="true">delete_outline</mat-icon>
-  </button>
-
-</div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Mobile cards -->
-      <ul class="trainer-courses__mobile-list">
-        @for (course of filteredCourses; track course.id) {
-          <li class="trainer-courses__mobile-card">
-            <div class="trainer-courses__mobile-header">
-              @if (course.thumbnailUrl) {
-                <img
-                  class="trainer-courses__thumbnail"
-                  [src]="course.thumbnailUrl"
-                  [alt]="course.title"
-                  width="48"
-                  height="48"
-                />
-              } @else {
-                <span class="trainer-courses__thumbnail trainer-courses__thumbnail--placeholder" aria-hidden="true">
-                  <mat-icon>image</mat-icon>
-                </span>
-              }
-
-              <div class="trainer-courses__course-text">
-                <span class="trainer-courses__course-title">{{ course.title }}</span>
-                <span class="trainer-courses__course-desc">{{ course.shortDescription }}</span>
-              </div>
-
-              <span
-                class="trainer-courses__status"
-                [class.trainer-courses__status--published]="course.status === 'PUBLISHED'"
-                [class.trainer-courses__status--draft]="course.status === 'DRAFT'"
-              >
-                {{ course.status === 'PUBLISHED' ? 'Published' : 'Draft' }}
-              </span>
-            </div>
-
-            <dl class="trainer-courses__mobile-meta">
-              <div>
-                <dt>Category</dt>
-                <dd>{{ course.categoryName }}</dd>
-              </div>
-              <div>
-                <dt>Students</dt>
-                <dd>{{ metricPlaceholder() }}</dd>
-              </div>
-              <div>
-                <dt>Chapters</dt>
-                <dd>{{ metricPlaceholder() }}</dd>
-              </div>
-              <div>
-                <dt>Lessons</dt>
-                <dd>{{ metricPlaceholder() }}</dd>
-              </div>
-            </dl>
-
-            <div class="trainer-courses__actions">
-              <button
-                mat-icon-button
-                type="button"
-                class="trainer-courses__action-btn"
-                (click)="updateCourse(course.id)"
-                aria-label="Edit {{ course.title }}"
-              >
-                <mat-icon aria-hidden="true">edit</mat-icon>
-              </button>
-
-              @if (course.status === 'DRAFT') {
-                <button
-                  mat-icon-button
-                  type="button"
-                  class="trainer-courses__action-btn trainer-courses__action-btn--publish"
-                  (click)="publishCourse(course.id)"
-                  aria-label="Publish {{ course.title }}"
-                >
-                  <mat-icon aria-hidden="true">publish</mat-icon>
                 </button>
-              }
-
-              <button
-                mat-icon-button
-                type="button"
-                class="trainer-courses__action-btn trainer-courses__action-btn--delete"
-                (click)="deleteCourse(course.id)"
-                aria-label="Delete {{ course.title }}"
-              >
-                <mat-icon aria-hidden="true">delete_outline</mat-icon>
-              </button>
-            </div>
-          </li>
+              </li>
+            }
+          </ul>
         }
-      </ul>
-
-      <footer class="trainer-courses__footer">
-        <p class="trainer-courses__pagination">{{ paginationLabel() }}</p>
-      </footer>
-    }
-  </section>
+      </section>
+    </div>
+  }
 </div>

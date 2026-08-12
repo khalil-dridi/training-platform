@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { CurrentUserService } from '../../../../core/services/current-user';
 import { LearnerDashboardResponse } from '../../models/learner-dashboard-response.model';
 import { DashboardService } from '../../services/dashboard';
+import { RecommendationList } from '../../components/recommendation-list/recommendation-list';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+  imports: [RouterLink, MatButtonModule, MatIconModule, RecommendationList],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

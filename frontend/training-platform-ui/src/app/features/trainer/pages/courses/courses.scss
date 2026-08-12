@@ -1,15 +1,31 @@
 ////
-/// Trainer courses list — styles locaux
-/// ---------------------------------------------------------------------------
-/// Rôle : page My Courses formateur (table + cartes mobile).
-/// Tokens Design System uniquement.
+/// Trainer courses list — popup library + card grid
 ////
 
 @use '../../../../../styles/abstracts/variables' as *;
 
-// -----------------------------------------------------------------------------
-// Page shell
-// -----------------------------------------------------------------------------
+@keyframes trainer-courses-popup-enter {
+  from {
+    opacity: 0;
+    transform: translateY($spacing-4) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes trainer-courses-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .trainer-courses {
   padding: $spacing-6 $spacing-4;
   background-color: $background-color;
@@ -24,36 +40,34 @@
   }
 }
 
-.trainer-courses__sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-// -----------------------------------------------------------------------------
-// Header + toolbar
-// -----------------------------------------------------------------------------
 .trainer-courses__header {
   margin-bottom: $spacing-6;
 }
 
+.trainer-courses__intro {
+  margin-bottom: $spacing-4;
+}
+
 .trainer-courses__title {
   @include typography(h2);
-  margin: 0 0 $spacing-4;
+  margin: 0 0 $spacing-2;
   color: $text-primary;
   font-weight: $font-weight-semibold;
+  letter-spacing: -0.02em;
+}
+
+.trainer-courses__subtitle {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  max-width: 52ch;
 }
 
 .trainer-courses__toolbar {
   display: flex;
   flex-direction: column;
   gap: $spacing-3;
+  margin-bottom: $spacing-4;
 
   @include respond-to(md) {
     flex-direction: row;
@@ -126,14 +140,77 @@
   }
 }
 
-// -----------------------------------------------------------------------------
-// Card / table container
-// -----------------------------------------------------------------------------
-.trainer-courses__card {
-  padding: 0;
-  overflow: hidden;
+.trainer-courses__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $spacing-3;
+
+  @include respond-to(md) {
+    max-width: 540px;
+  }
+}
+
+.trainer-courses__stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  padding: $spacing-3 $spacing-4;
   border-color: $border-color;
+
+  mat-icon {
+    flex-shrink: 0;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+    color: $primary-color;
+  }
+}
+
+.trainer-courses__stat-label {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.trainer-courses__stat-value {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+}
+
+.trainer-courses__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  min-height: 280px;
+  padding: $spacing-8;
+  border-radius: $radius-large;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
   box-shadow: $shadow-sm;
+
+  mat-icon {
+    font-size: $font-size-h2;
+    width: $font-size-h2;
+    height: $font-size-h2;
+    color: $primary-color;
+    animation: trainer-courses-spin 1.4s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  p {
+    @include typography(body);
+    margin: 0;
+    color: $text-secondary;
+  }
 }
 
 .trainer-courses__empty {
@@ -144,11 +221,139 @@
   gap: $spacing-3;
   padding: $spacing-12 $spacing-4;
   text-align: center;
+  border-color: $border-color;
+}
+
+.trainer-courses__empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-full;
+  background-color: $primary-light;
+  color: $primary-color;
 
   mat-icon {
-    font-size: $font-size-h2;
-    width: $font-size-h2;
-    height: $font-size-h2;
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
+  }
+}
+
+.trainer-courses__empty-title {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.trainer-courses__empty-text {
+  @include typography(body);
+  margin: 0;
+  color: $text-secondary;
+  max-width: 400px;
+}
+
+// -----------------------------------------------------------------------------
+// Popup shell — floating course library panel
+// -----------------------------------------------------------------------------
+.trainer-courses__popup-shell {
+  display: flex;
+  justify-content: center;
+  padding: $spacing-4 $spacing-2 $spacing-8;
+  background:
+    radial-gradient(ellipse at top, rgba($primary-color, 0.06), transparent 55%),
+    $background-color;
+  border-radius: $radius-large;
+}
+
+.trainer-courses__popup {
+  width: 100%;
+  max-width: 1120px;
+  padding: 0;
+  overflow: hidden;
+  border-color: rgba($primary-color, 0.12);
+  box-shadow: $shadow-lg;
+  animation: trainer-courses-popup-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.trainer-courses__popup-header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  padding: $spacing-4 $spacing-4 $spacing-3;
+  border-bottom: 1px solid $divider-color;
+  background: linear-gradient(180deg, $surface-color 0%, $neutral-50 100%);
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-4 $spacing-6 $spacing-4;
+  }
+}
+
+.trainer-courses__popup-heading {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+}
+
+.trainer-courses__popup-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $spacing-8;
+  height: $spacing-8;
+  border-radius: $radius-medium;
+  background-color: $primary-light;
+  color: $primary-color;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.trainer-courses__popup-title {
+  @include typography(h3);
+  margin: 0;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.trainer-courses__popup-subtitle {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+}
+
+.trainer-courses__popup-hint {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.trainer-courses__popup-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  padding: $spacing-12 $spacing-4;
+  text-align: center;
+
+  mat-icon {
+    font-size: $font-size-h3;
+    width: $font-size-h3;
+    height: $font-size-h3;
     color: $text-muted;
   }
 
@@ -160,85 +365,69 @@
 }
 
 // -----------------------------------------------------------------------------
-// Table — desktop / tablet
+// Course card grid
 // -----------------------------------------------------------------------------
-.trainer-courses__table-wrap {
-  display: none;
-  overflow-x: auto;
-
-  @include respond-to(md) {
-    display: block;
-  }
-}
-
-.trainer-courses__table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 720px;
-
-  thead {
-    background-color: $neutral-50;
-    border-bottom: 1px solid $border-color;
-
-    th {
-      @include typography(small);
-      padding: $spacing-3 $spacing-4;
-      font-weight: $font-weight-semibold;
-      color: $text-secondary;
-      text-align: left;
-      white-space: nowrap;
-
-      &:last-child {
-        text-align: right;
-      }
-    }
-  }
-
-  tbody tr {
-    border-bottom: 1px solid $divider-color;
-    transition: background-color $transition-fast;
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    &:hover {
-      background-color: $neutral-50;
-    }
-  }
-}
-
-.trainer-courses__cell {
-  @include typography(small);
+.trainer-courses__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-4;
+  list-style: none;
+  margin: 0;
   padding: $spacing-4;
-  color: $text-primary;
-  vertical-align: middle;
+  max-height: min(70vh, 720px);
+  overflow-y: auto;
 
-  &--numeric {
-    color: $text-secondary;
-    text-align: center;
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  &--actions {
-    text-align: right;
-    white-space: nowrap;
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: $spacing-6;
+    gap: $spacing-4;
   }
 }
 
-.trainer-courses__course {
+.trainer-courses__card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: $spacing-3;
-  min-width: 0;
+  width: 100%;
+  padding: $spacing-3;
+  border: 1px solid $border-color;
+  border-radius: $radius-medium;
+  background-color: $surface-color;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color $transition-base,
+    box-shadow $transition-base,
+    transform $transition-base;
+
+  &:hover {
+    border-color: rgba($primary-color, 0.25);
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
 }
 
-.trainer-courses__thumbnail {
-  flex-shrink: 0;
-  width: $spacing-12;
-  height: $spacing-12;
+.trainer-courses__card-media {
+  position: relative;
+  overflow: hidden;
   border-radius: $radius-medium;
-  object-fit: cover;
+  aspect-ratio: 16 / 10;
   background-color: $neutral-100;
+}
+
+.trainer-courses__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 
   &--placeholder {
     display: inline-flex;
@@ -247,42 +436,17 @@
     color: $text-muted;
 
     mat-icon {
-      font-size: $font-size-body;
-      width: $font-size-body;
-      height: $font-size-body;
+      font-size: $font-size-h2;
+      width: $font-size-h2;
+      height: $font-size-h2;
     }
   }
 }
 
-.trainer-courses__course-text {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-1;
-  min-width: 0;
-}
-
-.trainer-courses__course-title {
-  @include typography(body);
-  font-weight: $font-weight-semibold;
-  color: $text-primary;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.trainer-courses__course-desc {
-  @include typography(small);
-  color: $text-muted;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.trainer-courses__category {
-  color: $text-secondary;
-}
-
 .trainer-courses__status {
+  position: absolute;
+  top: $spacing-2;
+  right: $spacing-2;
   display: inline-flex;
   align-items: center;
   padding: $spacing-1 $spacing-3;
@@ -290,6 +454,7 @@
   @include typography(small);
   font-weight: $font-weight-medium;
   white-space: nowrap;
+  box-shadow: $shadow-sm;
 
   &--published {
     background-color: $success-light;
@@ -302,99 +467,46 @@
   }
 }
 
-.trainer-courses__actions {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: $spacing-1;
+.trainer-courses__card-body {
+  min-width: 0;
 }
 
-.trainer-courses__action-btn {
-  color: $text-muted;
-  transition:
-    color $transition-fast,
-    background-color $transition-fast;
-
-  &:hover {
-    color: $primary-color;
-    background-color: $primary-light;
-  }
-
-  &--publish:hover {
-    color: $success-color;
-    background-color: $success-light;
-  }
-
-  &--delete:hover {
-    color: $error-color;
-    background-color: $error-light;
-  }
-
-  &:focus-visible {
-    box-shadow: $shadow-focus;
-  }
+.trainer-courses__card-title {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-// -----------------------------------------------------------------------------
-// Mobile cards
-// -----------------------------------------------------------------------------
-.trainer-courses__mobile-list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-3;
-  list-style: none;
+.trainer-courses__card-desc {
+  @include typography(small);
   margin: 0;
-  padding: $spacing-4;
-
-  @include respond-to(md) {
-    display: none;
-  }
+  color: $text-muted;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.trainer-courses__mobile-card {
-  padding: $spacing-4;
-  border: 1px solid $border-color;
-  border-radius: $radius-medium;
-  background-color: $surface-color;
-  transition:
-    border-color $transition-fast,
-    box-shadow $transition-fast;
-
-  &:hover {
-    border-color: $neutral-300;
-    box-shadow: $shadow-sm;
-  }
-}
-
-.trainer-courses__mobile-header {
-  display: flex;
-  align-items: flex-start;
-  gap: $spacing-3;
-  margin-bottom: $spacing-3;
-
-  .trainer-courses__course-text {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .trainer-courses__status {
-    flex-shrink: 0;
-  }
-}
-
-.trainer-courses__mobile-meta {
+.trainer-courses__card-meta {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: $spacing-3;
-  margin: 0 0 $spacing-3;
-  padding: $spacing-3 0;
-  border-top: 1px solid $divider-color;
-  border-bottom: 1px solid $divider-color;
+  gap: $spacing-2;
+  margin: 0;
+  padding: $spacing-3;
+  border-radius: $radius-medium;
+  background-color: $neutral-50;
+  border: 1px solid $border-color;
 
   div {
     display: flex;
     flex-direction: column;
     gap: $spacing-1;
+    min-width: 0;
   }
 
   dt {
@@ -409,27 +521,29 @@
     margin: 0;
     color: $text-primary;
     font-weight: $font-weight-semibold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-.trainer-courses__mobile-card .trainer-courses__actions {
-  justify-content: flex-start;
-}
-
-// -----------------------------------------------------------------------------
-// Footer / pagination
-// -----------------------------------------------------------------------------
-.trainer-courses__footer {
-  display: flex;
+.trainer-courses__card-action {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: $spacing-3 $spacing-4;
-  border-top: 1px solid $border-color;
-  background-color: $neutral-50;
-}
-
-.trainer-courses__pagination {
+  gap: $spacing-1;
+  margin-top: auto;
   @include typography(small);
-  margin: 0;
-  color: $text-muted;
+  color: $primary-color;
+  font-weight: $font-weight-semibold;
+
+  mat-icon {
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+    transition: transform $transition-fast;
+  }
+
+  .trainer-courses__card:hover & mat-icon {
+    transform: translateX(2px);
+  }
 }

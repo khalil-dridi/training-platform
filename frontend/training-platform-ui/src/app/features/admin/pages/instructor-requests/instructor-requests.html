@@ -52,206 +52,108 @@
     </div>
   </header>
 
-  <section class="admin-list__card ds-card ds-card--flat" aria-label="Instructor requests list">
-    @if (loading) {
-      <div class="admin-list__loading" aria-busy="true">Loading requests...</div>
-    } @else if (requests.length === 0) {
-      <div class="admin-list__empty">
-        <mat-icon aria-hidden="true">how_to_reg</mat-icon>
-        <p>No instructor requests found for this filter.</p>
-      </div>
-    } @else {
-      <div class="admin-list__table-wrap">
-        <table class="admin-list__table">
-          <thead>
-            <tr>
-              <th scope="col">Applicant</th>
-              <th scope="col">Email</th>
-              <th scope="col">Status</th>
-              <th scope="col">Submitted</th>
-              <th scope="col">CV</th>
-              <th scope="col"><span class="admin-list__sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (request of requests; track request.id) {
-              <tr>
-                <td class="admin-list__cell">
-                  <div class="admin-list__item">
-                    @if (request.user.avatarUrl) {
-                      <img
-                        class="admin-list__thumb admin-list__thumb--avatar"
-                        [src]="request.user.avatarUrl"
-                        [alt]="displayName(request.user)"
-                        width="48"
-                        height="48"
-                      />
-                    } @else {
-                      <span class="admin-list__thumb admin-list__thumb--avatar" aria-hidden="true">
-                        {{ userInitials(request.user) }}
-                      </span>
-                    }
-
-                    <div class="admin-list__item-text">
-                      <span class="admin-list__item-title">{{ displayName(request.user) }}</span>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__item-meta">{{ request.user.email }}</span>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__badge" [ngClass]="statusBadgeClass(request.status)">
-                    {{ formatStatus(request.status) }}
-                  </span>
-                </td>
-
-                <td class="admin-list__cell">
-                  <span class="admin-list__item-meta">{{ request.createdAt | date: 'mediumDate' }}</span>
-                </td>
-
-                <td class="admin-list__cell">
-                  <a
-                    class="admin-list__link-btn"
-                    [href]="request.cvUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <mat-icon aria-hidden="true">description</mat-icon>
-                    View CV
-                  </a>
-                </td>
-
-                <td class="admin-list__cell admin-list__cell--actions">
-                  <div class="admin-list__actions">
-                    <button
-                      mat-icon-button
-                      type="button"
-                      class="admin-list__action-btn admin-list__action-btn--approve"
-                      (click)="approveRequest(request.id)"
-                      [disabled]="request.status !== 'PENDING'"
-                      aria-label="Approve request"
-                    >
-                      <mat-icon aria-hidden="true">check_circle</mat-icon>
-                    </button>
-
-                    <button
-                      mat-icon-button
-                      type="button"
-                      class="admin-list__action-btn admin-list__action-btn--reject"
-                      (click)="rejectRequest(request.id)"
-                      [disabled]="request.status !== 'PENDING'"
-                      aria-label="Reject request"
-                    >
-                      <mat-icon aria-hidden="true">cancel</mat-icon>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <ul class="admin-list__mobile-list">
-        @for (request of requests; track request.id) {
-          <li class="admin-list__mobile-card">
-            <div class="admin-list__mobile-header">
-              @if (request.user.avatarUrl) {
-                <img
-                  class="admin-list__thumb admin-list__thumb--avatar"
-                  [src]="request.user.avatarUrl"
-                  [alt]="displayName(request.user)"
-                  width="48"
-                  height="48"
-                />
-              } @else {
-                <span class="admin-list__thumb admin-list__thumb--avatar" aria-hidden="true">
-                  {{ userInitials(request.user) }}
-                </span>
-              }
-
-              <div class="admin-list__item-text">
-                <span class="admin-list__item-title">{{ displayName(request.user) }}</span>
-                <span class="admin-list__item-meta">{{ request.user.email }}</span>
-              </div>
-
-              <span class="admin-list__badge" [ngClass]="statusBadgeClass(request.status)">
-                {{ formatStatus(request.status) }}
+  @if (loading) {
+    <div class="admin-list__loading" aria-busy="true">Loading requests...</div>
+  } @else if (requests.length === 0) {
+    <div class="admin-list__empty ds-card ds-card--flat">
+      <mat-icon aria-hidden="true">how_to_reg</mat-icon>
+      <p>No instructor requests found for this filter.</p>
+    </div>
+  } @else {
+    <ul class="admin-requests__grid" aria-label="Instructor requests">
+      @for (request of requests; track request.id) {
+        <li class="admin-requests__card ds-card ds-card--flat">
+          <div class="admin-requests__header">
+            @if (request.user.avatarUrl) {
+              <img
+                class="admin-requests__avatar"
+                [src]="request.user.avatarUrl"
+                [alt]="displayName(request.user)"
+                loading="lazy"
+              />
+            } @else {
+              <span class="admin-requests__avatar admin-requests__avatar--fallback" aria-hidden="true">
+                {{ userInitials(request.user) }}
               </span>
+            }
+
+            <div class="admin-requests__identity">
+              <h2 class="admin-requests__name">{{ displayName(request.user) }}</h2>
+              <p class="admin-requests__email">{{ request.user.email }}</p>
             </div>
 
-            <dl class="admin-list__mobile-meta">
-              <div>
-                <dt>Submitted</dt>
-                <dd>{{ request.createdAt | date: 'mediumDate' }}</dd>
-              </div>
-              <div>
-                <dt>CV</dt>
-                <dd>
-                  <a
-                    class="admin-list__link-btn"
-                    [href]="request.cvUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View CV
-                  </a>
-                </dd>
-              </div>
-            </dl>
+            <span class="admin-list__badge" [ngClass]="statusBadgeClass(request.status)">
+              {{ formatStatus(request.status) }}
+            </span>
+          </div>
 
-            <div class="admin-list__actions">
-              <button
-                mat-stroked-button
-                type="button"
-                (click)="approveRequest(request.id)"
-                [disabled]="request.status !== 'PENDING'"
-              >
-                Approve
-              </button>
-
-              <button
-                mat-stroked-button
-                type="button"
-                color="warn"
-                (click)="rejectRequest(request.id)"
-                [disabled]="request.status !== 'PENDING'"
-              >
-                Reject
-              </button>
+          <dl class="admin-requests__meta">
+            <div>
+              <dt>Submitted</dt>
+              <dd>{{ request.createdAt | date: 'mediumDate' }}</dd>
             </div>
-          </li>
-        }
-      </ul>
+            <div>
+              <dt>CV</dt>
+              <dd>
+                <a
+                  class="admin-list__link-btn"
+                  [href]="getCvViewUrl(request.cvUrl)"
+                  (click)="viewCv(request.cvUrl, $event)"
+                  rel="noopener noreferrer"
+                >
+                  <mat-icon aria-hidden="true">description</mat-icon>
+                  View CV
+                </a>
+              </dd>
+            </div>
+          </dl>
 
-      <footer class="admin-list__footer">
-        <p class="admin-list__pagination-info">
-          Page {{ currentPage + 1 }} of {{ totalPages || 1 }} · {{ totalElements }} requests
-        </p>
+          <footer class="admin-requests__footer">
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              class="admin-requests__action admin-requests__action--approve"
+              (click)="approveRequest(request.id)"
+              [disabled]="request.status !== 'PENDING'"
+            >
+              <mat-icon aria-hidden="true">check_circle</mat-icon>
+              Approve
+            </button>
 
-        <div class="admin-list__pagination-actions">
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="previousPage()"
-            [disabled]="currentPage === 0"
-          >
-            Previous
-          </button>
+            <button
+              mat-stroked-button
+              type="button"
+              class="admin-requests__action admin-requests__action--reject"
+              (click)="rejectRequest(request.id)"
+              [disabled]="request.status !== 'PENDING'"
+            >
+              <mat-icon aria-hidden="true">cancel</mat-icon>
+              Reject
+            </button>
+          </footer>
+        </li>
+      }
+    </ul>
 
-          <button
-            mat-stroked-button
-            type="button"
-            (click)="nextPage()"
-            [disabled]="currentPage >= totalPages - 1"
-          >
-            Next
-          </button>
-        </div>
-      </footer>
-    }
-  </section>
+    <footer class="admin-requests__summary">
+      <p class="admin-requests__pagination-info">
+        Page {{ currentPage + 1 }} of {{ totalPages || 1 }} · {{ totalElements }} requests
+      </p>
+
+      <div class="admin-requests__pagination-actions">
+        <button mat-stroked-button type="button" (click)="previousPage()" [disabled]="currentPage === 0">
+          Previous
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage >= totalPages - 1"
+        >
+          Next
+        </button>
+      </div>
+    </footer>
+  }
 </div>

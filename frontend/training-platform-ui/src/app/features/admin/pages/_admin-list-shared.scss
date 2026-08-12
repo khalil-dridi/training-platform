@@ -139,11 +139,17 @@
   min-height: $spacing-8;
   border-radius: $radius-full;
   font-weight: $font-weight-medium;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast;
 
   &--active {
-    background-color: $primary-light;
-    color: $primary-color;
+    background-color: $primary-color;
+    color: $text-inverse;
     border-color: transparent;
+    box-shadow: $shadow-sm;
   }
 }
 
@@ -170,6 +176,37 @@
   box-shadow: $shadow-sm;
 }
 
+.admin-list__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-3;
+  padding: $spacing-12 $spacing-4;
+  @include typography(body);
+  color: $text-muted;
+
+  &::before {
+    content: '';
+    width: $spacing-8;
+    height: $spacing-8;
+    border: 3px solid $neutral-200;
+    border-top-color: $primary-color;
+    border-radius: $radius-full;
+    animation: admin-list-spin 0.9s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes admin-list-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .admin-list__empty {
   display: flex;
   flex-direction: column;
@@ -180,26 +217,31 @@
   text-align: center;
 
   mat-icon {
-    font-size: $font-size-h2;
-    width: $font-size-h2;
-    height: $font-size-h2;
-    color: $text-muted;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $spacing-12;
+    height: $spacing-12;
+    padding: $spacing-3;
+    border-radius: $radius-full;
+    font-size: $font-size-h3;
+    background-color: $primary-light;
+    color: $primary-color;
   }
 
   p {
     @include typography(body);
     margin: 0;
     color: $text-secondary;
+    max-width: 400px;
   }
-}
 
-.admin-list__loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: $spacing-12 $spacing-4;
-  @include typography(body);
-  color: $text-muted;
+  a,
+  button {
+    margin-top: $spacing-2;
+    border-radius: $radius-medium;
+    font-weight: $font-weight-medium;
+  }
 }
 
 .admin-list__table-wrap {

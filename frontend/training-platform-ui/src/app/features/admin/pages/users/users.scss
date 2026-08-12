@@ -1,1 +1,154 @@
 @use '../admin-list-shared';
+@use '../../../../../styles/abstracts/variables' as *;
+
+.admin-users__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: $spacing-6;
+  }
+}
+
+.admin-users__card {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+  padding: $spacing-4;
+  border-color: $border-color;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base,
+    transform $transition-base;
+
+  &:hover {
+    border-color: rgba($primary-color, 0.2);
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+}
+
+.admin-users__header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 0;
+}
+
+.admin-users__avatar {
+  flex-shrink: 0;
+  width: $spacing-12;
+  height: $spacing-12;
+  border-radius: $radius-full;
+  object-fit: cover;
+  background-color: $neutral-100;
+
+  &--fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary-light;
+    @include typography(body);
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+  }
+}
+
+.admin-users__identity {
+  min-width: 0;
+}
+
+.admin-users__name {
+  @include typography(body);
+  margin: 0 0 $spacing-1;
+  color: $text-primary;
+  font-weight: $font-weight-semibold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-users__email {
+  @include typography(small);
+  margin: 0;
+  color: $text-secondary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-users__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+}
+
+.admin-users__phone {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin: 0;
+  @include typography(small);
+  color: $text-muted;
+
+  mat-icon {
+    font-size: $font-size-small;
+    width: $font-size-small;
+    height: $font-size-small;
+  }
+}
+
+.admin-users__footer {
+  margin-top: auto;
+  padding-top: $spacing-3;
+  border-top: 1px solid $divider-color;
+}
+
+.admin-users__view-btn {
+  width: 100%;
+  border-radius: $radius-medium;
+  font-weight: $font-weight-medium;
+
+  mat-icon {
+    margin-right: $spacing-1;
+    font-size: $font-size-body;
+    width: $font-size-body;
+    height: $font-size-body;
+  }
+}
+
+.admin-users__summary {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  margin-top: $spacing-6;
+  padding-top: $spacing-4;
+  border-top: 1px solid $divider-color;
+
+  @include respond-to(md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.admin-users__pagination-info {
+  @include typography(small);
+  margin: 0;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.admin-users__pagination-actions {
+  display: flex;
+  gap: $spacing-2;
+}
