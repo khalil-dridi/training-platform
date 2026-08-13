@@ -10,7 +10,7 @@ public class RecommendationClient {
 
     public RecommendationClient() {
         this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8000")
+                .baseUrl("http://mla:8000")
                 .build();
     }
 

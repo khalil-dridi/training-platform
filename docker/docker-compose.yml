@@ -17,7 +17,7 @@ services:
 
 
   backend:
-    image: training-platform-backend:1.6
+    image: training-platform-backend:1.7
     container_name: training-platform-backend
     depends_on:
       - mysql
@@ -52,6 +52,22 @@ services:
       - backend
     ports:
       - "4200:80"
+    restart: unless-stopped
+
+
+  mla:
+    image: training-platform-mla:1.0
+    container_name: training-platform-mla
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: training_platform
+      DB_USER: training_user
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     restart: unless-stopped
 
 

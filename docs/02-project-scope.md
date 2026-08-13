@@ -190,4 +190,4 @@ The project will deliver:
 - Jenkins Pipeline
 - Machine Learning Recommendation Module
 - Technical Documentation
-- UML Diagrams
+- UML Diagramss
