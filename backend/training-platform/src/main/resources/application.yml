@@ -4,7 +4,7 @@ spring:
     name: training-platform
 
   profiles:
-    active: local
+    active: ${SPRING_PROFILES_ACTIVE:local}
 
   jpa:
     hibernate:
@@ -28,8 +28,10 @@ spring:
       max-file-size: 500MB
       max-request-size: 500MB
 
+
 server:
   port: 8080
+
 
 logging:
   level:
@@ -37,6 +39,7 @@ logging:
     org.springframework.security.oauth2: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+
 
 springdoc:
   api-docs:

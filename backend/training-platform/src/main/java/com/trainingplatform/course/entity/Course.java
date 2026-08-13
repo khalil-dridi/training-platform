@@ -40,7 +40,7 @@ public class Course extends BaseEntity {
     private String shortDescription;
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
     @Column(nullable = false, length = 500)

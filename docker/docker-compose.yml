@@ -1,0 +1,59 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: training-platform-mysql
+    environment:
+      MYSQL_DATABASE: training_platform
+      MYSQL_USER: training_user
+      MYSQL_PASSWORD: TrainingDev2026!
+      MYSQL_ROOT_PASSWORD: TrainingRoot2026!
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../database/training_platform.sql:/docker-entrypoint-initdb.d/training_platform.sql:ro
+    restart: unless-stopped
+
+
+  backend:
+    image: training-platform-backend:1.6
+    container_name: training-platform-backend
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+      JWT_SECRET: ${JWT_SECRET}
+
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+
+      MAIL_FROM: ${MAIL_FROM}
+
+    restart: unless-stopped
+
+
+  frontend:
+    image: training-platform-frontend:1.1
+    container_name: training-platform-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    restart: unless-stopped
+
+
+volumes:
+  mysql_data:

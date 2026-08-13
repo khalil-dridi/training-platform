@@ -1,2 +1,3 @@
 backend/training-platform/src/main/resources/application-local.yml
 mla/.env
+.env
