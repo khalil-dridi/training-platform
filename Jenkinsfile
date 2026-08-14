@@ -17,7 +17,7 @@ pipeline {
                 echo 'Building Spring Boot backend...'
 
                 dir('backend/training-platform') {
-                    bat 'mvn clean package -DskipTests'
+                    sh 'mvn clean package -DskipTests'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
                 echo 'Building Angular frontend...'
 
                 dir('frontend/training-platform-ui') {
-                    bat '''
+                    sh '''
                     npm install
                     npm run build -- --configuration production
                     '''
@@ -42,9 +42,9 @@ pipeline {
                 echo 'Checking MLA service...'
 
                 dir('mla') {
-                    bat '''
+                    sh '''
                     pip install -r requirements.txt
-                    python -m compileall src
+                    python3 -m compileall src
                     '''
                 }
             }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 echo 'Building Docker images...'
 
-                bat '''
+                sh '''
                 docker build -t training-platform-backend:ci backend/training-platform
                 docker build -t training-platform-frontend:ci frontend/training-platform-ui
                 docker build -t training-platform-mla:ci mla
