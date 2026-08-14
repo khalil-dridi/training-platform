@@ -42,11 +42,12 @@ pipeline {
                 echo 'Checking MLA service...'
 
                 dir('mla') {
-                    sh '''
-                    pip install -r requirements.txt
-                    python3 -m compileall src
-                    '''
-                }
+    sh '''
+    python3 -m venv venv
+    ./venv/bin/pip install -r requirements.txt
+    ./venv/bin/python -m compileall src
+    '''
+}
             }
         }
 
