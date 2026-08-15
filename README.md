@@ -1,35 +1,35 @@
 🎓 Training Platform
 
 <p align="center">
-  <img src="docs/screenshots/Home.png" alt="Training Platform Home" width="100%" />
+  <img src="docs/screenshots/Home.png" alt="Training Platform Home" width="100%">
 </p>
 
 <h2 align="center">Intelligent Learning & Professional Training Platform</h2>
 
 <p align="center">
-  A full-stack e-learning platform combining <b>Angular</b>, <b>Spring Boot</b>,
-  <b>Machine Learning</b>, <b>Docker</b> and <b>Continuous Integration</b>.
+  Full-stack e-learning platform combining <b>Angular</b>, <b>Spring Boot</b>,
+  <b>Machine Learning</b>, <b>Docker</b> and <b>Jenkins CI</b>.
 </p>
 
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=for-the-badge&logo=angular&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Python-ML-3776AB?style=for-the-badge&logo=python&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white"></a>
+  <img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=for-the-badge&logo=angular&logoColor=white">
+  <img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white">
+  <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+  <img src="https://img.shields.io/badge/Python-ML-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+  <img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
 </p>
 
-✨ Project Overview
+✨ Overview
 
-Training Platform is an intelligent online learning platform designed to manage professional training from course creation to learner progress and personalized recommendations.
+Training Platform is an intelligent online learning platform for managing professional training from course creation and lesson delivery to learner progress and personalized recommendations.
 
-The platform provides dedicated experiences for:
+👥 User Roles
 
 Role
 
-Experience
+Responsibilities
 
 👨‍💼 Admin
 
@@ -41,15 +41,13 @@ Courses, chapters, lessons, videos and students
 
 👨‍🎓 Learner
 
-Course discovery, enrollment, learning and progress tracking
+Discovery, enrollment, learning and progress tracking
 
 🌍 Visitor
 
-Public home page, course catalog and course details
+Public home, course catalog and course details
 
-The project also integrates a Machine Learning recommendation system that uses learner-related data to suggest relevant courses.
-
-🚀 Key Features
+🚀 Core Features
 
 🔐 Authentication & Security
 
@@ -69,13 +67,13 @@ Profile management
 
 Password change
 
-Protected routes and APIs
+Protected routes and REST endpoints
 
-User notifications and validation feedback
+Notifications and validation feedback
 
-👨‍💼 Admin Workspace
+👨‍💼 Admin
 
-Admin dashboard
+Dashboard
 
 User management
 
@@ -83,39 +81,33 @@ Category management
 
 Instructor request management
 
-Admin profile
+Profile management
 
-Confirmation dialogs
+Confirmation dialogs and notifications
 
-Notifications
+👨‍🏫 Trainer
 
-👨‍🏫 Trainer Workspace
+Dashboard
 
-Trainer dashboard
+Course CRUD
 
-Create, update and delete courses
+Course publishing
 
-Publish courses
+Chapter and lesson management
 
-Manage chapters
+Video upload
 
-Manage lessons
+Student management
 
-Upload lesson videos
+Course/student details
 
-Manage students
+Profile management
 
-View student/course details
+👨‍🎓 Learner
 
-Trainer profile
+Dashboard
 
-👨‍🎓 Learner Experience
-
-Learner dashboard
-
-Browse published courses
-
-Course details
+Public course discovery
 
 Enrollment
 
@@ -123,47 +115,29 @@ My Courses
 
 Learning player
 
-Lesson completion / uncompletion
+Lesson completion
 
 Course progress tracking
 
-Learner profile
+Personalized recommendations
 
-Personalized course recommendations
+Profile management
 
 🤖 Machine Learning
 
-The MLA component focuses on personalized course recommendation.
+The MLA module provides personalized course recommendations based on learner-related information and learning activity.
 
-Recommendation flow
-
-┌───────────────────────────┐
-│ Learner information       │
-│ + learning activity       │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Dataset preparation       │
-│ + feature handling        │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Recommendation model      │
-│ Machine Learning pipeline │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Recommendation scores     │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Recommended courses       │
-│ in learner interface      │
-└───────────────────────────┘
+Learner Data
+     ↓
+Dataset Preparation
+     ↓
+Feature Processing
+     ↓
+Recommendation Model
+     ↓
+Recommendation Scores
+     ↓
+Recommended Courses
 
 MLA structure
 
@@ -180,32 +154,29 @@ mla/
 
 🏗️ Architecture
 
-                         ┌──────────────────────────┐
-                         │      Angular Frontend    │
-                         │ Admin / Trainer /        │
-                         │ Learner / Public         │
-                         └────────────┬─────────────┘
-                                      │
-                                   REST API
-                                      │
-                                      ▼
-                         ┌──────────────────────────┐
-                         │      Spring Boot API      │
-                         │ Business + Security       │
-                         └─────────┬─────────┬──────┘
-                                   │         │
-                     ┌─────────────┘         └──────────────┐
-                     ▼                                      ▼
-             ┌────────────────┐                    ┌────────────────┐
-             │     MySQL      │                    │   Cloudinary   │
-             │   Database     │                    │ Images/Videos  │
-             └────────────────┘                    └────────────────┘
-                                   │
-                                   ▼
-                          ┌────────────────────┐
-                          │  MLA / Python API  │
-                          │ Course Recommendation │
-                          └────────────────────┘
+                    ┌─────────────────────────┐
+                    │     Angular Frontend    │
+                    │ Admin / Trainer /       │
+                    │ Learner / Public        │
+                    └───────────┬─────────────┘
+                                │ REST API
+                                ▼
+                    ┌─────────────────────────┐
+                    │      Spring Boot        │
+                    │ Business + Security     │
+                    └───────┬─────────┬───────┘
+                            │         │
+                            ▼         ▼
+                    ┌───────────┐ ┌──────────────┐
+                    │   MySQL   │ │  Cloudinary  │
+                    │ Database  │ │ Images/Video  │
+                    └───────────┘ └──────────────┘
+                            │
+                            ▼
+                    ┌────────────────────┐
+                    │   MLA / Python     │
+                    │ Recommendation API │
+                    └────────────────────┘
 
 🛠️ Technology Stack
 
@@ -213,37 +184,37 @@ Layer
 
 Technologies
 
-🎨 Frontend
+Frontend
 
 Angular, TypeScript, Angular Material, SCSS, Reactive Forms
 
-⚙️ Backend
+Backend
 
 Java 21, Spring Boot, Spring Security, Spring Data JPA, Hibernate
 
-🔑 Security
-
-JWT, OAuth2 / Google, role-based authorization
-
-🗄️ Database
+Database
 
 MySQL
 
-🤖 MLA
+Security
+
+JWT, OAuth2 / Google, role-based authorization
+
+MLA
 
 Python, Pandas, NumPy, Scikit-learn
 
-🐳 DevOps
+DevOps
 
 Docker, Docker Compose, Jenkins
 
-☁️ External Services
+Services
 
 Cloudinary, Brevo SMTP, Google OAuth2
 
-📸 Product Showcase
+📸 Complete Product Showcase
 
-All screenshots below are stored in docs/screenshots/.
+All screenshots are stored in docs/screenshots/ and are intentionally displayed directly in the README.
 
 🌍 Public Experience
 
@@ -331,7 +302,7 @@ My Courses
 
 
 
-Recommended Courses — MLA
+Recommended Courses • MLA
 
 
 
@@ -359,13 +330,7 @@ Course Progress
       ↓
 Course Completed ✅
 
-🐳 Docker & Local Execution
-
-Prerequisites
-
-Git
-
-Docker Desktop
+🐳 Docker
 
 Start the platform
 
@@ -383,44 +348,30 @@ docker compose --env-file .env -f docker/docker-compose.yml down
 
 🔄 Continuous Integration
 
-The project includes a Jenkins CI pipeline.
-
-CI workflow
+The project uses Jenkins for continuous integration.
 
 Git Push
-   │
-   ▼
+   ↓
 Jenkins
-   │
    ├── Backend validation
    ├── Frontend validation
    ├── MLA validation
    └── Build / Tests
-          │
-          ▼
-      CI Result ✅
-
-The goal is to automatically validate the project after source-code changes.
+          ↓
+       CI Result ✅
 
 📂 Repository Structure
 
 training-platform/
-│
 ├── backend/
-│   └── training-platform/
-│
 ├── frontend/
-│   └── training-platform-ui/
-│
 ├── mla/
 │   ├── dataset/
 │   ├── models/
 │   ├── notebooks/
 │   └── src/
-│
 ├── docker/
 │   └── docker-compose.yml
-│
 ├── docs/
 │   ├── 01-project-vision.md
 │   ├── 02-project-scope.md
@@ -429,7 +380,6 @@ training-platform/
 │   ├── 05-user-stories.md
 │   ├── 06-use-cases.md
 │   └── screenshots/
-│
 ├── Jenkinsfile
 └── README.md
 
@@ -443,11 +393,11 @@ JWT authentication
 
 Role-based authorization
 
-Protected REST endpoints
+Protected endpoints
 
 OAuth2 authentication
 
-Environment-based configuration
+Environment-based secrets
 
 Frontend
 
@@ -459,11 +409,9 @@ Role-aware navigation
 
 Form validation
 
-User feedback and notifications
+Notifications
 
 📚 Documentation
-
-Project documentation is available in docs/:
 
 Project Vision
 
@@ -479,19 +427,11 @@ Use Cases
 
 🎯 Academic Project
 
-Training Platform was developed as an Integrated Academic Project combining:
+Training Platform demonstrates the integration of:
 
-Angular
-   +
-Spring Boot
-   +
-Machine Learning
-   +
-Docker
-   +
-Continuous Integration
+Angular + Spring Boot + Machine Learning + Docker + Continuous Integration
 
-The project demonstrates a complete workflow from user authentication and course management to intelligent recommendations and DevOps validation.
+as a complete academic full-stack project.
 
 🔮 Future Improvements
 
@@ -511,7 +451,7 @@ Continuous deployment
 
 Cloud deployment
 
-Advanced monitoring and observability
+Monitoring and observability
 
 👤 Author
 
@@ -523,5 +463,5 @@ Advanced monitoring and observability
 </p>
 
 <p align="center">
-  <b>Angular • Spring Boot • Machine Learning • Docker • Jenkins</b>
+  Angular • Spring Boot • Machine Learning • Docker • Jenkins
 </p>
