@@ -4,7 +4,7 @@
   <img src="docs/screenshots/Home.png" alt="Training Platform Home" width="100%" />
 </p>
 
-<h3 align="center">Intelligent Learning & Professional Training Platform</h3>
+<h2 align="center">Intelligent Learning & Professional Training Platform</h2>
 
 <p align="center">
   A full-stack e-learning platform combining <b>Angular</b>, <b>Spring Boot</b>,
@@ -12,70 +12,44 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular"/>
-  <img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot"/>
-  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
-  <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
-  <img src="https://img.shields.io/badge/Python-ML-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
-  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
-  <img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white" alt="Jenkins"/>
+  <a href="#"><img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=for-the-badge&logo=angular&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Python-ML-3776AB?style=for-the-badge&logo=python&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white"></a>
 </p>
 
-✨ Overview
+✨ Project Overview
 
 Training Platform is an intelligent online learning platform designed to manage professional training from course creation to learner progress and personalized recommendations.
 
 The platform provides dedicated experiences for:
 
-👨‍💼 Administrators — platform and user management
+Role
 
-👨‍🏫 Trainers — course, chapter, lesson and student management
-
-👨‍🎓 Learners — course discovery, enrollment, learning and progress tracking
-
-🌍 Visitors — public access to the platform and course catalog
-
-The project also integrates a Machine Learning recommendation system that analyzes learner-related data to suggest relevant courses.
-
-🚀 Highlights
-
-Area
-
-Main capabilities
-
-🔐 Authentication
-
-JWT, Google OAuth2, role-based access
+Experience
 
 👨‍💼 Admin
 
-Users, categories, instructor requests, dashboard
+Users, categories, instructor requests and platform management
 
 👨‍🏫 Trainer
 
-Courses, chapters, lessons, video management, students
+Courses, chapters, lessons, videos and students
 
 👨‍🎓 Learner
 
-Enrollment, My Courses, learning player, progress
+Course discovery, enrollment, learning and progress tracking
 
-📚 Learning
+🌍 Visitor
 
-Video lessons, lesson completion, course progress
+Public home page, course catalog and course details
 
-🤖 MLA
+The project also integrates a Machine Learning recommendation system that uses learner-related data to suggest relevant courses.
 
-Dataset-based course recommendation
-
-🌍 Public
-
-Landing page, course catalog, course details
-
-🐳 DevOps
-
-Docker, Docker Compose, Jenkins CI
-
-🧩 Core Modules
+🚀 Key Features
 
 🔐 Authentication & Security
 
@@ -97,7 +71,9 @@ Password change
 
 Protected routes and APIs
 
-👨‍💼 Administration
+User notifications and validation feedback
+
+👨‍💼 Admin Workspace
 
 Admin dashboard
 
@@ -107,11 +83,11 @@ Category management
 
 Instructor request management
 
-Profile management
+Admin profile
 
 Confirmation dialogs
 
-User feedback and notifications
+Notifications
 
 👨‍🏫 Trainer Workspace
 
@@ -127,9 +103,9 @@ Manage lessons
 
 Upload lesson videos
 
-Manage enrolled students
+Manage students
 
-View student details
+View student/course details
 
 Trainer profile
 
@@ -153,7 +129,7 @@ Course progress tracking
 
 Learner profile
 
-Personalized recommendations
+Personalized course recommendations
 
 🤖 Machine Learning
 
@@ -161,35 +137,35 @@ The MLA component focuses on personalized course recommendation.
 
 Recommendation flow
 
-┌───────────────────────┐
-│   Learner information │
-│   + learning activity │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│   Dataset preparation │
-│   & feature handling  │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│  Machine Learning     │
-│  recommendation model │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│ Recommendation scores │
-└───────────┬───────────┘
-            │
-            ▼
-┌───────────────────────┐
-│   Recommended Courses │
-│       in Angular      │
-└───────────────────────┘
+┌───────────────────────────┐
+│ Learner information       │
+│ + learning activity       │
+└─────────────┬─────────────┘
+              │
+              ▼
+┌───────────────────────────┐
+│ Dataset preparation       │
+│ + feature handling        │
+└─────────────┬─────────────┘
+              │
+              ▼
+┌───────────────────────────┐
+│ Recommendation model      │
+│ Machine Learning pipeline │
+└─────────────┬─────────────┘
+              │
+              ▼
+┌───────────────────────────┐
+│ Recommendation scores     │
+└─────────────┬─────────────┘
+              │
+              ▼
+┌───────────────────────────┐
+│ Recommended courses       │
+│ in learner interface      │
+└───────────────────────────┘
 
-The MLA module is maintained separately in:
+MLA structure
 
 mla/
 ├── dataset/
@@ -204,110 +180,72 @@ mla/
 
 🏗️ Architecture
 
-                         ┌─────────────────────────┐
-                         │       Angular UI        │
-                         │ Admin / Trainer /       │
-                         │ Learner / Public        │
-                         └────────────┬────────────┘
+                         ┌──────────────────────────┐
+                         │      Angular Frontend    │
+                         │ Admin / Trainer /        │
+                         │ Learner / Public         │
+                         └────────────┬─────────────┘
                                       │
                                    REST API
                                       │
                                       ▼
-                         ┌─────────────────────────┐
-                         │      Spring Boot        │
-                         │   Business & Security   │
-                         └───────┬─────────┬───────┘
-                                 │         │
-                                 │         └──────────────┐
-                                 ▼                        ▼
-                        ┌────────────────┐       ┌────────────────┐
-                        │     MySQL      │       │   Cloudinary   │
-                        │   Persistence  │       │ Images/Videos  │
-                        └────────────────┘       └────────────────┘
-                                 │
-                                 │
-                                 ▼
-                        ┌────────────────┐
-                        │ MLA / Python   │
-                        │ Recommendation │
-                        └────────────────┘
+                         ┌──────────────────────────┐
+                         │      Spring Boot API      │
+                         │ Business + Security       │
+                         └─────────┬─────────┬──────┘
+                                   │         │
+                     ┌─────────────┘         └──────────────┐
+                     ▼                                      ▼
+             ┌────────────────┐                    ┌────────────────┐
+             │     MySQL      │                    │   Cloudinary   │
+             │   Database     │                    │ Images/Videos  │
+             └────────────────┘                    └────────────────┘
+                                   │
+                                   ▼
+                          ┌────────────────────┐
+                          │  MLA / Python API  │
+                          │ Course Recommendation │
+                          └────────────────────┘
 
-🛠️ Tech Stack
+🛠️ Technology Stack
 
-Frontend
+Layer
 
-Angular
+Technologies
 
-TypeScript
+🎨 Frontend
 
-Angular Material
+Angular, TypeScript, Angular Material, SCSS, Reactive Forms
 
-SCSS
+⚙️ Backend
 
-Reactive Forms
+Java 21, Spring Boot, Spring Security, Spring Data JPA, Hibernate
 
-REST API integration
+🔑 Security
 
-Backend
+JWT, OAuth2 / Google, role-based authorization
 
-Java 21
-
-Spring Boot
-
-Spring Security
-
-Spring Data JPA
-
-Hibernate
-
-JWT
-
-OAuth2 / Google
-
-Jakarta Validation
+🗄️ Database
 
 MySQL
 
-Machine Learning
+🤖 MLA
 
-Python
+Python, Pandas, NumPy, Scikit-learn
 
-Pandas
+🐳 DevOps
 
-NumPy
+Docker, Docker Compose, Jenkins
 
-Scikit-learn
+☁️ External Services
 
-Recommendation model
-
-Dataset-driven learning
-
-DevOps
-
-Docker
-
-Docker Compose
-
-Jenkins
-
-Continuous Integration
-
-Containerized services
-
-External Services
-
-Cloudinary — media storage
-
-Brevo SMTP — email delivery
-
-Google OAuth2 — authentication
+Cloudinary, Brevo SMTP, Google OAuth2
 
 📸 Product Showcase
 
-🌍 Public Experience
+All screenshots below are stored in docs/screenshots/.
 
-<details>
-<summary><b>Home & Public Course Experience</b></summary>
+🌍 Public Experience
 
 Home
 
@@ -317,16 +255,11 @@ Browse Courses
 
 
 
-Course Details
+Public Course Details
 
 
-
-</details>
 
 🔐 Authentication
-
-<details>
-<summary><b>Authentication & Account Management</b></summary>
 
 Login
 
@@ -340,14 +273,9 @@ Forgot Password
 
 
 
-</details>
-
 👨‍💼 Admin Workspace
 
-<details>
-<summary><b>Administration Interface</b></summary>
-
-Dashboard
+Admin Dashboard
 
 
 
@@ -363,18 +291,13 @@ Instructor Requests
 
 
 
-</details>
-
 👨‍🏫 Trainer Workspace
 
-<details>
-<summary><b>Trainer Interface</b></summary>
-
-Dashboard
+Trainer Dashboard
 
 
 
-Manage Courses
+My Courses
 
 
 
@@ -386,7 +309,7 @@ Edit Course
 
 
 
-My Courses
+Manage Courses
 
 
 
@@ -398,14 +321,9 @@ Course Details
 
 
 
-</details>
-
 👨‍🎓 Learner Workspace
 
-<details>
-<summary><b>Learner Interface</b></summary>
-
-Dashboard
+Learner Dashboard
 
 
 
@@ -413,29 +331,47 @@ My Courses
 
 
 
-Recommendations
+Recommended Courses — MLA
 
 
-
-</details>
 
 👤 Profile
 
+User Profile
 
 
-🐳 Run with Docker
+
+📈 Learning Workflow
+
+Browse Courses
+      ↓
+Course Details
+      ↓
+Enroll
+      ↓
+My Courses
+      ↓
+Learning Player
+      ↓
+Complete Lessons
+      ↓
+Course Progress
+      ↓
+Course Completed ✅
+
+🐳 Docker & Local Execution
 
 Prerequisites
 
-Docker Desktop
-
 Git
+
+Docker Desktop
 
 Start the platform
 
 docker compose --env-file .env -f docker/docker-compose.yml up -d
 
-Check running containers
+Check containers
 
 docker ps
 
@@ -443,35 +379,28 @@ Stop the platform
 
 docker compose --env-file .env -f docker/docker-compose.yml down
 
-The platform is organized as containerized services for the frontend, backend, MLA and database.
-
-⚠️ Never commit .env files or real credentials to the repository.
+⚠️ Never commit .env files or real credentials.
 
 🔄 Continuous Integration
 
-The project includes a CI workflow with Jenkins.
+The project includes a Jenkins CI pipeline.
 
-The objective is to automatically validate the application when changes are integrated.
+CI workflow
 
-CI flow
-
-       Git Push
+Git Push
+   │
+   ▼
+Jenkins
+   │
+   ├── Backend validation
+   ├── Frontend validation
+   ├── MLA validation
+   └── Build / Tests
           │
           ▼
-   ┌───────────────┐
-   │ Jenkins Start │
-   └───────┬───────┘
-           │
-           ├───────────────┐
-           ▼               ▼
-   Backend Validation   Frontend Validation
-           │               │
-           └───────┬───────┘
-                   ▼
-            Build / Tests
-                   │
-                   ▼
-             CI Result ✅
+      CI Result ✅
+
+The goal is to automatically validate the project after source-code changes.
 
 📂 Repository Structure
 
@@ -501,12 +430,10 @@ training-platform/
 │   ├── 06-use-cases.md
 │   └── screenshots/
 │
-├── .env
+├── Jenkinsfile
 └── README.md
 
 🔒 Security
-
-Security is implemented at both frontend and backend levels.
 
 Backend
 
@@ -516,11 +443,11 @@ JWT authentication
 
 Role-based authorization
 
-Protected endpoints
+Protected REST endpoints
 
 OAuth2 authentication
 
-Environment-based secrets
+Environment-based configuration
 
 Frontend
 
@@ -528,37 +455,15 @@ Route guards
 
 Authentication interceptor
 
-Role-based navigation
+Role-aware navigation
 
 Form validation
 
-Secure user feedback
-
-📈 Learning Progress
-
-The learning workflow is:
-
-Browse Courses
-      ↓
-Course Details
-      ↓
-Enroll
-      ↓
-My Courses
-      ↓
-Learning Player
-      ↓
-Complete Lessons
-      ↓
-Course Progress
-      ↓
-Course Completed ✅
-
-The learner can track lesson completion and overall course progress directly from the platform.
+User feedback and notifications
 
 📚 Documentation
 
-Project documentation is available in the docs/ directory:
+Project documentation is available in docs/:
 
 Project Vision
 
@@ -572,13 +477,9 @@ User Stories
 
 Use Cases
 
-🎯 Academic Objectives
+🎯 Academic Project
 
-The project demonstrates the integration of:
-
-Frontend Engineering + Backend Development + Machine Learning + DevOps
-
-with the required technologies:
+Training Platform was developed as an Integrated Academic Project combining:
 
 Angular
    +
@@ -590,9 +491,9 @@ Docker
    +
 Continuous Integration
 
-🔮 Future Improvements
+The project demonstrates a complete workflow from user authentication and course management to intelligent recommendations and DevOps validation.
 
-Possible future evolutions include:
+🔮 Future Improvements
 
 Advanced learner analytics
 
@@ -610,17 +511,17 @@ Continuous deployment
 
 Cloud deployment
 
-Advanced observability and monitoring
+Advanced monitoring and observability
 
 👤 Author
 
-Khalil Dridi
-
-Full-Stack Developer
-
-Project: Training Platform
-Type: Academic Integrated Project
+<p align="center">
+  <b>Khalil Dridi</b><br>
+  Full-Stack Developer<br><br>
+  <b>Training Platform</b><br>
+  Academic Integrated Project
+</p>
 
 <p align="center">
-  <b>Built with Angular • Spring Boot • Machine Learning • Docker • Jenkins</b>
+  <b>Angular • Spring Boot • Machine Learning • Docker • Jenkins</b>
 </p>
