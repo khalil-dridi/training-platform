@@ -1,319 +1,240 @@
-🎓 Training Platform
+# 🎓 Training Platform
 
 <p align="center">
-  <img src="docs/screenshots/Home.png" alt="Training Platform Home" width="100%">
+  <img src="docs/screenshots/Home.png" alt="Training Platform — Home" width="100%">
 </p>
 
 <h2 align="center">Intelligent Learning & Professional Training Platform</h2>
 
 <p align="center">
-  Full-stack e-learning platform combining <b>Angular</b>, <b>Spring Boot</b>,
-  <b>Machine Learning</b>, <b>Docker</b> and <b>Jenkins CI</b>.
+  A full-stack learning platform that connects <strong>learners</strong>, <strong>trainers</strong> and <strong>administrators</strong> through course management, learning workflows and personalized recommendations.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Angular-Frontend-DD0031?style=for-the-badge&logo=angular&logoColor=white">
-  <img src="https://img.shields.io/badge/Spring%20Boot-Backend-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white">
-  <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-  <img src="https://img.shields.io/badge/Python-ML-3776AB?style=for-the-badge&logo=python&logoColor=white">
-  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-  <img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
+  <img src="https://img.shields.io/badge/Angular-20.3-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular">
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.5.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21">
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Jenkins-CI-D24939?style=for-the-badge&logo=jenkins&logoColor=white" alt="Jenkins">
 </p>
 
-✨ Overview
+<p align="center">
+  <a href="#-overview">Overview</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-showcase">Showcase</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="#-documentation">Documentation</a>
+</p>
 
-Training Platform is an intelligent online learning platform for managing professional training from course creation and lesson delivery to learner progress and personalized recommendations.
+---
 
-👥 User Roles
+## ✨ Overview
 
-Role
+**Training Platform** is a modular e-learning application designed to manage the complete professional training lifecycle — from course creation and content delivery to enrollment, progress tracking and personalized learning recommendations.
 
-Responsibilities
+The project combines a modern Angular frontend, a Spring Boot REST API, a MySQL database and a Python recommendation service, all packaged with Docker and integrated into a Jenkins-based CI workflow.
 
-👨‍💼 Admin
+### 🎯 Project Goals
 
-Users, categories, instructor requests and platform management
+- Provide a complete digital learning experience for learners.
+- Give trainers the tools to create and manage professional courses.
+- Give administrators control over the platform and its users.
+- Improve course discovery through personalized recommendations.
+- Demonstrate a complete full-stack architecture with containerization and continuous integration.
 
-👨‍🏫 Trainer
+---
 
-Courses, chapters, lessons, videos and students
+## 👥 User Roles
 
-👨‍🎓 Learner
+| Role | Main Responsibilities |
+|---|---|
+| 👨‍💼 **Admin** | Platform administration, users, categories and instructor requests |
+| 👨‍🏫 **Trainer** | Course creation, chapters, lessons, videos and student management |
+| 👨‍🎓 **Learner** | Course discovery, enrollment, learning and progress tracking |
+| 🌍 **Visitor** | Public home page, course catalog and course details |
 
-Discovery, enrollment, learning and progress tracking
+---
 
-🌍 Visitor
+## 🚀 Features
 
-Public home, course catalog and course details
+### 🔐 Authentication & Security
 
-🚀 Core Features
+- Registration and login
+- JWT authentication
+- Google OAuth2 login
+- Role-based authorization
+- Password recovery
+- Email verification
+- Profile management
+- Password change
+- Protected REST endpoints and frontend routes
+- Form validation and user feedback
 
-🔐 Authentication & Security
+### 👨‍💼 Admin Workspace
 
-Registration and login
+- Dashboard
+- User management
+- Category management
+- Instructor request management
+- Profile management
+- Confirmation dialogs and notifications
 
-JWT authentication
+### 👨‍🏫 Trainer Workspace
 
-Google OAuth2
+- Trainer dashboard
+- Course CRUD
+- Course publishing
+- Chapter and lesson management
+- Video upload
+- Student management
+- Course and student details
+- Profile management
 
-Role-based authorization
+### 👨‍🎓 Learner Workspace
 
-Password recovery
+- Public course discovery
+- Enrollment
+- My Courses
+- Learning player
+- Lesson completion
+- Course progress tracking
+- Course completion workflow
+- Personalized course recommendations
+- Profile management
 
-Email verification
+### 🤖 Machine Learning
 
-Profile management
+The **MLA** module provides personalized course recommendations using learner-related information and learning activity.
 
-Password change
-
-Protected routes and REST endpoints
-
-Notifications and validation feedback
-
-👨‍💼 Admin
-
-Dashboard
-
-User management
-
-Category management
-
-Instructor request management
-
-Profile management
-
-Confirmation dialogs and notifications
-
-👨‍🏫 Trainer
-
-Dashboard
-
-Course CRUD
-
-Course publishing
-
-Chapter and lesson management
-
-Video upload
-
-Student management
-
-Course/student details
-
-Profile management
-
-👨‍🎓 Learner
-
-Dashboard
-
-Public course discovery
-
-Enrollment
-
-My Courses
-
-Learning player
-
-Lesson completion
-
-Course progress tracking
-
-Personalized recommendations
-
-Profile management
-
-🤖 Machine Learning
-
-The MLA module provides personalized course recommendations based on learner-related information and learning activity.
-
+```text
 Learner Data
-     ↓
+      ↓
 Dataset Preparation
-     ↓
+      ↓
 Feature Processing
-     ↓
+      ↓
 Recommendation Model
-     ↓
+      ↓
 Recommendation Scores
-     ↓
+      ↓
 Recommended Courses
+```
 
-MLA structure
+### ☁️ External Services
 
-mla/
-├── dataset/
-├── models/
-├── notebooks/
-└── src/
-    ├── api.py
-    ├── database.py
-    ├── recommender.py
-    ├── test_dataset.py
-    └── test_recommender.py
+- **Cloudinary** — image, document and video storage
+- **Brevo SMTP** — email delivery
+- **Google OAuth2** — social authentication
 
-🏗️ Architecture
+---
 
-                    ┌─────────────────────────┐
-                    │     Angular Frontend    │
-                    │ Admin / Trainer /       │
-                    │ Learner / Public        │
-                    └───────────┬─────────────┘
-                                │ REST API
-                                ▼
-                    ┌─────────────────────────┐
-                    │      Spring Boot        │
-                    │ Business + Security     │
-                    └───────┬─────────┬───────┘
-                            │         │
-                            ▼         ▼
-                    ┌───────────┐ ┌──────────────┐
-                    │   MySQL   │ │  Cloudinary  │
-                    │ Database  │ │ Images/Video  │
-                    └───────────┘ └──────────────┘
-                            │
-                            ▼
-                    ┌────────────────────┐
-                    │   MLA / Python     │
-                    │ Recommendation API │
-                    └────────────────────┘
+## 📸 Showcase
 
-🛠️ Technology Stack
+The platform is organized around separate experiences for public visitors, administrators, trainers and learners.
 
-Layer
+### 🌍 Public Experience
 
-Technologies
+<p align="center">
+  <img src="docs/screenshots/Home.png" alt="Home" width="49%">
+  <img src="docs/screenshots/browse_courses.png" alt="Browse Courses" width="49%">
+</p>
 
-Frontend
+<p align="center">
+  <img src="docs/screenshots/learner_course_details.png" alt="Course Details" width="49%">
+</p>
 
-Angular, TypeScript, Angular Material, SCSS, Reactive Forms
+### 🔐 Authentication
 
-Backend
+<p align="center">
+  <img src="docs/screenshots/login.png" alt="Login" width="49%">
+  <img src="docs/screenshots/Sign_up.png" alt="Sign Up" width="49%">
+</p>
 
-Java 21, Spring Boot, Spring Security, Spring Data JPA, Hibernate
+<p align="center">
+  <img src="docs/screenshots/foget_password.png" alt="Forgot Password" width="49%">
+</p>
 
-Database
+### 👨‍💼 Admin Workspace
 
-MySQL
+<p align="center">
+  <img src="docs/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="49%">
+  <img src="docs/screenshots/admin_manageusers.png" alt="Manage Users" width="49%">
+</p>
 
-Security
+<p align="center">
+  <img src="docs/screenshots/admin_Categories.png" alt="Categories" width="49%">
+  <img src="docs/screenshots/admin_instructoresRequest.png" alt="Instructor Requests" width="49%">
+</p>
 
-JWT, OAuth2 / Google, role-based authorization
+### 👨‍🏫 Trainer Workspace
 
-MLA
+<p align="center">
+  <img src="docs/screenshots/trainer_dashboard.png" alt="Trainer Dashboard" width="49%">
+  <img src="docs/screenshots/trainer_mycourses.png" alt="Trainer Courses" width="49%">
+</p>
 
-Python, Pandas, NumPy, Scikit-learn
+<p align="center">
+  <img src="docs/screenshots/trainer_createcourse.png" alt="Create Course" width="49%">
+  <img src="docs/screenshots/trainer_editcourse.png" alt="Edit Course" width="49%">
+</p>
 
-DevOps
+<p align="center">
+  <img src="docs/screenshots/trainer_manageCourse.png" alt="Manage Courses" width="49%">
+  <img src="docs/screenshots/trainer_myStudents.png" alt="My Students" width="49%">
+</p>
 
-Docker, Docker Compose, Jenkins
+<p align="center">
+  <img src="docs/screenshots/trainer_viewdetailscourse.png" alt="Course Details" width="49%">
+</p>
 
-Services
+### 👨‍🎓 Learner Workspace
 
-Cloudinary, Brevo SMTP, Google OAuth2
+<p align="center">
+  <img src="docs/screenshots/learner_dashboard.png" alt="Learner Dashboard" width="49%">
+  <img src="docs/screenshots/learner_mycourses.png" alt="My Courses" width="49%">
+</p>
 
-📸 Complete Product Showcase
+<p align="center">
+  <img src="docs/screenshots/recommended_courses.png" alt="Recommended Courses" width="49%">
+</p>
 
-All screenshots are stored in docs/screenshots/ and are intentionally displayed directly in the README.
+### 👤 Profile
 
-🌍 Public Experience
+<p align="center">
+  <img src="docs/screenshots/myprofile.png" alt="User Profile" width="60%">
+</p>
 
-Home
+---
 
+## 🏗️ Architecture
 
+```mermaid
+flowchart TB
+    U[🌍 Visitor / 👨‍🎓 Learner / 👨‍🏫 Trainer / 👨‍💼 Admin]
+    FE[🅰️ Angular Frontend]
+    BE[☕ Spring Boot REST API]
+    DB[(🗄️ MySQL)]
+    MLA[🐍 Python MLA API]
+    CL[☁️ Cloudinary]
+    GO[🔑 Google OAuth2]
+    MAIL[✉️ Brevo SMTP]
 
-Browse Courses
-
-
-
-Public Course Details
-
-
-
-🔐 Authentication
-
-Login
-
-
-
-Sign Up
-
-
-
-Forgot Password
-
-
-
-👨‍💼 Admin Workspace
-
-Admin Dashboard
-
-
-
-Manage Users
-
-
-
-Categories
-
-
-
-Instructor Requests
-
-
-
-👨‍🏫 Trainer Workspace
-
-Trainer Dashboard
-
-
-
-My Courses
-
-
-
-Create Course
-
-
-
-Edit Course
-
-
-
-Manage Courses
-
-
-
-My Students
-
-
-
-Course Details
-
-
-
-👨‍🎓 Learner Workspace
-
-Learner Dashboard
-
-
-
-My Courses
-
-
-
-Recommended Courses • MLA
-
-
-
-👤 Profile
-
-User Profile
-
-
-
-📈 Learning Workflow
-
+    U --> FE
+    FE -->|REST / HTTP| BE
+    BE --> DB
+    BE --> MLA
+    BE --> CL
+    BE --> GO
+    BE --> MAIL
+    MLA --> DB
+```
+
+### 🔄 Learning Workflow
+
+```text
 Browse Courses
       ↓
 Course Details
@@ -329,49 +250,57 @@ Complete Lessons
 Course Progress
       ↓
 Course Completed ✅
+```
 
-🐳 Docker
+---
 
-Start the platform
+## 🛠️ Technology Stack
 
-docker compose --env-file .env -f docker/docker-compose.yml up -d
+| Layer | Technologies |
+|---|---|
+| 🎨 **Frontend** | Angular 20, TypeScript, Angular Material, SCSS, Reactive Forms |
+| ⚙️ **Backend** | Java 21, Spring Boot 3.5.4, Spring Security, Spring Data JPA, Hibernate |
+| 🗄️ **Database** | MySQL 8.0 |
+| 🔐 **Security** | JWT, OAuth2 / Google, role-based authorization |
+| 🤖 **MLA** | Python 3.11, Pandas, NumPy, Scikit-learn, FastAPI / Uvicorn |
+| 🐳 **DevOps** | Docker, Docker Compose, Jenkins |
+| ☁️ **Services** | Cloudinary, Brevo SMTP, Google OAuth2 |
+| 🧪 **API Testing** | Postman |
 
-Check containers
+---
 
-docker ps
+## 📁 Repository Structure
 
-Stop the platform
-
-docker compose --env-file .env -f docker/docker-compose.yml down
-
-⚠️ Never commit .env files or real credentials.
-
-🔄 Continuous Integration
-
-The project uses Jenkins for continuous integration.
-
-Git Push
-   ↓
-Jenkins
-   ├── Backend validation
-   ├── Frontend validation
-   ├── MLA validation
-   └── Build / Tests
-          ↓
-       CI Result ✅
-
-📂 Repository Structure
-
+```text
 training-platform/
 ├── backend/
+│   └── training-platform/
+│       ├── src/
+│       ├── Dockerfile
+│       └── pom.xml
+│
 ├── frontend/
+│   └── training-platform-ui/
+│       ├── src/
+│       ├── Dockerfile
+│       ├── nginx.conf
+│       └── package.json
+│
 ├── mla/
 │   ├── dataset/
 │   ├── models/
 │   ├── notebooks/
-│   └── src/
+│   ├── src/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── database/
+│   └── training_platform.sql
+│
 ├── docker/
 │   └── docker-compose.yml
+│
 ├── docs/
 │   ├── 01-project-vision.md
 │   ├── 02-project-scope.md
@@ -380,88 +309,212 @@ training-platform/
 │   ├── 05-user-stories.md
 │   ├── 06-use-cases.md
 │   └── screenshots/
+│
 ├── Jenkinsfile
 └── README.md
+```
 
-🔒 Security
+---
 
-Backend
+## 🚀 Getting Started
 
-Spring Security
+### 1. Clone the repository
 
-JWT authentication
+```bash
+git clone https://github.com/khalil-dridi/training-platform.git
+cd training-platform
+```
 
-Role-based authorization
+### 2. Configure environment variables
 
-Protected endpoints
+The Docker Compose stack expects a local `.env` file at the repository root.
 
-OAuth2 authentication
+At minimum, the stack uses:
 
-Environment-based secrets
+```env
+MYSQL_PASSWORD=your_mysql_password
+JWT_SECRET=your_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+MAIL_USERNAME=your_mail_username
+MAIL_PASSWORD=your_mail_password
+MAIL_FROM=your_mail_from
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
 
-Frontend
+> 🔒 Never commit `.env` files or real credentials.
 
-Route guards
+### 3. Build the application images
 
-Authentication interceptor
+The Compose file references project-specific images, so build them before starting the stack:
 
-Role-aware navigation
+```bash
+docker build -t training-platform-backend:1.7 ./backend/training-platform
+docker build -t training-platform-frontend:1.1 ./frontend/training-platform-ui
+docker build -t training-platform-mla:1.0 ./mla
+```
 
-Form validation
+### 4. Start the platform
 
-Notifications
+```bash
+docker compose --env-file .env -f docker/docker-compose.yml up -d
+```
 
-📚 Documentation
+### 5. Check running containers
 
-Project Vision
+```bash
+docker ps
+```
 
-Project Scope
+### 6. Stop the platform
 
-Functional Requirements
+```bash
+docker compose --env-file .env -f docker/docker-compose.yml down
+```
 
-Non-Functional Requirements
+---
 
-User Stories
+## 🌐 Local Services
 
-Use Cases
+| Service | URL / Port |
+|---|---|
+| 🅰️ **Frontend** | http://localhost:4200 |
+| ☕ **Backend API** | http://localhost:8080 |
+| 🤖 **MLA API** | http://localhost:8000 |
+| 🗄️ **MySQL** | localhost:3307 → container 3306 |
 
-🎯 Academic Project
+### 📚 API Documentation
+
+The Spring Boot application exposes OpenAPI documentation through Swagger UI.
+
+```text
+http://localhost:8080/swagger-ui.html
+```
+
+---
+
+## 🐳 Docker Stack
+
+The project is containerized into four main services:
+
+```text
+┌─────────────────────────────────────────────┐
+│              Docker Compose                 │
+├─────────────────────────────────────────────┤
+│ 🅰️ Frontend       :4200                     │
+│ ☕ Backend         :8080                     │
+│ 🤖 MLA            :8000                     │
+│ 🗄️ MySQL          :3307                     │
+└─────────────────────────────────────────────┘
+```
+
+### Services
+
+| Container | Image | Purpose |
+|---|---|---|
+| `training-platform-frontend` | `training-platform-frontend:1.1` | Angular application served by Nginx |
+| `training-platform-backend` | `training-platform-backend:1.7` | Spring Boot REST API |
+| `training-platform-mla` | `training-platform-mla:1.0` | Recommendation API |
+| `training-platform-mysql` | `mysql:8.0` | Application database |
+
+---
+
+## 🔄 Continuous Integration
+
+The project includes a **Jenkins** pipeline for continuous integration.
+
+```text
+Git Push
+   ↓
+Jenkins
+   ├── Backend validation
+   ├── Frontend validation
+   ├── MLA validation
+   └── Build / Tests
+          ↓
+      CI Result ✅
+```
+
+---
+
+## 🔒 Security
+
+### Backend
+
+- Spring Security
+- JWT authentication
+- BCrypt password hashing
+- Role-based authorization
+- Protected endpoints
+- OAuth2 authentication
+- Environment-based secrets
+
+### Frontend
+
+- Route guards
+- Authentication interceptor
+- Role-aware navigation
+- Form validation
+- User notifications
+
+---
+
+## 📚 Documentation
+
+Project documentation is available under `docs/`:
+
+| Document | Description |
+|---|---|
+| `01-project-vision.md` | Project vision |
+| `02-project-scope.md` | Project scope |
+| `03-functional-requirements.md` | Functional requirements |
+| `04-non-functional-requirements.md` | Non-functional requirements |
+| `05-user-stories.md` | User stories |
+| `06-use-cases.md` | Use cases |
+
+---
+
+## 🎯 Academic Project
 
 Training Platform demonstrates the integration of:
 
-Angular + Spring Boot + Machine Learning + Docker + Continuous Integration
+**Angular + Spring Boot + Machine Learning + MySQL + Docker + Jenkins**
 
 as a complete academic full-stack project.
 
-🔮 Future Improvements
+---
 
-Advanced learner analytics
+## 🔮 Future Improvements
 
-More sophisticated recommendation models
+- Advanced learner analytics
+- More sophisticated recommendation models
+- Online quizzes and assessments
+- Certifications and digital badges
+- Real-time learning sessions
+- Expanded automated testing
+- Continuous deployment
+- Cloud deployment
+- Monitoring and observability
 
-Online quizzes and assessments
+---
 
-Certifications and digital badges
-
-Real-time learning sessions
-
-Expanded automated testing
-
-Continuous deployment
-
-Cloud deployment
-
-Monitoring and observability
-
-👤 Author
+## 👤 Author
 
 <p align="center">
-  <b>Khalil Dridi</b><br>
+  <strong>Khalil Dridi</strong><br>
   Full-Stack Developer<br><br>
-  <b>Training Platform</b><br>
+  <strong>Training Platform</strong><br>
   Academic Integrated Project
 </p>
 
 <p align="center">
   Angular • Spring Boot • Machine Learning • Docker • Jenkins
+</p>
+
+---
+
+<p align="center">
+  <strong>Built with ambition, clean architecture and a focus on real-world learning experiences.</strong>
 </p>
