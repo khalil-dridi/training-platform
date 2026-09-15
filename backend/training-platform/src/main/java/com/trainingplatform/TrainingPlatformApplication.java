@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TrainingPlatformApplication {
+    //test
 
     public static void main(String[] args) {
         SpringApplication.run(TrainingPlatformApplication.class, args);
